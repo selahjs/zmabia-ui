@@ -29,10 +29,10 @@
         .service('periodService', service);
 
     service.$inject = ['$q', '$resource', 'referencedataUrlFactory', 'dateUtils', 'localStorageService',
-        'localStorageFactory', 'ProcessingPeriodResource'];
+        'localStorageFactory', 'ProcessingPeriodResource', 'openlmisDateFilter'];
 
     function service($q, $resource, referencedataUrlFactory, dateUtils, localStorageService,
-                     localStorageFactory, ProcessingPeriodResource) {
+                     localStorageFactory, ProcessingPeriodResource, openlmisDateFilter) {
 
         var periodsOffline = localStorageFactory('processingPeriods'),
             periodsPromise,
@@ -102,8 +102,8 @@
          * @return {Promise}        created Period
          */
         function create(period) {
-            period.startDate = dateUtils.toStringDate(period.startDate);
-            period.endDate = dateUtils.toStringDate(period.endDate);
+            period.startDate = toBackendFormat(period.startDate);
+            period.endDate = toBackendFormat(period.endDate);
             return resource.save(period).$promise;
         }
 
@@ -118,6 +118,43 @@
         function clearProcessingPeriodsCache() {
             periodsPromise = undefined;
             localStorageService.remove('processingPeriods');
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-period.periodService
+         * @name toStringDateUTC
+         *
+         * @description
+         * Transforms dates from Date to string at UTC 00:00.
+         *
+         * @param {Date} date date to be parsed
+         * @return {String} parsed date string in format yyyy-MM-dd.
+         */
+        function toStringDateUTC(date) {
+            return openlmisDateFilter(date, 'yyyy-MM-dd');
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-period.periodService
+         * @name toBackendFormat
+         *
+         * @description
+         * Transforms dates from Date, String or Array of numbers
+         * to string at UTC 00:00.
+         *
+         * @param {Date | String | Array} date to be parsed
+         * @return {String} parsed date string in format yyyy-MM-dd.
+         */
+        function toBackendFormat(date) {
+            var parsed;
+            if (date instanceof Date) {
+                parsed = date;
+            } else {
+                parsed = dateUtils.toDate(date);
+            }
+            return (parsed) ? toStringDateUTC(parsed) : undefined;
         }
     }
 })();
