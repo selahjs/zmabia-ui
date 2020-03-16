@@ -3,7 +3,7 @@
 
 Bug fixes:
 * [OLMIS-6696](https://openlmis.atlassian.net/browse/OLMIS-6696): Fixed calling to permission strings twice upon login.
-* [OLMIS-6750](https://openlmis.atlassian.net/browse/OLMIS-6750): Fixed processing periods for different timezones.
+* [OLMIS-6750](https://openlmis.atlassian.net/browse/OLMIS-6750): Fixed adding processing periods for different timezones.
 
 5.6.1 / 2019-12-19
 ==================
