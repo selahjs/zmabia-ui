@@ -34,7 +34,7 @@ describe('FeatureFlagResource', function() {
     });
 
     it('should extend OpenlmisResource', function() {
-        expect(this.OpenlmisResourceMock).toHaveBeenCalledWith('/togglz', {
+        expect(this.OpenlmisResourceMock).toHaveBeenCalledWith('/actuator/togglz', {
             paginated: false
         });
     });

@@ -37,7 +37,7 @@
         return FeatureFlagResource;
 
         function FeatureFlagResource() {
-            this.super('/togglz', {
+            this.super('/actuator/togglz', {
                 paginated: false
             });
         }
