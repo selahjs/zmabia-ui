@@ -1,6 +1,9 @@
 5.6.3 / 2020-05-12
 ================== 
 
+New functionality:
+* [OLMIS-6901](https://openlmis.atlassian.net/browse/OLMIS-6901): Adding the lot and orderable-fulfills services with saving their values ​​to localstorage.
+
 Improvements:
 * Updated ui-components version to 7.2.3.
 * Updated auth-ui version to 6.2.4.
