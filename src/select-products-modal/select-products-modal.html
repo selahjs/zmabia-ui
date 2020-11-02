@@ -30,7 +30,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="orderable in (vm.external ? vm.orderables : vm.orderablesPage)">
-                            <td><input type="checkbox" ng-model="vm.selections[orderable.id]" ng-true-value="{{orderable}}"/></td>
+                            <td><input type="checkbox" ng-model="vm.selected[orderable.id]" ng-change="vm.selections[orderable.id] = (vm.selected[orderable.id] ? orderable : undefined)"/></td>
                             <td>{{orderable.productCode}}</td>
                             <td>{{orderable.fullProductName}}</td>
                             <td>{{orderable.dispensable.displayUnit}}</td>
@@ -47,7 +47,7 @@
                         </label>
                         <input type="text" id="search" name="search" ng-model="vm.searchText"
                                ng-change="vm.search()"/>
-                        <p class="note">{{'selectProductsModal.searchByCodeInfo' | message}}</p>                               
+                        <p class="note">{{'selectProductsModal.searchByCodeInfo' | message}}</p>
                     </fieldset>
                     <br/>
                     <div class="openlmis-table-container">

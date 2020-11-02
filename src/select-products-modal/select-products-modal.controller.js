@@ -51,6 +51,9 @@
         function onInit() {
             vm.orderables = orderables;
             vm.selections = selectProductsModalService.getSelections();
+            vm.selected = _.mapObject(vm.selections, function(selection) {
+                return !!selection;
+            });
             vm.external = external;
             vm.code = $stateParams.productCode;
             vm.name = $stateParams.productName;
