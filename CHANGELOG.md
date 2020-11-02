@@ -1,3 +1,9 @@
+5.6.4 / WIP
+==================
+
+Bug fixes:
+* [OLMIS-6970](https://openlmis.atlassian.net/browse/OLMIS-6970): Fix selecting products in the kit unpack list modal.
+
 5.6.3 / 2020-05-12
 ================== 
 
