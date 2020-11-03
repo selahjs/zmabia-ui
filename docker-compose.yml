@@ -1,7 +1,7 @@
 version: "2"
 services:
   referencedata-ui:
-    image: openlmis/dev-ui:9.0.2-SNAPSHOT
+    image: openlmis/dev-ui:9.0.1
     ports:
       - "9000:9000"
       - "9876:9876"
@@ -18,15 +18,15 @@ services:
       - ui-components
       - ui-layout
   auth-ui:
-    image: openlmis/auth-ui:6.2.5-SNAPSHOT
+    image: openlmis/auth-ui:6.2.5-RC2
     volumes:
       - '/openlmis-auth-ui'
   ui-components:
-    image: openlmis/ui-components:7.2.4-SNAPSHOT
+    image: openlmis/ui-components:7.2.4-RC2
     volumes:
       - '/openlmis-ui-components'
   ui-layout:
-    image: openlmis/ui-layout:5.1.8-SNAPSHOT
+    image: openlmis/ui-layout:5.1.8-RC2
     volumes:
       - '/openlmis-ui-layout'
   image:
