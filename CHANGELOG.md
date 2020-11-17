@@ -1,8 +1,13 @@
-5.6.4 / WIP
+5.6.4 / 2020-11-17
 ==================
 
 Bug fixes:
 * [OLMIS-6970](https://openlmis.atlassian.net/browse/OLMIS-6970): Fix selecting products in the kit unpack list modal.
+
+Improvements:
+* Updated ui-components version to 7.2.4.
+* Updated auth-ui version to 6.2.5.
+* Updated ui-layout version to 5.1.8.
 
 5.6.3 / 2020-05-12
 ================== 
