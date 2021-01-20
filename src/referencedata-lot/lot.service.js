@@ -29,10 +29,10 @@
         .service('lotService', service);
 
     service.$inject = [
-        'LotResource', 'localStorageFactory'
+        'LotResource', 'localStorageFactory', 'offlineService', '$q'
     ];
 
-    function service(LotResource, localStorageFactory) {
+    function service(LotResource, localStorageFactory, offlineService, $q) {
 
         var lotsOffline = localStorageFactory('lots');
         var lotResource = new LotResource();
@@ -51,6 +51,10 @@
          * @param  {String}  queryParams      the search parameters
          */
         function query(queryParams) {
+            if (offlineService.isOffline()) {
+                return getFromLocalStorage(queryParams);
+            }
+
             return lotResource.query(queryParams)
                 .then(function(lots) {
                     lots.content.forEach(function(lot) {
@@ -58,6 +62,18 @@
                     });
                     return lots;
                 });
+        }
+
+        function getFromLocalStorage(queryParams) {
+            var lots = {},
+                paramName = Object.keys(queryParams)[0];
+            lots.content = [];
+
+            queryParams[paramName].forEach(function(param) {
+                lots.content.push(lotsOffline.getBy(paramName, param));
+            });
+
+            return $q.resolve(lots);
         }
     }
 })();

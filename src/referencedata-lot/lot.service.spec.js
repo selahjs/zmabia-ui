@@ -18,7 +18,7 @@ describe('lotService', function() {
     beforeEach(function() {
 
         this.offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
-        this.lotsStorage = jasmine.createSpyObj('lotsStorage', ['put']);
+        this.lotsStorage = jasmine.createSpyObj('lotsStorage', ['put', 'getBy']);
 
         var offlineService = this.offlineService,
             lotsStorage = this.lotsStorage;
@@ -35,6 +35,7 @@ describe('lotService', function() {
 
         inject(function($injector) {
             this.$httpBackend = $injector.get('$httpBackend');
+            this.$q =  $injector.get('$q');
             this.$rootScope = $injector.get('$rootScope');
             this.referencedataUrlFactory = $injector.get('referencedataUrlFactory');
             this.lotService = $injector.get('lotService');
@@ -89,6 +90,26 @@ describe('lotService', function() {
 
             expect(result.content).toEqual(this.lots);
             expect(this.lotsStorage.put.callCount).toEqual(4);
+        });
+
+        it('should get a proper lot from local storage', function() {
+            this.offlineService.isOffline.andReturn(true);
+            this.lotsStorage.getBy.andReturn(this.lots[0]);
+            var params = {
+                id: [this.lots[0].id]
+            };
+
+            var result;
+            this.lotService
+                .query(params)
+                .then(function(paginatedObject) {
+                    result = paginatedObject;
+                });
+            this.$rootScope.$apply();
+
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(result.content[0]).toEqual(this.lots[0]);
+            expect(this.lotsStorage.put).not.toHaveBeenCalled();
         });
     });
 });
