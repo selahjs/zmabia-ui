@@ -39,6 +39,7 @@ describe('lotService', function() {
             this.$rootScope = $injector.get('$rootScope');
             this.referencedataUrlFactory = $injector.get('referencedataUrlFactory');
             this.lotService = $injector.get('lotService');
+            this.alertService = $injector.get('alertService');
             this.LotDataBuilder = $injector.get('LotDataBuilder');
             this.PageDataBuilder = $injector.get('PageDataBuilder');
         });
@@ -110,6 +111,29 @@ describe('lotService', function() {
             expect(this.offlineService.isOffline).toHaveBeenCalled();
             expect(result.content[0]).toEqual(this.lots[0]);
             expect(this.lotsStorage.put).not.toHaveBeenCalled();
+        });
+
+        it('should reject if lot not found in local storage', function() {
+            spyOn(this.alertService, 'error');
+
+            this.offlineService.isOffline.andReturn(true);
+            this.lotsStorage.getBy.andReturn(undefined);
+            var params = {
+                id: [this.lots[0].id]
+            };
+
+            var result;
+            this.lotService
+                .query(params)
+                .then(function(paginatedObject) {
+                    result = paginatedObject;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toBeUndefined();
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(this.lotsStorage.put).not.toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith('referencedataLot.offlineMessage');
         });
     });
 });
