@@ -4,6 +4,9 @@
 Improvements:
 * [OLMIS-7176](https://openlmis.atlassian.net/browse/OLMIS-7176): Added a possibility to get lots from local storage in offline mode.
 
+New functionality that are backwards-compatible:
+* [OLMIS-7187](https://openlmis.atlassian.net/browse/OLMIS-7187): Added the ability to cache Lots and Orderable Fulfills in the local storage and Orderables in the local database on login.
+
 5.6.4 / 2020-11-17
 ==================
 

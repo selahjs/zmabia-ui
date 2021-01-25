@@ -18,7 +18,7 @@ describe('orderableFulfillsService', function() {
     beforeEach(function() {
 
         this.offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
-        this.orderableFulfillsStorage = jasmine.createSpyObj('orderableFulfillsStorage', ['put']);
+        this.orderableFulfillsStorage = jasmine.createSpyObj('orderableFulfillsStorage', ['put', 'getBy']);
 
         var offlineService = this.offlineService,
             orderableFulfillsStorage = this.orderableFulfillsStorage;
@@ -39,6 +39,7 @@ describe('orderableFulfillsService', function() {
             this.referencedataUrlFactory = $injector.get('referencedataUrlFactory');
             this.orderableFulfillsService = $injector.get('orderableFulfillsService');
             this.PageDataBuilder = $injector.get('PageDataBuilder');
+            this.alertService = $injector.get('alertService');
         });
 
         this.offlineService.isOffline.andReturn(false);
@@ -73,6 +74,30 @@ describe('orderableFulfillsService', function() {
             expect(result['idOne']).toEqual(this.orderableFulfills['idOne']);
             expect(result['idTwo']).toEqual(this.orderableFulfills['idTwo']);
             expect(this.orderableFulfillsStorage.put.callCount).toEqual(2);
+        });
+
+        it('should reject if orderable fulfills not found in the local storage', function() {
+            spyOn(this.alertService, 'error');
+
+            this.offlineService.isOffline.andReturn(true);
+            this.orderableFulfillsStorage.getBy.andReturn(undefined);
+
+            var params = {
+                id: ['id-1']
+            };
+
+            var result;
+            this.orderableFulfillsService
+                .query(params)
+                .then(function(items) {
+                    result = items;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toBeUndefined();
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(this.orderableFulfillsStorage.put).not.toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith('referencedataOrderableFulfills.offlineMessage');
         });
     });
 });

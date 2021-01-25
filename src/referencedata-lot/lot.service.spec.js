@@ -18,7 +18,7 @@ describe('lotService', function() {
     beforeEach(function() {
 
         this.offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
-        this.lotsStorage = jasmine.createSpyObj('lotsStorage', ['put', 'getBy']);
+        this.lotsStorage = jasmine.createSpyObj('lotsStorage', ['put', 'getBy', 'search']);
 
         var offlineService = this.offlineService,
             lotsStorage = this.lotsStorage;
@@ -49,8 +49,10 @@ describe('lotService', function() {
         this.lots = [
             new this.LotDataBuilder()
                 .withId(1)
+                .withTradeItemId('tradeItemId-1')
                 .build(),
             new this.LotDataBuilder()
+                .withTradeItemId('tradeItemId-2')
                 .withId(2)
                 .build(),
             new this.LotDataBuilder()
@@ -113,13 +115,56 @@ describe('lotService', function() {
             expect(this.lotsStorage.put).not.toHaveBeenCalled();
         });
 
-        it('should reject if lot not found in local storage', function() {
+        it('should get a proper lot from local storage by tradeItemId', function() {
+            this.offlineService.isOffline.andReturn(true);
+            this.lotsStorage.search.andReturn(this.lots);
+            var params = {
+                tradeItemId: [this.lots[0].tradeItemId]
+            };
+
+            var result;
+            this.lotService
+                .query(params)
+                .then(function(paginatedObject) {
+                    result = paginatedObject;
+                });
+            this.$rootScope.$apply();
+
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(result.content[0]).toEqual(this.lots[0]);
+            expect(this.lotsStorage.put).not.toHaveBeenCalled();
+        });
+
+        it('should reject if lot not found by id in local storage', function() {
             spyOn(this.alertService, 'error');
 
             this.offlineService.isOffline.andReturn(true);
             this.lotsStorage.getBy.andReturn(undefined);
             var params = {
                 id: [this.lots[0].id]
+            };
+
+            var result;
+            this.lotService
+                .query(params)
+                .then(function(paginatedObject) {
+                    result = paginatedObject;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toBeUndefined();
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(this.lotsStorage.put).not.toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith('referencedataLot.offlineMessage');
+        });
+
+        it('should reject if lot not found by tradeItemId in local storage', function() {
+            spyOn(this.alertService, 'error');
+
+            this.offlineService.isOffline.andReturn(true);
+            this.lotsStorage.search.andReturn([]);
+            var params = {
+                tradeItemId: [this.lots[0].tradeItemId]
             };
 
             var result;

@@ -38,6 +38,7 @@
         var lotResource = new LotResource();
 
         this.query = query;
+        this.clearLotsOffline = clearLotsOffline;
 
         /**
          * @ngdoc method
@@ -71,17 +72,37 @@
             lots.content = [];
 
             queryParams[paramName].forEach(function(param) {
+                return getByParamFromLocalStorage(lots, deferred, paramName, param);
+            });
+
+            deferred.resolve(lots);
+            return deferred.promise;
+        }
+
+        function getByParamFromLocalStorage(lots, deferred, paramName, param) {
+            if (paramName === 'tradeItemId') {
+                var cachedLots = lotsOffline.search({
+                    tradeItemId: param
+                });
+                cachedLots.forEach(function(offlineLot) {
+                    lots.content.push(offlineLot);
+                });
+                if (lots.content.length === 0) {
+                    alertService.error('referencedataLot.offlineMessage');
+                    deferred.reject();
+                }
+            } else {
                 var offlineLot = lotsOffline.getBy(paramName, param);
                 if (!offlineLot) {
                     alertService.error('referencedataLot.offlineMessage');
                     deferred.reject();
                 }
                 lots.content.push(offlineLot);
-            });
+            }
+        }
 
-            deferred.resolve(lots);
-
-            return deferred.promise;
+        function clearLotsOffline() {
+            lotsOffline.clearAll();
         }
     }
 })();

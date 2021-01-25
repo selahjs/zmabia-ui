@@ -29,15 +29,16 @@
         .service('orderableFulfillsService', service);
 
     service.$inject = [
-        'OrderableFulfillsResource', 'localStorageFactory'
+        'OrderableFulfillsResource', 'localStorageFactory', 'offlineService', '$q', 'alertService'
     ];
 
-    function service(OrderableFulfillsResource, localStorageFactory) {
+    function service(OrderableFulfillsResource, localStorageFactory, offlineService, $q, alertService) {
 
         var orderableFulfillsOffline = localStorageFactory('orderableFulfills');
         var orderableFulfillsResource = new OrderableFulfillsResource();
 
         this.query = query;
+        this.clearOrderableFulfillsOffline = clearOrderableFulfillsOffline;
 
         /**
          * @ngdoc method
@@ -51,6 +52,10 @@
          * @param  {String}  queryParams      the search parameters
          */
         function query(queryParams) {
+            if (offlineService.isOffline()) {
+                return getFromLocalStorage(queryParams);
+            }
+
             return orderableFulfillsResource.query(queryParams)
                 .then(function(orderableFulfills) {
                     Object.keys(orderableFulfills).forEach(function(item) {
@@ -66,6 +71,29 @@
                     });
                     return orderableFulfills;
                 });
+        }
+
+        function getFromLocalStorage(queryParams) {
+            var orderableFulfills = [],
+                paramName = Object.keys(queryParams)[0];
+
+            queryParams[paramName].forEach(function(param) {
+                var cachedOrderableFulfill = orderableFulfillsOffline.getBy(paramName, param);
+
+                if (cachedOrderableFulfill) {
+                    orderableFulfills[param] = cachedOrderableFulfill;
+                }
+            });
+
+            if (Object.keys(orderableFulfills).length === 0) {
+                alertService.error('referencedataOrderableFulfills.offlineMessage');
+                return $q.reject();
+            }
+            return $q.resolve(orderableFulfills);
+        }
+
+        function clearOrderableFulfillsOffline() {
+            return orderableFulfillsOffline.clearAll();
         }
 
         function isPromiseAttribute(item) {
