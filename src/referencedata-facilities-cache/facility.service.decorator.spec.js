@@ -36,6 +36,8 @@ describe('Facility service minimal decorator', function() {
             this.facilityService = $injector.get('facilityService');
             this.LocalDatabase = $injector.get('LocalDatabase');
             this.MinimalFacilityDataBuilder = $injector.get('MinimalFacilityDataBuilder');
+            this.alertService = $injector.get('alertService');
+            this.offlineService = $injector.get('offlineService');
         });
 
         this.minimalFacilities = [
@@ -48,6 +50,7 @@ describe('Facility service minimal decorator', function() {
         spyOn(this.LocalDatabase.prototype, 'getAll');
         spyOn(this.LocalDatabase.prototype, 'get');
         spyOn(this.LocalDatabase.prototype, 'removeAll');
+        spyOn(this.offlineService, 'isOffline').andReturn(false);
     });
 
     describe('cacheAllMinimal', function() {
@@ -209,6 +212,18 @@ describe('Facility service minimal decorator', function() {
 
             expect(success).toBe(true);
             expect(this.originalGetAllMinimalSpy).toHaveBeenCalled();
+        });
+
+        it('should reject if data is not cached in offline mode', function() {
+            spyOn(this.alertService, 'error');
+
+            this.offlineService.isOffline.andReturn(true);
+            this.facilityService.cacheAllMinimal();
+            this.$rootScope.$apply();
+
+            expect(this.originalGetAllMinimalSpy).not.toHaveBeenCalled();
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith('referencedataFacilitiesCache.offlineMessage');
         });
 
     });

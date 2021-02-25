@@ -6,6 +6,7 @@ Improvements:
 
 New functionality that are backwards-compatible:
 * [OLMIS-7187](https://openlmis.atlassian.net/browse/OLMIS-7187): Added the ability to cache Lots and Orderable Fulfills in the local storage and Orderables in the local database on login.
+* [OLMIS-7204](https://openlmis.atlassian.net/browse/OLMIS-7204): Added the error message when no facilities are available in offline mode.
 
 5.6.4 / 2020-11-17
 ==================

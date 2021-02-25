@@ -31,6 +31,8 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.RoleResource = $injector.get('RoleResource');
             this.$q = $injector.get('$q');
             this.currentUserRolesService = $injector.get('currentUserRolesService');
+            this.alertService = $injector.get('alertService');
+            this.offlineService = $injector.get('offlineService');
         });
 
         this.possessedRightName = 'POSSESSED_RIGHT';
@@ -115,6 +117,7 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.roles[2],
             this.roles[3]
         ]));
+        spyOn(this.offlineService, 'isOffline').andReturn(false);
 
     });
 
@@ -222,6 +225,20 @@ describe('openlmis-permissions.this.permissionService', function() {
 
         this.permissionService.load('userId');
         this.$rootScope.$apply();
+        this.$httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('will reject if no available cached permissions in offline mode', function() {
+        spyOn(this.alertService, 'error');
+
+        this.offlineService.isOffline.andReturn(true);
+        this.localStorageService.get.andReturn(null);
+
+        this.permissionService.load('userId');
+        this.$rootScope.$apply();
+
+        expect(this.offlineService.isOffline).toHaveBeenCalled();
+        expect(this.alertService.error).toHaveBeenCalledWith('openlmisOffline.actionNotAllowedOffline');
         this.$httpBackend.verifyNoOutstandingRequest();
     });
 
