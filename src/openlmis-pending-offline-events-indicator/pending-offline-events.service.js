@@ -28,11 +28,9 @@
         .module('openlmis-pending-offline-events-indicator')
         .factory('pendingOfflineEventsService', service);
 
-    service.$inject = ['localStorageService', 'currentUserService'];
+    service.$inject = ['$q'];
 
-    function service(localStorageService, currentUserService) {
-
-        var STOCK_EVENTS = 'stockEvents';
+    function service($q) {
 
         return {
             getCountOfOfflineEvents: getCountOfOfflineEvents
@@ -44,22 +42,11 @@
          * @name getCountOfOfflineEvents
          *
          * @description
-         * Retrieves pending offline events for the current user and returned their count
+         * Returned count of offline events
          *
          */
         function getCountOfOfflineEvents() {
-            return currentUserService.getUserInfo()
-                .then(function(user) {
-                    var offlineEvents = localStorageService.get(STOCK_EVENTS);
-                    if (!offlineEvents) {
-                        return 0;
-                    }
-                    var userEvents = angular.fromJson(offlineEvents)[user.id];
-                    if (!userEvents) {
-                        return 0;
-                    }
-                    return userEvents.length;
-                });
+            return $q.resolve(0);
         }
 
     }

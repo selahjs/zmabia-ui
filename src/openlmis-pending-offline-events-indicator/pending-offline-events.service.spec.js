@@ -22,93 +22,18 @@ describe('PendingOfflineEventsService', function() {
             this.$q = $injector.get('$q');
             this.$rootScope = $injector.get('$rootScope');
             this.pendingOfflineEventsService = $injector.get('pendingOfflineEventsService');
-            this.localStorageService = $injector.get('localStorageService');
-            this.currentUserService = $injector.get('currentUserService');
         });
 
-        this.localStorageEvents = {};
-        this.localStorageEvents['user_1'] = [
-            {
-                facilityId: 'facility_1',
-                programId: 'program_1',
-                lineItems: [{
-                    orderableId: 'orderable_1'
-                }]
-            },
-            {
-                facilityId: 'facility_1',
-                programId: 'program_2',
-                lineItems: [{
-                    orderableId: 'orderable_3'
-                }]
-            }
-        ];
-        this.localStorageEvents['user_2'] = [
-            {
-                facilityId: 'facility_1',
-                programId: 'program_3',
-                lineItems: [{
-                    orderableId: 'orderable_5'
-                }]
-            }
-        ];
-
-        this.user1 = {
-            id: 'user_1'
-        };
-
-        this.user3 = {
-            id: 'user_3'
-        };
-
-        spyOn(this.localStorageService, 'get');
-        spyOn(this.currentUserService, 'getUserInfo');
     });
 
     describe('getCountOfOfflineEvents', function() {
-
-        it('should get a count of offline events', function() {
-            this.localStorageService.get.andReturn(this.localStorageEvents);
-            this.currentUserService.getUserInfo.andReturn(this.$q.resolve(this.user1));
-
+        it('should get 0', function() {
             var eventsCount;
             this.pendingOfflineEventsService.getCountOfOfflineEvents().then(function(result) {
                 eventsCount = result;
             });
             this.$rootScope.$apply();
 
-            expect(this.currentUserService.getUserInfo).toHaveBeenCalled();
-            expect(this.localStorageService.get).toHaveBeenCalled();
-            expect(eventsCount).toEqual(this.localStorageEvents.user_1.length);
-        });
-
-        it('should get 0 if stock events in local storage are empty', function() {
-            this.localStorageService.get.andReturn(null);
-            this.currentUserService.getUserInfo.andReturn(this.$q.resolve(this.user1));
-
-            var eventsCount;
-            this.pendingOfflineEventsService.getCountOfOfflineEvents().then(function(result) {
-                eventsCount = result;
-            });
-            this.$rootScope.$apply();
-
-            expect(this.currentUserService.getUserInfo).toHaveBeenCalled();
-            expect(this.localStorageService.get).toHaveBeenCalled();
-            expect(eventsCount).toEqual(0);
-        });
-
-        it('should get 0 if stock events in local storage are empty for specific user', function() {
-            this.localStorageService.get.andReturn(this.localStorageEvents);
-            this.currentUserService.getUserInfo.andReturn(this.$q.resolve(this.user3));
-
-            var eventsCount;
-            this.pendingOfflineEventsService.getCountOfOfflineEvents().then(function(result) {
-                eventsCount = result;
-            });
-            this.$rootScope.$apply();
-
-            expect(this.currentUserService.getUserInfo).toHaveBeenCalled();
-            expect(this.localStorageService.get).toHaveBeenCalled();
             expect(eventsCount).toEqual(0);
         });
     });
