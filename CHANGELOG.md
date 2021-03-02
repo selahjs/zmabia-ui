@@ -8,6 +8,7 @@ New functionality that are backwards-compatible:
 * [OLMIS-7187](https://openlmis.atlassian.net/browse/OLMIS-7187): Added the ability to cache Lots and Orderable Fulfills in the local storage and Orderables in the local database on login.
 * [OLMIS-7204](https://openlmis.atlassian.net/browse/OLMIS-7204): Added the error message when no facilities are available in offline mode.
 * [OLMIS-7197](https://openlmis.atlassian.net/browse/OLMIS-7197): Added the count of pending offline events in a header in offline mode.
+* [OLMIS-7198](https://openlmis.atlassian.net/browse/OLMIS-7198): Added redirection from offline header to the pending offline events table.
 
 5.6.4 / 2020-11-17
 ==================
