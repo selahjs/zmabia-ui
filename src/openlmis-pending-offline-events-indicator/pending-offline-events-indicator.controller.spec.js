@@ -33,6 +33,7 @@ describe('PendingOfflineEventsIndicatorController', function() {
             .andReturn(this.$q.resolve(this.eventsCount));
 
         spyOn(this.offlineService, 'isOffline');
+        spyOn(this.$state, 'go').andReturn();
 
         this.vm = this.$controller('PendingOfflineEventsIndicatorController');
         this.vm.$onInit();
@@ -68,6 +69,16 @@ describe('PendingOfflineEventsIndicatorController', function() {
             expect(this.$state.reload).toHaveBeenCalled();
         });
 
+    });
+
+    describe('goToPendingOfflineEventsPage', function() {
+
+        it('should call state go method', function() {
+            this.vm.goToPendingOfflineEventsPage();
+            this.$rootScope.$apply();
+
+            expect(this.$state.go).toHaveBeenCalledWith('openlmis.pendingOfflineEvents');
+        });
     });
 
 });

@@ -35,6 +35,7 @@
         var vm = this;
 
         vm.$onInit = onInit;
+        vm.goToPendingOfflineEventsPage = goToPendingOfflineEventsPage;
 
         /**
          * @ngdoc property
@@ -54,6 +55,18 @@
                         vm.eventsCount = result;
                     });
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf pending-offline-events-indicator.controller:PendingOfflineEventsIndicatorController
+         * @name goToPendingOfflineEventsPage
+         *
+         * @description
+         * Takes the user to the pending offline events page.
+         */
+        function goToPendingOfflineEventsPage() {
+            $state.go('openlmis.pendingOfflineEvents');
         }
 
         $rootScope.$on('openlmis-referencedata.pending-offline-events-indicator', function() {
