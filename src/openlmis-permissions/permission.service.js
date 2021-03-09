@@ -159,8 +159,10 @@
             }
 
             if (userId !== savedUserId) {
+                if (savedUserId) {
+                    this.empty();
+                }
                 savedUserId = userId;
-                this.empty();
             }
 
             return getCachedPermissions()

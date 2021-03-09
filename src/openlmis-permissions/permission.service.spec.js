@@ -179,7 +179,28 @@ describe('openlmis-permissions.this.permissionService', function() {
         expect(permissions[1].programId).toBeUndefined();
     });
 
-    it('will return cached permissions, if they are available', function() {
+    it('will return cached permissions, if they are available and savedUserId is undefined', function() {
+        this.localStorageService.get.andReturn([{
+            right: 'example'
+        }]);
+
+        var permissions;
+        this.savedUserId = undefined;
+        this.permissionService.load('userId')
+            .then(function(response) {
+                permissions = response;
+            });
+
+        this.$rootScope.$apply();
+
+        expect(permissions.length).toBe(1);
+        expect(permissions[0].right).toBe('example');
+        expect(this.localStorageService.remove).not.toHaveBeenCalledWith('permissions');
+
+        this.$httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('will return cached permissions, if they are available and userId equal to savedUserId', function() {
         this.localStorageService.get.andReturn([{
             right: 'example'
         }]);
@@ -190,12 +211,26 @@ describe('openlmis-permissions.this.permissionService', function() {
                 permissions = response;
             });
 
+        this.permissionService.load('userId')
+            .then(function(response) {
+                permissions = response;
+            });
+
         this.$rootScope.$apply();
 
         expect(permissions.length).toBe(1);
         expect(permissions[0].right).toBe('example');
+        expect(this.localStorageService.remove).not.toHaveBeenCalledWith('permissions');
 
         this.$httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('should remove permissions from localStorage if userId not equal to savedUserId', function() {
+        this.permissionService.load('userId_1');
+        this.permissionService.load('userId_2');
+        this.$rootScope.$apply();
+
+        expect(this.localStorageService.remove).toHaveBeenCalledWith('permissions');
     });
 
     it('will call backend if no available cached permissions', function() {

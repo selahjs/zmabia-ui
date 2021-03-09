@@ -10,6 +10,9 @@ New functionality that are backwards-compatible:
 * [OLMIS-7197](https://openlmis.atlassian.net/browse/OLMIS-7197): Added the count of pending offline events in a header in offline mode.
 * [OLMIS-7198](https://openlmis.atlassian.net/browse/OLMIS-7198): Added redirection from offline header to the pending offline events table.
 
+Bug fixes:
+* [OLMIS-7217](https://openlmis.atlassian.net/browse/OLMIS-7217): Removed permissions from local storage only if savedUsedId is defined.
+
 5.6.4 / 2020-11-17
 ==================
 
