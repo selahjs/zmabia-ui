@@ -35,9 +35,9 @@
         $provide.decorator('facilityService', decorator);
     }
 
-    decorator.$inject = ['$delegate', '$q', 'LocalDatabase', 'offlineService', 'alertService'];
+    decorator.$inject = ['$delegate', '$q', 'LocalDatabase', 'offlineService'];
 
-    function decorator($delegate, $q, LocalDatabase, offlineService, alertService) {
+    function decorator($delegate, $q, LocalDatabase, offlineService) {
         var originalGetAllMinimal = $delegate.getAllMinimal,
             minimalFacilitiesDatabase = new LocalDatabase('minimalFacilities'),
             cached = false,
@@ -84,9 +84,8 @@
                 return $q.resolve();
             }
 
-            if (offlineService.isOffline() && !cached) {
-                alertService.error('referencedataFacilitiesCache.offlineMessage');
-                return $q.reject();
+            if (offlineService.isOffline()) {
+                return minimalFacilitiesDatabase.getAll();
             }
 
             if (!promise) {
