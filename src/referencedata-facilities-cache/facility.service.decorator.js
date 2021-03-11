@@ -39,7 +39,8 @@
 
     function decorator($delegate, $q, LocalDatabase, offlineService) {
         var originalGetAllMinimal = $delegate.getAllMinimal,
-            minimalFacilitiesDatabase = new LocalDatabase('minimalFacilities'),
+            minimalFacilitiesDatabase =
+                new LocalDatabase('minimalFacilities', 'referencedataFacilitiesCache.offlineMessage'),
             cached = false,
             promise;
 
@@ -83,11 +84,9 @@
             if (cached) {
                 return $q.resolve();
             }
-
             if (offlineService.isOffline()) {
                 return minimalFacilitiesDatabase.getAll();
             }
-
             if (!promise) {
                 promise = originalGetAllMinimal.apply($delegate, arguments)
                     .then(function(facilities) {
@@ -100,7 +99,6 @@
                         promise = undefined;
                     });
             }
-
             return promise;
         }
 
