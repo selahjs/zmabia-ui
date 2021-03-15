@@ -12,6 +12,7 @@ New functionality that are backwards-compatible:
 
 Bug fixes:
 * [OLMIS-7217](https://openlmis.atlassian.net/browse/OLMIS-7217): Removed permissions from local storage only if savedUsedId is defined.
+* [OLMIS-7220](https://openlmis.atlassian.net/browse/OLMIS-7220): Updated cachedAllMinimal to get facilities from PouchDb when offline.
 
 5.6.4 / 2020-11-17
 ==================
