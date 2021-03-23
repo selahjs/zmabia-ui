@@ -19,18 +19,18 @@
 
     /**
      * @ngdoc controller
-     * @name pending-offline-events-indicator.controller:PendingOfflineEventsIndicatorController
+     * @name offline-events-indicator.controller:OfflineEventsIndicatorController
      *
      * @description
-     * Exposes count of the pending offline events.
+     * Exposes count of the pending offline events or count of stock event sync errors.
      */
     angular
-        .module('openlmis-pending-offline-events-indicator')
-        .controller('PendingOfflineEventsIndicatorController', controller);
+        .module('openlmis-offline-events-indicator')
+        .controller('OfflineEventsIndicatorController', controller);
 
-    controller.$inject = ['offlineService', 'pendingOfflineEventsService', '$rootScope', '$state'];
+    controller.$inject = ['offlineEventsService', '$rootScope', '$state'];
 
-    function controller(offlineService, pendingOfflineEventsService, $rootScope, $state) {
+    function controller(offlineEventsService, $rootScope, $state) {
 
         var vm = this;
 
@@ -39,27 +39,41 @@
 
         /**
          * @ngdoc property
-         * @propertyOf pending-offline-events-indicator.controller:PendingOfflineEventsIndicatorController
-         * @name eventsCount
+         * @propertyOf offline-events-indicator.controller:OfflineEventsIndicatorController
+         * @name pendingEventsCount
          * @type {Number}
          *
          * @description
          * Holds pending offline events count.
          */
-        vm.eventsCount = 0;
+        vm.pendingEventsCount;
+
+        /**
+         * @ngdoc property
+         * @propertyOf offline-events-indicator.controller:OfflineEventsIndicatorController
+         * @name offlineSyncErrorsCount
+         * @type {Number}
+         *
+         * @description
+         * Holds event synchronization errors count.
+         */
+        vm.offlineSyncErrorsCount;
 
         function onInit() {
-            if (offlineService.isOffline()) {
-                return pendingOfflineEventsService.getCountOfOfflineEvents()
-                    .then(function(result) {
-                        vm.eventsCount = result;
-                    });
-            }
+            offlineEventsService.getCountOfPendingOfflineEvents()
+                .then(function(result) {
+                    vm.pendingEventsCount = result;
+                });
+
+            offlineEventsService.getCountOfSyncErrorEvents()
+                .then(function(result) {
+                    vm.offlineSyncErrorsCount = result;
+                });
         }
 
         /**
          * @ngdoc method
-         * @methodOf pending-offline-events-indicator.controller:PendingOfflineEventsIndicatorController
+         * @methodOf offline-events-indicator.controller:OfflineEventsIndicatorController
          * @name goToPendingOfflineEventsPage
          *
          * @description
@@ -69,7 +83,7 @@
             $state.go('openlmis.pendingOfflineEvents');
         }
 
-        $rootScope.$on('openlmis-referencedata.pending-offline-events-indicator', function() {
+        $rootScope.$on('openlmis-referencedata.offline-events-indicator', function() {
             $state.reload();
         });
     }

@@ -13,23 +13,35 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('PendingOfflineEventsService', function() {
+describe('OfflineEventsService', function() {
 
     beforeEach(function() {
-        module('openlmis-pending-offline-events-indicator');
+        module('openlmis-offline-events-indicator');
 
         inject(function($injector) {
             this.$q = $injector.get('$q');
             this.$rootScope = $injector.get('$rootScope');
-            this.pendingOfflineEventsService = $injector.get('pendingOfflineEventsService');
+            this.offlineEventsService = $injector.get('offlineEventsService');
         });
 
     });
 
-    describe('getCountOfOfflineEvents', function() {
+    describe('getCountOfPendingOfflineEvents', function() {
         it('should get 0', function() {
             var eventsCount;
-            this.pendingOfflineEventsService.getCountOfOfflineEvents().then(function(result) {
+            this.offlineEventsService.getCountOfPendingOfflineEvents().then(function(result) {
+                eventsCount = result;
+            });
+            this.$rootScope.$apply();
+
+            expect(eventsCount).toEqual(0);
+        });
+    });
+
+    describe('getCountOfSyncErrorEvents', function() {
+        it('should get 0', function() {
+            var eventsCount;
+            this.offlineEventsService.getCountOfSyncErrorEvents().then(function(result) {
                 eventsCount = result;
             });
             this.$rootScope.$apply();

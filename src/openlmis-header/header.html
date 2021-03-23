@@ -8,15 +8,11 @@
             <openlmis-app-cache></openlmis-app-cache>
         </div>
         <div class="status-offline" ng-if="isOffline">
-            <div>
-                    <div>
-                        <span class="offline-status-indicator">{{'openlmisHeader.youAreOffline' | message}}</span>
-                        <a ng-click="vm.checkConnection()">{{'openlmisHeader.checkConnection' | message}}</a>
-                    </div>
-                    <div style="text-align: right;">
-                        <openlmis-pending-offline-events-indicator></openlmis-pending-offline-events-indicator>
-                    </div>
-            </div>
+            <span class="offline-status-indicator">{{'openlmisHeader.youAreOffline' | message}}</span>
+            <a ng-click="vm.checkConnection()">{{'openlmisHeader.checkConnection' | message}}</a>
+        </div>
+        <div class="offline-events-indicator">
+            <openlmis-offline-events-indicator></openlmis-offline-events-indicator>
         </div>
         <div ng-show="!!user">
             <ng-include src="'openlmis-header/user.html'"></ng-include>

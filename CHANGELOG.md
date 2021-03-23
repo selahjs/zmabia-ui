@@ -9,6 +9,7 @@ New functionality that are backwards-compatible:
 * [OLMIS-7204](https://openlmis.atlassian.net/browse/OLMIS-7204): Added the error message when no facilities are available in offline mode.
 * [OLMIS-7197](https://openlmis.atlassian.net/browse/OLMIS-7197): Added the count of pending offline events in a header in offline mode.
 * [OLMIS-7198](https://openlmis.atlassian.net/browse/OLMIS-7198): Added redirection from offline header to the pending offline events table.
+* [OLMIS-7207](https://openlmis.atlassian.net/browse/OLMIS-7207): Added the count of sync event errors in a header in online mode.
 
 Bug fixes:
 * [OLMIS-7217](https://openlmis.atlassian.net/browse/OLMIS-7217): Removed permissions from local storage only if savedUsedId is defined.

@@ -13,57 +13,48 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('PendingOfflineEventsIndicatorController', function() {
+describe('OfflineEventsIndicatorController', function() {
 
     beforeEach(function() {
-        module('openlmis-pending-offline-events-indicator');
+        module('openlmis-offline-events-indicator');
 
         inject(function($injector) {
             this.$q = $injector.get('$q');
             this.$rootScope = $injector.get('$rootScope');
             this.$state = $injector.get('$state');
             this.$controller = $injector.get('$controller');
-            this.pendingOfflineEventsService = $injector.get('pendingOfflineEventsService');
-            this.offlineService = $injector.get('offlineService');
+            this.offlineEventsService = $injector.get('offlineEventsService');
         });
 
-        this.eventsCount = 2;
+        this.pendingEventsCount = 2;
+        this.offlineSyncErrorsCount = 1;
 
-        spyOn(this.pendingOfflineEventsService, 'getCountOfOfflineEvents')
-            .andReturn(this.$q.resolve(this.eventsCount));
+        spyOn(this.offlineEventsService, 'getCountOfPendingOfflineEvents')
+            .andReturn(this.$q.resolve(this.pendingEventsCount));
+        spyOn(this.offlineEventsService, 'getCountOfSyncErrorEvents')
+            .andReturn(this.$q.resolve(this.offlineSyncErrorsCount));
 
-        spyOn(this.offlineService, 'isOffline');
         spyOn(this.$state, 'go').andReturn();
 
-        this.vm = this.$controller('PendingOfflineEventsIndicatorController');
-        this.vm.$onInit();
+        this.vm = this.$controller('OfflineEventsIndicatorController');
     });
 
     describe('$onInit', function() {
 
-        it('should expose pending offline events', function() {
-            this.offlineService.isOffline.andReturn(true);
+        it('should expose pending offline events and offline sync errors', function() {
             this.vm.$onInit();
             this.$rootScope.$apply();
 
-            expect(this.pendingOfflineEventsService.getCountOfOfflineEvents).toHaveBeenCalled();
-            expect(this.vm.eventsCount).toEqual(this.eventsCount);
+            expect(this.offlineEventsService.getCountOfPendingOfflineEvents).toHaveBeenCalled();
+            expect(this.vm.pendingEventsCount).toEqual(this.pendingEventsCount);
+            expect(this.offlineEventsService.getCountOfSyncErrorEvents).toHaveBeenCalled();
+            expect(this.vm.offlineSyncErrorsCount).toEqual(this.offlineSyncErrorsCount);
         });
 
-        it('should not get pending offline events while online', function() {
-            this.offlineService.isOffline.andReturn(false);
-            this.vm.$onInit();
-            this.$rootScope.$apply();
-
-            expect(this.pendingOfflineEventsService.getCountOfOfflineEvents).not.toHaveBeenCalled();
-            expect(this.vm.eventsCount).toEqual(0);
-        });
-
-        it('should reload state when emit new pending offline events', function() {
+        it('should reload state when emit new offline events', function() {
             spyOn(this.$state, 'reload').andReturn(true);
 
-            this.offlineService.isOffline.andReturn(true);
-            this.$rootScope.$emit('openlmis-referencedata.pending-offline-events-indicator');
+            this.$rootScope.$emit('openlmis-referencedata.offline-events-indicator');
             this.$rootScope.$apply();
 
             expect(this.$state.reload).toHaveBeenCalled();
@@ -80,5 +71,4 @@ describe('PendingOfflineEventsIndicatorController', function() {
             expect(this.$state.go).toHaveBeenCalledWith('openlmis.pendingOfflineEvents');
         });
     });
-
 });

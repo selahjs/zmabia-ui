@@ -18,26 +18,18 @@
     'use strict';
 
     /**
-     * @ngdoc directive
-     * @name openlmis-pending-offline-events-indicator.component:openlmisPendingOfflineEventsIndicator
+     * @module openlmis-offline-events-indicator
      *
      * @description
-     * Displays count of pending offline events. Provides a way to navigate to Pending offline
-     * events screen where the events are displayed.
-     *
-     * @example
-     * Here's an example of usage:
-     * ```
-     * <openlmis-pending-offline-events-indicator>
-     * </openlmis-pending-offline-events-indicator>
-     * ```
+     * The openlmis-offline-events-indicator module is responsible for offline events counts elements
+     * within the OpenLMIS-UI.
      */
-    angular
-        .module('openlmis-pending-offline-events-indicator')
-        .component('openlmisPendingOfflineEventsIndicator', {
-            templateUrl: 'openlmis-pending-offline-events-indicator/pending-offline-events-indicator.html',
-            controller: 'PendingOfflineEventsIndicatorController',
-            controllerAs: 'vm'
-        });
+    angular.module('openlmis-offline-events-indicator', [
+        'openlmis-templates',
+        'ui.router',
+        'openlmis-local-storage',
+        'openlmis-offline',
+        'referencedata-user'
+    ]);
 
 })();

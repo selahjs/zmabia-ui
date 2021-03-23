@@ -18,36 +18,26 @@
     'use strict';
 
     /**
-     * @ngdoc service
-     * @name openlmis-pending-offline-events-indicator.pendingOfflineEventsService
+     * @ngdoc directive
+     * @name openlmis-offline-events-indicator.component:openlmisOfflineEventsIndicator
      *
      * @description
-     * Responsible for retrieving pending offline events from the local storage.
+     * Displays count of offline events. Provides a way to navigate to offline
+     * events screen where the events are displayed.
+     *
+     * @example
+     * Here's an example of usage:
+     * ```
+     * <openlmis-offline-events-indicator>
+     * </openlmis-offline-events-indicator>
+     * ```
      */
     angular
-        .module('openlmis-pending-offline-events-indicator')
-        .factory('pendingOfflineEventsService', service);
+        .module('openlmis-offline-events-indicator')
+        .component('openlmisOfflineEventsIndicator', {
+            templateUrl: 'openlmis-offline-events-indicator/offline-events-indicator.html',
+            controller: 'OfflineEventsIndicatorController',
+            controllerAs: 'vm'
+        });
 
-    service.$inject = ['$q'];
-
-    function service($q) {
-
-        return {
-            getCountOfOfflineEvents: getCountOfOfflineEvents
-        };
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-pending-offline-events-indicator.pendingOfflineEventsService
-         * @name getCountOfOfflineEvents
-         *
-         * @description
-         * Returned count of offline events
-         *
-         */
-        function getCountOfOfflineEvents() {
-            return $q.resolve(0);
-        }
-
-    }
 })();

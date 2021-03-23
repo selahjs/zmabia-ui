@@ -60,6 +60,7 @@ body > header {
 
 .status-offline {
     @extend a.is-offline;
+    margin-right: 0;   
 }
 
 .openlmis-header-info {
