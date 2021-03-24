@@ -71,4 +71,14 @@ describe('OfflineEventsIndicatorController', function() {
             expect(this.$state.go).toHaveBeenCalledWith('openlmis.pendingOfflineEvents');
         });
     });
+
+    describe('goToSynchronizationErrorsPage', function() {
+
+        it('should call state go method', function() {
+            this.vm.goToSynchronizationErrorsPage();
+            this.$rootScope.$apply();
+
+            expect(this.$state.go).toHaveBeenCalledWith('openlmis.eventsSynchronizationErrors');
+        });
+    });
 });

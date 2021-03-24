@@ -36,6 +36,7 @@
 
         vm.$onInit = onInit;
         vm.goToPendingOfflineEventsPage = goToPendingOfflineEventsPage;
+        vm.goToSynchronizationErrorsPage = goToSynchronizationErrorsPage;
 
         /**
          * @ngdoc property
@@ -81,6 +82,18 @@
          */
         function goToPendingOfflineEventsPage() {
             $state.go('openlmis.pendingOfflineEvents');
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf offline-events-indicator.controller:OfflineEventsIndicatorController
+         * @name goToSynchronizationErrorsPage
+         *
+         * @description
+         * Takes the user to the synchronization errors page.
+         */
+        function goToSynchronizationErrorsPage() {
+            $state.go('openlmis.eventsSynchronizationErrors');
         }
 
         $rootScope.$on('openlmis-referencedata.offline-events-indicator', function() {

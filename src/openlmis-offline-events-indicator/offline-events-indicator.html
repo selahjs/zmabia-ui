@@ -2,9 +2,9 @@
     <div ng-if="vm.pendingEventsCount > 0 && isOffline">
         <a ng-click="vm.goToPendingOfflineEventsPage()">{{'openlmisOfflineEvents.pendingEventsCount' | message:({count: vm.pendingEventsCount})}}</a>
     </div>
-    
+
     <div ng-if="vm.offlineSyncErrorsCount > 0 && !isOffline">
-        <a ng-click="vm.goToPendingOfflineEventsPage()" class="synchronization-error">
+        <a ng-click="vm.goToSynchronizationErrorsPage()" class="synchronization-error">
             {{'openlmisOfflineEvents.offlineSyncErrorsCount' | message:({count: vm.offlineSyncErrorsCount})}}</a>
     </div>
     </div>
