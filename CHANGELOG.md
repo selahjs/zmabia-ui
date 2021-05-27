@@ -1,8 +1,12 @@
-5.6.5 / WIP
+5.6.5 / 2021-05-27
 ==================
 
 Improvements:
 * [OLMIS-7176](https://openlmis.atlassian.net/browse/OLMIS-7176): Added a possibility to get lots from local storage in offline mode.
+* Updated dev-ui version to 9.0.2.
+* Updated ui-components version to 7.2.5.
+* Updated auth-ui version to 6.2.6.
+* Updated ui-layout version to 5.1.9.
 
 New functionality that are backwards-compatible:
 * [OLMIS-7187](https://openlmis.atlassian.net/browse/OLMIS-7187): Added the ability to cache Lots and Orderable Fulfills in the local storage and Orderables in the local database on login.
