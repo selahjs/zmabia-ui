@@ -1,3 +1,9 @@
+5.6.6 / WIP
+==================
+
+Improvements:
+* [OLMIS-7321](https://openlmis.atlassian.net/browse/OLMIS-7321): Improved the home page screen to be responsive.
+
 5.6.5 / 2021-05-27
 ==================
 
