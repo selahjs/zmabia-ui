@@ -17,6 +17,11 @@ $image-height: 136px;
       background-size: 1200%
     }
   }
+  .system-notification-list > h2{
+    @media screen and (max-width: $res-sm) {
+      font-size:16px;
+    }
+  }
 }
 
 .home-page > h2{
