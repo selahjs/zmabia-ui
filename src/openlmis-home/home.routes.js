@@ -30,6 +30,7 @@
             // keep home menu always at the first place
             priority: 999,
             showInNavigation: true,
+            showInNavigationInLowResolutions: true,
             label: 'openlmisHome.home',
             isOffline: true,
             views: {
