@@ -26,7 +26,7 @@ body > header {
         display: block;
         text-indent: -30000em;
         overflow: hidden;
-        background-image: url('common/openlmis-logo.svg');
+        background-image: url('../assets/common/openlmis-logo.svg');
         background-repeat: no-repeat;
         background-size: auto $font-size-openlmis-header-title;
         flex-grow: 1;
@@ -39,7 +39,7 @@ body > header {
     background: transparent;
     color: $light-gray;
     > .title {
-        background-image: url('common/openlmis-logo-white.svg');
+        background-image: url('../assets/common/openlmis-logo-white.svg');
     }
 }
 
@@ -60,7 +60,7 @@ body > header {
 
 .status-offline {
     @extend a.is-offline;
-    margin-right: 0;   
+    margin-right: 0;
 }
 
 .openlmis-header-info {
