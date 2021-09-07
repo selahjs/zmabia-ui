@@ -76,7 +76,7 @@ describe('openlmis.home route', function() {
             .build();
 
         spyOn(this.SystemNotificationResource.prototype, 'query')
-            .andReturn(this.$q.resolve(this.systemNotificationsPage));
+            .and.returnValue(this.$q.resolve(this.systemNotificationsPage));
         spyOn(this.offlineService, 'isOffline');
 
         this.goToUrl = function(url) {
@@ -92,7 +92,9 @@ describe('openlmis.home route', function() {
     it('should resolve system notifications', function() {
         this.goToUrl('/home');
 
-        expect(this.getResolvedValue('homePageSystemNotifications')).toEqual(this.systemNotifications);
+        expect(angular.toJson(this.getResolvedValue('homePageSystemNotifications'))).toEqual(
+            angular.toJson(this.systemNotifications)
+        );
     });
 
     it('should resolve a user with correct first name and last name', function() {
@@ -106,7 +108,7 @@ describe('openlmis.home route', function() {
     });
 
     it('should not resolve system notifications while offline', function() {
-        this.offlineService.isOffline.andReturn(true);
+        this.offlineService.isOffline.and.returnValue(true);
         this.goToUrl('/home');
 
         expect(this.SystemNotificationResource.prototype.query).not.toHaveBeenCalled();

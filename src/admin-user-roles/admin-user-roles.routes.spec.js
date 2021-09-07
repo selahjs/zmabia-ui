@@ -76,16 +76,16 @@ describe('openlmis.administration.users.roles', function() {
             .build();
 
         spyOn(this.AdminUserRolesSupervisoryNodeResource.prototype, 'query')
-            .andReturn(this.$q.resolve(new this.PageDataBuilder()
+            .and.returnValue(this.$q.resolve(new this.PageDataBuilder()
                 .withContent(this.supervisoryNodes)
                 .build()));
-        spyOn(this.referencedataRoleFactory, 'getAllWithType').andReturn(this.$q.resolve(this.roles));
-        spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.resolve(this.warehouses));
-        spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.resolve(this.user));
-        spyOn(this.programService, 'getAll').andReturn(this.$q.resolve(this.programs));
-        spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.resolve(this.user));
-        spyOn(this.$templateCache, 'get').andCallThrough();
-        spyOn(this.paginationService, 'registerUrl').andReturn(this.$q.resolve([this.user]));
+        spyOn(this.referencedataRoleFactory, 'getAllWithType').and.returnValue(this.$q.resolve(this.roles));
+        spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.resolve(this.warehouses));
+        spyOn(this.currentUserService, 'getUserInfo').and.returnValue(this.$q.resolve(this.user));
+        spyOn(this.programService, 'getAll').and.returnValue(this.$q.resolve(this.programs));
+        spyOn(this.userRoleAssignmentFactory, 'getUser').and.returnValue(this.$q.resolve(this.user));
+        spyOn(this.$templateCache, 'get').and.callThrough();
+        spyOn(this.paginationService, 'registerUrl').and.returnValue(this.$q.resolve([this.user]));
 
         this.goToUrl = goToUrl;
         this.getResolvedValue = getResolvedValue;

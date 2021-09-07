@@ -45,13 +45,13 @@ describe('UserFormController', function() {
         this.pendingVerificationEmail = new this.VerificationEmailDataBuilder().build();
 
         spyOn(this.$state, 'go');
-        spyOn(this.loadingModalService, 'open').andReturn(this.$q.when(true));
-        spyOn(this.loadingModalService, 'close').andReturn();
-        spyOn(this.notificationService, 'success').andReturn();
+        spyOn(this.loadingModalService, 'open').and.returnValue(this.$q.when(true));
+        spyOn(this.loadingModalService, 'close').and.returnValue();
+        spyOn(this.notificationService, 'success').and.returnValue();
         spyOn(this.user, 'removeHomeFacilityRights');
-        spyOn(this.user, 'save').andReturn();
-        spyOn(this.authUserService, 'sendVerificationEmail').andReturn();
-        spyOn(this.confirmService, 'confirmDestroy').andReturn();
+        spyOn(this.user, 'save').and.returnValue();
+        spyOn(this.authUserService, 'sendVerificationEmail').and.returnValue();
+        spyOn(this.confirmService, 'confirmDestroy').and.returnValue();
 
         this.vm = this.$controller('UserFormController', {
             user: this.user,
@@ -114,7 +114,7 @@ describe('UserFormController', function() {
         beforeEach(function() {
             this.vm.$onInit();
 
-            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
+            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
         });
 
         it('should update homeFacilityId', function() {
@@ -154,7 +154,7 @@ describe('UserFormController', function() {
         });
 
         it('should save user with home facility rights after dismissing confirmation modal', function() {
-            this.confirmService.confirmDestroy.andReturn(this.$q.reject());
+            this.confirmService.confirmDestroy.and.returnValue(this.$q.reject());
             this.vm.homeFacility = this.facilities[1];
 
             this.vm.saveUser();
@@ -183,7 +183,7 @@ describe('UserFormController', function() {
         });
 
         it('should send verification email', function() {
-            this.authUserService.sendVerificationEmail.andReturn(this.$q.when(true));
+            this.authUserService.sendVerificationEmail.and.returnValue(this.$q.when(true));
             this.vm.sendVerificationEmail();
             this.$rootScope.$apply();
 

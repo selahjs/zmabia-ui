@@ -60,7 +60,7 @@ describe('RequisitionGroupListController', function() {
         });
         this.vm.$onInit();
 
-        spyOn(this.$state, 'go').andReturn();
+        spyOn(this.$state, 'go').and.returnValue();
     });
 
     describe('onInit', function() {

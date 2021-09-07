@@ -64,8 +64,8 @@ describe('referencedata-orderable-fulfills run', function() {
 
         this.postLoginAction = getLastCall(this.loginServiceSpy.registerPostLoginAction).args[0];
 
-        spyOn(this.facilityFactory, 'getUserHomeFacility').andReturn(this.$q.resolve(this.homeFacility));
-        spyOn(this.orderableFulfillsService, 'query').andReturn(this.$q.resolve(this.orderableFulfills));
+        spyOn(this.facilityFactory, 'getUserHomeFacility').and.returnValue(this.$q.resolve(this.homeFacility));
+        spyOn(this.orderableFulfillsService, 'query').and.returnValue(this.$q.resolve(this.orderableFulfills));
         spyOn(this.orderableFulfillsService, 'clearOrderableFulfillsOffline');
     });
 
@@ -102,7 +102,7 @@ describe('referencedata-orderable-fulfills run', function() {
     });
 
     function getLastCall(method) {
-        return method.calls[method.calls.length - 1];
+        return method.calls.mostRecent();
     }
 
 });

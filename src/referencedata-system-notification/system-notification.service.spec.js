@@ -41,7 +41,7 @@ describe('systemNotificationService', function() {
             .build();
 
         spyOn(this.SystemNotificationResource.prototype, 'query')
-            .andReturn(this.$q.resolve(this.systemNotificationsPage));
+            .and.returnValue(this.$q.resolve(this.systemNotificationsPage));
 
         spyOn(this.localStorageService, 'get');
         spyOn(this.localStorageService, 'remove');
@@ -62,7 +62,7 @@ describe('systemNotificationService', function() {
         });
 
         it('should return cached data if available', function() {
-            this.localStorageService.get.andReturn(angular.toJson(this.systemNotifications));
+            this.localStorageService.get.and.returnValue(this.systemNotifications);
 
             var result;
             this.systemNotificationService.getSystemNotifications()
@@ -87,7 +87,7 @@ describe('systemNotificationService', function() {
         });
 
         it('should reject if fetching system notifications fails', function() {
-            this.SystemNotificationResource.prototype.query.andReturn(this.$q.reject());
+            this.SystemNotificationResource.prototype.query.and.returnValue(this.$q.reject());
 
             var rejected;
             this.systemNotificationService.getSystemNotifications()
@@ -107,14 +107,14 @@ describe('systemNotificationService', function() {
             this.systemNotificationService.getSystemNotifications();
             this.$rootScope.$apply();
 
-            expect(this.SystemNotificationResource.prototype.query.callCount).toEqual(1);
+            expect(this.SystemNotificationResource.prototype.query.calls.count()).toEqual(1);
 
             this.systemNotificationService.clearCachedSystemNotifications();
             this.systemNotificationService.getSystemNotifications();
             this.$rootScope.$apply();
 
             expect(this.localStorageService.remove).toHaveBeenCalledWith(this.localStorageKey);
-            expect(this.SystemNotificationResource.prototype.query.callCount).toEqual(2);
+            expect(this.SystemNotificationResource.prototype.query.calls.count()).toEqual(2);
         });
 
     });

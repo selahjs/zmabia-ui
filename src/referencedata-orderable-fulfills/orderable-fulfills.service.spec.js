@@ -25,7 +25,7 @@ describe('orderableFulfillsService', function() {
 
         module('referencedata-orderable-fulfills', function($provide) {
             $provide.service('localStorageFactory', function() {
-                return jasmine.createSpy('localStorageFactory').andReturn(orderableFulfillsStorage);
+                return jasmine.createSpy('localStorageFactory').and.returnValue(orderableFulfillsStorage);
             });
 
             $provide.service('offlineService', function() {
@@ -42,7 +42,7 @@ describe('orderableFulfillsService', function() {
             this.alertService = $injector.get('alertService');
         });
 
-        this.offlineService.isOffline.andReturn(false);
+        this.offlineService.isOffline.and.returnValue(false);
 
         this.orderableFulfills = {
             idOne: {
@@ -73,14 +73,14 @@ describe('orderableFulfillsService', function() {
 
             expect(result['idOne']).toEqual(this.orderableFulfills['idOne']);
             expect(result['idTwo']).toEqual(this.orderableFulfills['idTwo']);
-            expect(this.orderableFulfillsStorage.put.callCount).toEqual(2);
+            expect(this.orderableFulfillsStorage.put.calls.count()).toEqual(2);
         });
 
         it('should reject if orderable fulfills not found in the local storage', function() {
             spyOn(this.alertService, 'error');
 
-            this.offlineService.isOffline.andReturn(true);
-            this.orderableFulfillsStorage.getBy.andReturn(undefined);
+            this.offlineService.isOffline.and.returnValue(true);
+            this.orderableFulfillsStorage.getBy.and.returnValue(undefined);
 
             var params = {
                 id: ['id-1']

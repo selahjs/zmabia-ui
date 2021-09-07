@@ -51,7 +51,7 @@ describe('AdminUserRolesSupervisoryNodeResource', function() {
         }
 
         this.resource = new this.AdminUserRolesSupervisoryNodeResource(facilityMap);
-        this.query.andReturn(this.$q.resolve(new this.PageDataBuilder()
+        this.query.and.returnValue(this.$q.resolve(new this.PageDataBuilder()
             .withContent(this.supervisoryNodes)
             .build()));
     });

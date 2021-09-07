@@ -84,7 +84,7 @@ describe('SupervisoryNodeEditController', function() {
     describe('goToSupervisoryNodeList', function() {
 
         beforeEach(function() {
-            spyOn(this.$state, 'go').andReturn();
+            spyOn(this.$state, 'go').and.returnValue();
             this.vm.goToSupervisoryNodeList();
         });
 

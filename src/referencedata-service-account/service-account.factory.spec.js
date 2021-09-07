@@ -37,8 +37,8 @@ describe('serviceAccountFactory', function() {
     describe('create', function() {
 
         it('should create service account', function() {
-            spyOn(this.serviceAccountService, 'create').andReturn(this.$q.resolve(this.serviceAccount));
-            spyOn(this.apiKeysService, 'create').andReturn(this.$q.resolve(this.apiKey));
+            spyOn(this.serviceAccountService, 'create').and.returnValue(this.$q.resolve(this.serviceAccount));
+            spyOn(this.apiKeysService, 'create').and.returnValue(this.$q.resolve(this.apiKey));
 
             var result;
             this.serviceAccountFactory
@@ -57,8 +57,8 @@ describe('serviceAccountFactory', function() {
     describe('remove', function() {
 
         it('should remove service account', function() {
-            spyOn(this.serviceAccountService, 'remove').andReturn(this.$q.resolve());
-            spyOn(this.apiKeysService, 'remove').andReturn(this.$q.resolve());
+            spyOn(this.serviceAccountService, 'remove').and.returnValue(this.$q.resolve());
+            spyOn(this.apiKeysService, 'remove').and.returnValue(this.$q.resolve());
 
             this.serviceAccountFactory.remove(this.serviceAccount.token);
             this.$rootScope.$apply();

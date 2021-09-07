@@ -198,7 +198,7 @@ describe('SelectUsersModalController', function() {
         });
 
         it('should not import roles if roles are already assigned', function() {
-            spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.resolve(this.selectedUser));
+            spyOn(this.userRoleAssignmentFactory, 'getUser').and.returnValue(this.$q.resolve(this.selectedUser));
             var roleAssignmentsCount = this.selectedUser.roleAssignments.length;
             this.user.roleAssignments = this.selectedUser.roleAssignments;
 
@@ -209,7 +209,7 @@ describe('SelectUsersModalController', function() {
         });
 
         it('should import roles successfully', function() {
-            spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.resolve(this.selectedUser));
+            spyOn(this.userRoleAssignmentFactory, 'getUser').and.returnValue(this.$q.resolve(this.selectedUser));
             this.vm.selectUser();
 
             expect(this.user.roleAssignments[0]).toEqual(undefined);
@@ -220,7 +220,7 @@ describe('SelectUsersModalController', function() {
         });
 
         it('should not import roles if select has failed', function() {
-            spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.reject(this.selectedUser));
+            spyOn(this.userRoleAssignmentFactory, 'getUser').and.returnValue(this.$q.reject(this.selectedUser));
             this.vm.selectUser();
 
             this.$rootScope.$apply();

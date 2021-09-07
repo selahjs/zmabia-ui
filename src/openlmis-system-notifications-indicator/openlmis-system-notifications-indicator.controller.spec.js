@@ -66,7 +66,7 @@ describe('SystemNotificationsIndicatorController', function() {
         ];
 
         spyOn(this.systemNotificationService, 'getSystemNotifications')
-            .andReturn(this.$q.resolve(this.systemNotifications));
+            .and.returnValue(this.$q.resolve(this.systemNotifications));
 
         spyOn(this.offlineService, 'isOffline');
 
@@ -83,7 +83,7 @@ describe('SystemNotificationsIndicatorController', function() {
         });
 
         it('should not resolve system notifications while offline', function() {
-            this.offlineService.isOffline.andReturn(true);
+            this.offlineService.isOffline.and.returnValue(true);
             this.vm.$onInit();
 
             expect(this.vm.systemNotifications).toEqual(undefined);

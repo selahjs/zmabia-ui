@@ -176,11 +176,11 @@ describe('SupplyPartnerAssociationService', function() {
     describe('getFacilities', function() {
 
         beforeEach(function() {
-            this.SupervisoryNodeFacilityResource.prototype.query.andReturn(this.$q.resolve(this.facilitiesPage));
+            this.SupervisoryNodeFacilityResource.prototype.query.and.returnValue(this.$q.resolve(this.facilitiesPage));
         });
 
         it('should reject if failure', function() {
-            this.SupervisoryNodeFacilityResource.prototype.query.andReturn(this.$q.reject());
+            this.SupervisoryNodeFacilityResource.prototype.query.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartnerAssociationService.getFacilities(this.association, this.supervisoryNodes)
@@ -244,7 +244,7 @@ describe('SupplyPartnerAssociationService', function() {
 
         beforeEach(function() {
             this.FacilityTypeApprovedProductResource.prototype.getAll
-                .andReturn(this.$q.resolve(this.facilityTypeApprovedProducts));
+                .and.returnValue(this.$q.resolve(this.facilityTypeApprovedProducts));
         });
 
         it('should return empty list when association has no facilities', function() {
@@ -327,7 +327,7 @@ describe('SupplyPartnerAssociationService', function() {
         });
 
         it('should reject when fetch fails', function() {
-            this.FacilityTypeApprovedProductResource.prototype.getAll.andReturn(this.$q.reject());
+            this.FacilityTypeApprovedProductResource.prototype.getAll.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartnerAssociationService.getOrderables(this.association, this.facilities, this.programs)

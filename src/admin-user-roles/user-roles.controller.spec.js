@@ -39,7 +39,7 @@ describe('UserRolesController', function() {
         spyOn(this.notificationService, 'success');
         spyOn(this.loadingModalService, 'close');
         spyOn(this.loadingModalService, 'open');
-        spyOn(this.$state, 'go').andReturn();
+        spyOn(this.$state, 'go').and.returnValue();
         spyOn(this.user, 'save');
 
         this.vm = this.$controller('UserRolesController', {
@@ -72,8 +72,8 @@ describe('UserRolesController', function() {
     describe('saveUser', function() {
 
         beforeEach(function() {
-            this.user.save.andReturn(this.$q.when(true));
-            this.loadingModalService.open.andReturn(this.$q.when(true));
+            this.user.save.and.returnValue(this.$q.when(true));
+            this.loadingModalService.open.and.returnValue(this.$q.when(true));
             this.vm.saveUserRoles();
         });
 
@@ -110,7 +110,7 @@ describe('UserRolesController', function() {
             deferred.reject();
 
             this.$rootScope.$apply();
-            this.user.save.andReturn(deferred.promise);
+            this.user.save.and.returnValue(deferred.promise);
             this.vm.saveUserRoles();
             this.$rootScope.$apply();
 

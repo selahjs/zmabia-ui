@@ -33,7 +33,7 @@ describe('right filter', function() {
     });
 
     it('should return translated message for ', function() {
-        this.messageService.get.andReturn('Right Name');
+        this.messageService.get.and.returnValue('Right Name');
 
         expect(this.rightFilter('RIGHT_NAME')).toEqual('Right Name');
         expect(this.messageService.get).toHaveBeenCalledWith('adminRoleForm.rightName');

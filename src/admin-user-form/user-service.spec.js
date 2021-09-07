@@ -34,7 +34,7 @@ describe('UserService', function() {
         this.userService = new this.UserService();
         this.user = new this.UserDataBuilder().build();
 
-        spyOn(this.UserRepository.prototype, 'get').andReturn(this.$q.resolve(this.user));
+        spyOn(this.UserRepository.prototype, 'get').and.returnValue(this.$q.resolve(this.user));
 
         spyOn(this.user, 'save');
         spyOn(this.$state, 'go');
@@ -88,7 +88,7 @@ describe('UserService', function() {
         beforeEach(function() {
             originalSave = this.user.save;
 
-            originalSave.andReturn(this.$q.resolve(this.user));
+            originalSave.and.returnValue(this.$q.resolve(this.user));
 
             this.userService.get(this.user.id)
                 .then(function(response) {
@@ -129,7 +129,7 @@ describe('UserService', function() {
         });
 
         it('should resolve if user dismisses password creation', function() {
-            this.userPasswordModalFactory.createPassword.andReturn(this.$q.reject());
+            this.userPasswordModalFactory.createPassword.and.returnValue(this.$q.reject());
 
             var result;
             decoratedUser.save()
@@ -145,7 +145,7 @@ describe('UserService', function() {
         });
 
         it('should resolve if user creates password', function() {
-            this.userPasswordModalFactory.createPassword.andReturn(this.$q.resolve());
+            this.userPasswordModalFactory.createPassword.and.returnValue(this.$q.resolve());
 
             var result;
             decoratedUser.save()
@@ -161,7 +161,7 @@ describe('UserService', function() {
         });
 
         it('should show notification if update fails', function() {
-            originalSave.andReturn(this.$q.reject());
+            originalSave.and.returnValue(this.$q.reject());
 
             decoratedUser.save();
             this.$rootScope.$apply();
@@ -171,7 +171,7 @@ describe('UserService', function() {
 
         it('should show notification if creation fails', function() {
             decoratedUser.isNewUser = true;
-            originalSave.andReturn(this.$q.reject());
+            originalSave.and.returnValue(this.$q.reject());
 
             decoratedUser.save();
             this.$rootScope.$apply();
@@ -180,7 +180,7 @@ describe('UserService', function() {
         });
 
         it('should reject if original save rejects', function() {
-            originalSave.andReturn(this.$q.reject());
+            originalSave.and.returnValue(this.$q.reject());
 
             var rejected;
             decoratedUser.save()
@@ -193,7 +193,7 @@ describe('UserService', function() {
         });
 
         it('should close loading modal if save fails', function() {
-            originalSave.andReturn(this.$q.reject());
+            originalSave.and.returnValue(this.$q.reject());
 
             decoratedUser.save();
             this.$rootScope.$apply();

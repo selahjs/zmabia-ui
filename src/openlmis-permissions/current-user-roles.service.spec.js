@@ -45,8 +45,8 @@ describe('currentUserRolesService', function() {
             .withGeneralAdminRoleAssignment(this.roles[4].id)
             .buildReferenceDataUserJson();
 
-        spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.resolve(this.user));
-        spyOn(this.RoleResource.prototype, 'query').andReturn(this.$q.resolve(this.roles));
+        spyOn(this.currentUserService, 'getUserInfo').and.returnValue(this.$q.resolve(this.user));
+        spyOn(this.RoleResource.prototype, 'query').and.returnValue(this.$q.resolve(this.roles));
         spyOn(this.localStorageService, 'get');
         spyOn(this.localStorageService, 'add');
         spyOn(this.localStorageService, 'remove');
@@ -74,18 +74,18 @@ describe('currentUserRolesService', function() {
             this.currentUserRolesService.getUserRoles();
             this.$rootScope.$apply();
 
-            expect(this.currentUserService.getUserInfo.callCount).toEqual(1);
-            expect(this.RoleResource.prototype.query.callCount).toEqual(1);
+            expect(this.currentUserService.getUserInfo.calls.count()).toEqual(1);
+            expect(this.RoleResource.prototype.query.calls.count()).toEqual(1);
 
             this.currentUserRolesService.getUserRoles();
             this.$rootScope.$apply();
 
-            expect(this.currentUserService.getUserInfo.callCount).toEqual(1);
-            expect(this.RoleResource.prototype.query.callCount).toEqual(1);
+            expect(this.currentUserService.getUserInfo.calls.count()).toEqual(1);
+            expect(this.RoleResource.prototype.query.calls.count()).toEqual(1);
         });
 
         it('should return cached data if available', function() {
-            this.localStorageService.get.andReturn(angular.toJson([
+            this.localStorageService.get.and.returnValue(angular.toJson([
                 this.roles[1],
                 this.roles[3]
             ]));
@@ -99,12 +99,12 @@ describe('currentUserRolesService', function() {
             this.$rootScope.$apply();
 
             expect(this.localStorageService.get).toHaveBeenCalledWith(this.localStorageKey);
-            expect(this.currentUserService.getUserInfo.callCount).toEqual(0);
-            expect(this.RoleResource.prototype.query.callCount).toEqual(0);
-            expect(result).toEqual([
-                this.roles[1],
-                this.roles[3]
-            ]);
+            expect(this.currentUserService.getUserInfo.calls.count()).toEqual(0);
+            expect(this.RoleResource.prototype.query.calls.count()).toEqual(0);
+            expect(result).toEqual(jasmine.arrayContaining([
+                jasmine.objectContaining(this.roles[1]),
+                jasmine.objectContaining((this.roles[3]))
+            ]));
         });
 
         it('should cache roles', function() {
@@ -119,7 +119,7 @@ describe('currentUserRolesService', function() {
         });
 
         it('should reject if fetching current user fails', function() {
-            this.currentUserService.getUserInfo.andReturn(this.$q.reject());
+            this.currentUserService.getUserInfo.and.returnValue(this.$q.reject());
 
             var rejected;
             this.currentUserRolesService.getUserRoles()
@@ -132,7 +132,7 @@ describe('currentUserRolesService', function() {
         });
 
         it('should reject if fetching roles fails', function() {
-            this.RoleResource.prototype.query.andReturn(this.$q.reject());
+            this.RoleResource.prototype.query.and.returnValue(this.$q.reject());
 
             var rejected;
             this.currentUserRolesService.getUserRoles()
@@ -152,16 +152,16 @@ describe('currentUserRolesService', function() {
             this.currentUserRolesService.getUserRoles();
             this.$rootScope.$apply();
 
-            expect(this.currentUserService.getUserInfo.callCount).toEqual(1);
-            expect(this.RoleResource.prototype.query.callCount).toEqual(1);
+            expect(this.currentUserService.getUserInfo.calls.count()).toEqual(1);
+            expect(this.RoleResource.prototype.query.calls.count()).toEqual(1);
 
             this.currentUserRolesService.clearCachedRoles();
             this.currentUserRolesService.getUserRoles();
             this.$rootScope.$apply();
 
             expect(this.localStorageService.remove).toHaveBeenCalledWith(this.localStorageKey);
-            expect(this.currentUserService.getUserInfo.callCount).toEqual(2);
-            expect(this.RoleResource.prototype.query.callCount).toEqual(2);
+            expect(this.currentUserService.getUserInfo.calls.count()).toEqual(2);
+            expect(this.RoleResource.prototype.query.calls.count()).toEqual(2);
         });
 
     });

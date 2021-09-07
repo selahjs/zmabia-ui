@@ -54,7 +54,7 @@ describe('programService', function() {
             userIdOffline: this.userId
         };
 
-        this.programsStorage.search.andReturn([]);
+        this.programsStorage.search.and.returnValue([]);
     });
 
     it('should get program by id and save it to storage', function() {
@@ -76,8 +76,8 @@ describe('programService', function() {
     });
 
     it('should get program by id from storage while offline', function() {
-        this.programsStorage.getBy.andReturn(this.program1);
-        this.offlineService.isOffline.andReturn(true);
+        this.programsStorage.getBy.and.returnValue(this.program1);
+        this.offlineService.isOffline.and.returnValue(true);
 
         var result;
         this.programService.get(this.program1.id).then(function(program) {
@@ -106,8 +106,8 @@ describe('programService', function() {
     });
 
     it('should get user programs from storage while offline', function() {
-        this.programsStorage.search.andReturn([this.program1]);
-        this.offlineService.isOffline.andReturn(true);
+        this.programsStorage.search.and.returnValue([this.program1]);
+        this.offlineService.isOffline.and.returnValue(true);
 
         var result,
             isForHomeFacility = '2';
@@ -122,7 +122,7 @@ describe('programService', function() {
     });
 
     it('should get user programs and save them to storage', function() {
-        this.offlineService.isOffline.andReturn(false);
+        this.offlineService.isOffline.and.returnValue(false);
 
         this.$httpBackend
             .expectGET(this.openlmisUrlFactory('api/users/' + this.userId + '/programs'))
@@ -138,16 +138,16 @@ describe('programService', function() {
         this.$httpBackend.flush();
         this.$rootScope.$apply();
 
-        var expectedProgram1 = _.extend({}, this.program1, this.userIdOffline),
-            expectedProgram2 = _.extend({}, this.program2, this.userIdOffline);
+        var expectedProg1 = _.extend({}, this.program1, this.userIdOffline),
+            expectedProg2 = _.extend({}, this.program2, this.userIdOffline);
 
         expect(angular.toJson(result)).toEqual(angular.toJson([
-            expectedProgram1,
-            expectedProgram2
+            expectedProg1,
+            expectedProg2
         ]));
 
-        expect(angular.toJson(this.programsStorage.put.calls[0].args[0])).toEqual(angular.toJson(expectedProgram1));
-        expect(angular.toJson(this.programsStorage.put.calls[1].args[0])).toEqual(angular.toJson(expectedProgram2));
+        expect(angular.toJson(this.programsStorage.put.calls.first().args[0])).toEqual(angular.toJson(expectedProg1));
+        expect(angular.toJson(this.programsStorage.put.calls.all()[1].args[0])).toEqual(angular.toJson(expectedProg2));
     });
 
     it('should update program and save it to storage', function() {
@@ -199,7 +199,7 @@ describe('programService', function() {
             this.$httpBackend.flush();
             this.$rootScope.$apply();
 
-            expect(angular.toJson(this.programsStorage.put.calls[0].args[0]))
+            expect(angular.toJson(this.programsStorage.put.calls.first().args[0]))
                 .toEqual(angular.toJson(_.extend({}, this.program1, this.userIdOffline)));
         });
 
@@ -224,7 +224,7 @@ describe('programService', function() {
         it('will return a cached response instead of making another request', function() {
             var cachedPrograms = [new this.ProgramDataBuilder().build()];
 
-            this.programsStorage.search.andReturn(cachedPrograms);
+            this.programsStorage.search.and.returnValue(cachedPrograms);
 
             var result;
             this.programService

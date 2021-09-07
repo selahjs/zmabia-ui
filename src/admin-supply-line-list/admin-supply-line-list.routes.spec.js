@@ -58,9 +58,9 @@ describe('openlmis.administration.supplyLine', function() {
         this.goToUrl = goToUrl;
         this.getResolvedValue = getResolvedValue;
 
-        spyOn(this.FacilityRepository.prototype, 'query').andReturn(this.$q.resolve(this.facilitiesPage));
-        spyOn(this.programService, 'getAll').andReturn(this.$q.resolve(this.programs));
-        spyOn(this.SupplyLineResource.prototype, 'query').andReturn(this.$q.resolve(this.supplyLinesPage));
+        spyOn(this.FacilityRepository.prototype, 'query').and.returnValue(this.$q.resolve(this.facilitiesPage));
+        spyOn(this.programService, 'getAll').and.returnValue(this.$q.resolve(this.programs));
+        spyOn(this.SupplyLineResource.prototype, 'query').and.returnValue(this.$q.resolve(this.supplyLinesPage));
     });
 
     it('should be available under "/profile" URI', function() {
@@ -87,8 +87,6 @@ describe('openlmis.administration.supplyLine', function() {
         this.goToUrl('/administration/supplyLines');
 
         expect(this.SupplyLineResource.prototype.query).toHaveBeenCalledWith({
-            supplyingFacilityId: undefined,
-            programId: undefined,
             page: 0,
             size: 10,
             sort: 'supplyingFacility.name',
@@ -103,7 +101,7 @@ describe('openlmis.administration.supplyLine', function() {
     });
 
     it('should not change state when fetching supplying facilities fails', function() {
-        this.FacilityRepository.prototype.query.andReturn(this.$q.reject());
+        this.FacilityRepository.prototype.query.and.returnValue(this.$q.reject());
 
         this.goToUrl('/administration/supplyLines');
 
@@ -111,7 +109,7 @@ describe('openlmis.administration.supplyLine', function() {
     });
 
     it('should not change state when fetching programs fails ', function() {
-        this.programService.getAll.andReturn(this.$q.reject());
+        this.programService.getAll.and.returnValue(this.$q.reject());
 
         this.goToUrl('/administration/supplyLines');
 
@@ -119,7 +117,7 @@ describe('openlmis.administration.supplyLine', function() {
     });
 
     it('should not change state when fetching supply lines fails', function() {
-        this.SupplyLineResource.prototype.query.andReturn(this.$q.reject());
+        this.SupplyLineResource.prototype.query.and.returnValue(this.$q.reject());
 
         this.goToUrl('/administration/supplyLines');
 

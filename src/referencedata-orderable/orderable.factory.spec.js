@@ -43,8 +43,8 @@ describe('orderableFactory', function() {
             ])
             .build();
 
-        spyOn(this.orderableService, 'get').andReturn(this.$q.when(this.orderable));
-        spyOn(this.programService, 'getAll').andReturn(this.$q.when(this.programs));
+        spyOn(this.orderableService, 'get').and.returnValue(this.$q.when(this.orderable));
+        spyOn(this.programService, 'getAll').and.returnValue(this.$q.when(this.programs));
     });
 
     describe('getOrderableWithProgramData', function() {

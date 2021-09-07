@@ -44,7 +44,7 @@ describe('openlmis-permissions run', function() {
         this.postLoginAction = getLastCall(this.loginServiceSpy.registerPostLoginAction).args[0];
         this.postLogoutAction = getLastCall(this.loginServiceSpy.registerPostLogoutAction).args[0];
 
-        spyOn(this.userRightsFactory, 'buildRights').andReturn(this.$q.resolve(this.rights));
+        spyOn(this.userRightsFactory, 'buildRights').and.returnValue(this.$q.resolve(this.rights));
         spyOn(this.authorizationService, 'setRights');
         spyOn(this.authorizationService, 'clearRights');
         spyOn(this.currentUserRolesService, 'getUserRoles');
@@ -73,7 +73,7 @@ describe('openlmis-permissions run', function() {
         });
 
         it('should set up this.rights', function() {
-            this.authorizationService.setRights.andReturn(this.$q.resolve());
+            this.authorizationService.setRights.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLoginAction(this.user)
@@ -98,7 +98,7 @@ describe('openlmis-permissions run', function() {
     describe('post logout action', function() {
 
         it('should clear this.rights', function() {
-            this.authorizationService.clearRights.andReturn(this.$q.resolve());
+            this.authorizationService.clearRights.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLogoutAction()
@@ -121,7 +121,7 @@ describe('openlmis-permissions run', function() {
     });
 
     function getLastCall(method) {
-        return method.calls[method.calls.length - 1];
+        return method.calls.mostRecent();
     }
 
 });

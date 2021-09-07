@@ -30,11 +30,11 @@ describe('OfflineEventsIndicatorController', function() {
         this.offlineSyncErrorsCount = 1;
 
         spyOn(this.offlineEventsService, 'getCountOfPendingOfflineEvents')
-            .andReturn(this.$q.resolve(this.pendingEventsCount));
+            .and.returnValue(this.$q.resolve(this.pendingEventsCount));
         spyOn(this.offlineEventsService, 'getCountOfSyncErrorEvents')
-            .andReturn(this.$q.resolve(this.offlineSyncErrorsCount));
+            .and.returnValue(this.$q.resolve(this.offlineSyncErrorsCount));
 
-        spyOn(this.$state, 'go').andReturn();
+        spyOn(this.$state, 'go').and.returnValue();
 
         this.vm = this.$controller('OfflineEventsIndicatorController');
     });
@@ -52,7 +52,7 @@ describe('OfflineEventsIndicatorController', function() {
         });
 
         it('should reload state when emit new offline events', function() {
-            spyOn(this.$state, 'reload').andReturn(true);
+            spyOn(this.$state, 'reload').and.returnValue(true);
 
             this.$rootScope.$emit('openlmis-referencedata.offline-events-indicator');
             this.$rootScope.$apply();

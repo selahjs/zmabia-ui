@@ -23,7 +23,7 @@ describe('periodService', function() {
             periodsStorage = this.periodsStorage;
         module('referencedata-period', function($provide) {
             $provide.service('localStorageFactory', function() {
-                return jasmine.createSpy('localStorageFactory').andReturn(periodsStorage);
+                return jasmine.createSpy('localStorageFactory').and.returnValue(periodsStorage);
             });
 
             $provide.service('offlineService', function() {
@@ -42,7 +42,7 @@ describe('periodService', function() {
             this.$q = $injector.get('$q');
         });
 
-        this.offlineService.isOffline.andReturn(false);
+        this.offlineService.isOffline.and.returnValue(false);
 
         this.period = new this.PeriodDataBuilder().build();
 
@@ -59,8 +59,8 @@ describe('periodService', function() {
     describe('get', function() {
 
         it('should get processing period by id from storage while offline', function() {
-            this.periodsStorage.getBy.andReturn(this.period);
-            this.offlineService.isOffline.andReturn(true);
+            this.periodsStorage.getBy.and.returnValue(this.period);
+            this.offlineService.isOffline.and.returnValue(true);
 
             var result;
             this.periodService.get(this.period.id).then(function(period) {

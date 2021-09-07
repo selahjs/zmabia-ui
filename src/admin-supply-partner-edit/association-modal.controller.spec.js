@@ -141,7 +141,7 @@ describe('AssociationModalController', function() {
             .build();
 
         spyOn(this.SupervisoryNodeFacilityResource.prototype, 'query');
-        spyOn(this.SupervisoryNodeFacilityResource.prototype, 'constructor').andCallThrough();
+        spyOn(this.SupervisoryNodeFacilityResource.prototype, 'constructor').and.callThrough();
         spyOn(this.FacilityTypeApprovedProductResource.prototype, 'query');
         spyOn(this.loadingModalService, 'open');
         spyOn(this.loadingModalService, 'close');
@@ -380,7 +380,7 @@ describe('AssociationModalController', function() {
                 new this.OrderableDataBuilder().build()
             ];
 
-            this.selectProductsModalService.show.andReturn(this.$q.resolve(this.selectedProducts));
+            this.selectProductsModalService.show.and.returnValue(this.$q.resolve(this.selectedProducts));
         });
 
         it('should open select products modal', function() {
@@ -404,7 +404,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should do nothing if user closes the select products modal', function() {
-            this.selectProductsModalService.show.andReturn(this.$q.reject());
+            this.selectProductsModalService.show.and.returnValue(this.$q.reject());
 
             var originalCount = this.vm.association.orderables.length;
 
@@ -419,9 +419,9 @@ describe('AssociationModalController', function() {
     describe('updateFacilities', function() {
 
         beforeEach(function() {
-            this.SupervisoryNodeFacilityResource.prototype.query.andReturn(this.$q.resolve(this.facilitiesPage));
+            this.SupervisoryNodeFacilityResource.prototype.query.and.returnValue(this.$q.resolve(this.facilitiesPage));
             this.FacilityTypeApprovedProductResource.prototype.query
-                .andReturn(this.$q.resolve(this.facilityTypeApprovedProductsPage));
+                .and.returnValue(this.$q.resolve(this.facilityTypeApprovedProductsPage));
         });
 
     });
@@ -429,7 +429,7 @@ describe('AssociationModalController', function() {
     describe('addFacility', function() {
 
         beforeEach(function() {
-            this.supplyPartnerAssociationService.getOrderables.andReturn(this.$q.resolve([
+            this.supplyPartnerAssociationService.getOrderables.and.returnValue(this.$q.resolve([
                 this.orderables[0],
                 this.orderables[1]
             ]));
@@ -452,7 +452,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should close loading modal of failure', function() {
-            this.FacilityTypeApprovedProductResource.prototype.query.andReturn(this.$q.reject());
+            this.FacilityTypeApprovedProductResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.vm.addFacility();
 
@@ -509,7 +509,7 @@ describe('AssociationModalController', function() {
     describe('removeFacility', function() {
 
         beforeEach(function() {
-            this.supplyPartnerAssociationService.getOrderables.andReturn(this.$q.resolve([
+            this.supplyPartnerAssociationService.getOrderables.and.returnValue(this.$q.resolve([
                 this.orderables[0],
                 this.orderables[1]
             ]));
@@ -538,7 +538,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should close loading modal of failure', function() {
-            this.FacilityTypeApprovedProductResource.prototype.query.andReturn(this.$q.reject());
+            this.FacilityTypeApprovedProductResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.vm.removeFacility(this.vm.association.facilities[1]);
 
@@ -571,7 +571,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should clear the product fields if there is no facilities associated', function() {
-            this.supplyPartnerAssociationService.getOrderables.andReturn(this.$q.resolve([]));
+            this.supplyPartnerAssociationService.getOrderables.and.returnValue(this.$q.resolve([]));
 
             this.vm.association.facilities = [
                 this.vm.association.facilities[1]
@@ -608,11 +608,11 @@ describe('AssociationModalController', function() {
     describe('updateFacilitiesAndProducts', function() {
 
         beforeEach(function() {
-            this.supplyPartnerAssociationService.getFacilities.andReturn(this.$q.resolve([
+            this.supplyPartnerAssociationService.getFacilities.and.returnValue(this.$q.resolve([
                 this.facilities[0],
                 this.facilities[1]
             ]));
-            this.supplyPartnerAssociationService.getOrderables.andReturn(this.$q.resolve([
+            this.supplyPartnerAssociationService.getOrderables.and.returnValue(this.$q.resolve([
                 this.orderables[0],
                 this.orderables[1]
             ]));
@@ -651,7 +651,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should close loading modal of failure', function() {
-            this.SupervisoryNodeFacilityResource.prototype.query.andReturn(this.$q.reject());
+            this.SupervisoryNodeFacilityResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.vm.updateFacilitiesAndProducts();
 
@@ -684,7 +684,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should clear the facility fields if supervisory node is unselected', function() {
-            this.supplyPartnerAssociationService.getFacilities.andReturn(this.$q.resolve([]));
+            this.supplyPartnerAssociationService.getFacilities.and.returnValue(this.$q.resolve([]));
             this.vm.association.supervisoryNode = undefined;
 
             this.vm.updateFacilitiesAndProducts();
@@ -696,7 +696,7 @@ describe('AssociationModalController', function() {
         });
 
         it('should clear the facility fields if program is unselected', function() {
-            this.supplyPartnerAssociationService.getFacilities.andReturn(this.$q.resolve([]));
+            this.supplyPartnerAssociationService.getFacilities.and.returnValue(this.$q.resolve([]));
             this.vm.association.program = undefined;
 
             this.vm.updateFacilitiesAndProducts();

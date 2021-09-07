@@ -42,9 +42,9 @@ describe('UserProfileBasicInformationController', function() {
 
         this.saveUserDeferred = this.$q.defer();
 
-        spyOn(this.loadingModalService, 'open').andReturn(true);
-        spyOn(this.loadingModalService, 'close').andReturn(true);
-        spyOn(this.user, 'save').andReturn(this.saveUserDeferred.promise);
+        spyOn(this.loadingModalService, 'open').and.returnValue(true);
+        spyOn(this.loadingModalService, 'close').and.returnValue(true);
+        spyOn(this.user, 'save').and.returnValue(this.saveUserDeferred.promise);
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
         spyOn(this.userPasswordModalFactory, 'resetPassword');
@@ -52,7 +52,7 @@ describe('UserProfileBasicInformationController', function() {
         spyOn(this.loginService, 'logout');
         spyOn(this.$state, 'go');
         spyOn(this.alertService, 'info');
-        spyOn(this.authUserService, 'sendVerificationEmail').andReturn(this.$q.when(true));
+        spyOn(this.authUserService, 'sendVerificationEmail').and.returnValue(this.$q.when(true));
 
         this.vm = this.$controller('UserProfileBasicInformationController', {
             user: this.user,
@@ -148,13 +148,13 @@ describe('UserProfileBasicInformationController', function() {
     describe('changePassword', function() {
 
         beforeEach(function() {
-            this.userPasswordModalFactory.resetPassword.andReturn(this.$q.resolve());
-            this.loginService.logout.andReturn(this.$q.resolve());
-            this.alertService.info.andReturn(this.$q.resolve());
+            this.userPasswordModalFactory.resetPassword.and.returnValue(this.$q.resolve());
+            this.loginService.logout.and.returnValue(this.$q.resolve());
+            this.alertService.info.and.returnValue(this.$q.resolve());
         });
 
         it('should do nothing if modal was dismissed', function() {
-            this.userPasswordModalFactory.resetPassword.andReturn(this.$q.reject());
+            this.userPasswordModalFactory.resetPassword.and.returnValue(this.$q.reject());
 
             this.vm.changePassword();
             this.$rootScope.$apply();
@@ -167,7 +167,7 @@ describe('UserProfileBasicInformationController', function() {
         });
 
         it('should do nothing if logout failed', function() {
-            this.loginService.logout.andReturn(this.$q.reject());
+            this.loginService.logout.and.returnValue(this.$q.reject());
 
             this.vm.changePassword();
             this.$rootScope.$apply();
@@ -180,7 +180,7 @@ describe('UserProfileBasicInformationController', function() {
         });
 
         it('should show alert after changing password ', function() {
-            this.alertService.info.andReturn(this.$q.reject());
+            this.alertService.info.and.returnValue(this.$q.reject());
 
             this.vm.changePassword();
             this.$rootScope.$apply();

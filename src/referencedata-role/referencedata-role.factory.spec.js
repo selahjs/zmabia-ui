@@ -36,7 +36,7 @@ describe('referencedataRoleService', function() {
                 .build()
         ];
 
-        spyOn(this.referencedataRoleService, 'getAll').andReturn(this.$q.when(this.roles));
+        spyOn(this.referencedataRoleService, 'getAll').and.returnValue(this.$q.when(this.roles));
     });
 
     describe('getAllWithType', function() {

@@ -33,7 +33,7 @@ describe('openlmis-currency-cache run', function() {
             this.$q = $injector.get('$q');
         });
 
-        this.postLoginAction = loginServiceSpy.registerPostLoginAction.calls[0].args[0];
+        this.postLoginAction = loginServiceSpy.registerPostLoginAction.calls.first().args[0];
     });
 
     describe('run block', function() {
@@ -47,7 +47,7 @@ describe('openlmis-currency-cache run', function() {
     describe('post login action', function() {
 
         it('should try to fetch currency settings from the server', function() {
-            this.currencyServiceSpy.getCurrencySettings.andReturn(this.$q.resolve());
+            this.currencyServiceSpy.getCurrencySettings.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLoginAction()
@@ -62,8 +62,8 @@ describe('openlmis-currency-cache run', function() {
         });
 
         it('should fallback to the config settings if fetching settings from the server fails', function() {
-            this.currencyServiceSpy.getCurrencySettings.andReturn(this.$q.reject());
-            this.currencyServiceSpy.getCurrencySettingsFromConfig.andReturn(this.$q.resolve());
+            this.currencyServiceSpy.getCurrencySettings.and.returnValue(this.$q.reject());
+            this.currencyServiceSpy.getCurrencySettingsFromConfig.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLoginAction()

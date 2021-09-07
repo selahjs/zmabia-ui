@@ -33,9 +33,9 @@ describe('UserPasswordModalController', function() {
             this.notificationService = $injector.get('notificationService');
         });
 
-        spyOn(this.loadingModalService, 'open').andReturn(this.$q.when(true));
-        spyOn(this.loadingModalService, 'close').andReturn();
-        spyOn(this.notificationService, 'success').andReturn();
+        spyOn(this.loadingModalService, 'open').and.returnValue(this.$q.when(true));
+        spyOn(this.loadingModalService, 'close').and.returnValue();
+        spyOn(this.notificationService, 'success').and.returnValue();
 
         this.user = {
             username: 'random-user',
@@ -89,7 +89,7 @@ describe('UserPasswordModalController', function() {
         describe('resetPassword', function() {
 
             beforeEach(function() {
-                this.authUserService.resetPassword.andReturn(this.$q.when(true));
+                this.authUserService.resetPassword.and.returnValue(this.$q.when(true));
                 this.vm.isEmailResetSelected = false;
                 this.vm.updatePassword();
                 this.$rootScope.$apply();
@@ -109,17 +109,17 @@ describe('UserPasswordModalController', function() {
             });
 
             it('should close loading modal if reset password request fails', function() {
-                expect(this.notificationService.success.callCount).toBe(1);
+                expect(this.notificationService.success.calls.count()).toBe(1);
 
                 var deferred = this.$q.defer();
 
-                this.authUserService.resetPassword.andReturn(deferred.promise);
+                this.authUserService.resetPassword.and.returnValue(deferred.promise);
                 this.vm.updatePassword();
                 deferred.reject();
                 this.$rootScope.$apply();
 
                 expect(this.loadingModalService.close).toHaveBeenCalled();
-                expect(this.notificationService.success.callCount).toBe(1);
+                expect(this.notificationService.success.calls.count()).toBe(1);
             });
 
         });
@@ -127,7 +127,7 @@ describe('UserPasswordModalController', function() {
         describe('sendResetEmail', function() {
 
             beforeEach(function() {
-                this.authUserService.sendResetEmail.andReturn(this.$q.when(true));
+                this.authUserService.sendResetEmail.and.returnValue(this.$q.when(true));
                 this.vm.isEmailResetSelected = true;
                 this.vm.updatePassword();
                 this.$rootScope.$apply();
@@ -147,17 +147,17 @@ describe('UserPasswordModalController', function() {
             });
 
             it('should close loading modal if sent reset email request fails', function() {
-                expect(this.notificationService.success.callCount).toBe(1);
+                expect(this.notificationService.success.calls.count()).toBe(1);
 
                 var deferred = this.$q.defer();
 
-                this.authUserService.sendResetEmail.andReturn(deferred.promise);
+                this.authUserService.sendResetEmail.and.returnValue(deferred.promise);
                 this.vm.updatePassword();
                 deferred.reject();
                 this.$rootScope.$apply();
 
                 expect(this.loadingModalService.close).toHaveBeenCalled();
-                expect(this.notificationService.success.callCount).toBe(1);
+                expect(this.notificationService.success.calls.count()).toBe(1);
             });
         });
 

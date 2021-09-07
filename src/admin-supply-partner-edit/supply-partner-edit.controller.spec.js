@@ -70,7 +70,7 @@ describe('SupplyPartnerEditController', function() {
     describe('goToSupplyPartnerList', function() {
 
         beforeEach(function() {
-            spyOn(this.$state, 'go').andReturn();
+            spyOn(this.$state, 'go').and.returnValue();
             this.vm.goToSupplyPartnerList();
         });
 
@@ -84,7 +84,7 @@ describe('SupplyPartnerEditController', function() {
     describe('viewFacilities', function() {
 
         beforeEach(function() {
-            this.viewItemsModalService.show.andReturn(this.$q.resolve([]));
+            this.viewItemsModalService.show.and.returnValue(this.$q.resolve([]));
         });
 
         it('should open modal', function() {
@@ -100,7 +100,7 @@ describe('SupplyPartnerEditController', function() {
     describe('viewOrderables', function() {
 
         beforeEach(function() {
-            this.viewItemsModalService.show.andReturn(this.$q.resolve([]));
+            this.viewItemsModalService.show.and.returnValue(this.$q.resolve([]));
         });
 
         it('should open modal', function() {

@@ -27,7 +27,7 @@ describe('lotCode filter', function() {
         this.noLotDefined = 'No Lot Defined';
         this.lotCodeFilter = this.$filter('lotCode');
 
-        spyOn(this.messageService, 'get').andReturn(this.noLotDefined);
+        spyOn(this.messageService, 'get').and.returnValue(this.noLotDefined);
     });
 
     it('should return lot code if lot was given', function() {

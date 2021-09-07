@@ -54,7 +54,7 @@ describe('SupplyPartner', function() {
     describe('create', function() {
 
         it('should reject if create fails', function() {
-            this.repository.create.andReturn(this.$q.reject());
+            this.repository.create.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartner.create().catch(function() {
@@ -66,7 +66,7 @@ describe('SupplyPartner', function() {
         });
 
         it('should resolve when create is successful', function() {
-            this.repository.create.andReturn(this.$q.resolve(this.supplyPartner));
+            this.repository.create.and.returnValue(this.$q.resolve(this.supplyPartner));
 
             var result;
             this.supplyPartner.create().then(function(response) {
@@ -240,7 +240,7 @@ describe('SupplyPartner', function() {
         });
 
         it('should reject if creation fails', function() {
-            this.repository.create.andReturn(this.$q.reject());
+            this.repository.create.and.returnValue(this.$q.reject());
             this.supplyPartner.id = undefined;
 
             var rejected;
@@ -254,7 +254,7 @@ describe('SupplyPartner', function() {
         });
 
         it('should reject if update fails', function() {
-            this.repository.update.andReturn(this.$q.reject());
+            this.repository.update.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartner.save()

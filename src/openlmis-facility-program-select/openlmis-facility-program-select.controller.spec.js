@@ -42,10 +42,10 @@ describe('OpenlmisFacilityProgramSelectController', function() {
 
         this.homeFacility = new this.FacilityDataBuilder().build();
 
-        spyOn(this.facilityProgramCacheService, 'loadData').andReturn(this.$q.when(true));
-        spyOn(this.facilityProgramCacheService, 'getUserHomeFacility').andReturn(this.homeFacility);
-        spyOn(this.facilityProgramCacheService, 'getUserPrograms').andReturn(this.supervisedPrograms);
-        spyOn(this.facilityProgramCacheService, 'getSupervisedFacilities').andReturn(this.facilities);
+        spyOn(this.facilityProgramCacheService, 'loadData').and.returnValue(this.$q.when(true));
+        spyOn(this.facilityProgramCacheService, 'getUserHomeFacility').and.returnValue(this.homeFacility);
+        spyOn(this.facilityProgramCacheService, 'getUserPrograms').and.returnValue(this.supervisedPrograms);
+        spyOn(this.facilityProgramCacheService, 'getSupervisedFacilities').and.returnValue(this.facilities);
 
         this.vm.$onInit();
         this.$rootScope.$apply();

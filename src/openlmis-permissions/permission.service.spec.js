@@ -106,18 +106,18 @@ describe('openlmis-permissions.this.permissionService', function() {
             .when('GET', this.openlmisUrlFactory('/api/users/userId/permissionStrings'))
             .respond(this.permissionStrings);
 
-        spyOn(this.localStorageService, 'get').andReturn(null);
-        spyOn(this.localStorageService, 'add').andCallThrough();
+        spyOn(this.localStorageService, 'get').and.returnValue(null);
+        spyOn(this.localStorageService, 'add').and.callThrough();
         spyOn(this.localStorageService, 'remove');
-        spyOn(this.RoleResource.prototype, 'query').andReturn(this.$q.resolve(this.roles));
-        spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.resolve(this.user));
-        spyOn(this.currentUserRolesService, 'getUserRoles').andReturn(this.$q.resolve([
+        spyOn(this.RoleResource.prototype, 'query').and.returnValue(this.$q.resolve(this.roles));
+        spyOn(this.currentUserService, 'getUserInfo').and.returnValue(this.$q.resolve(this.user));
+        spyOn(this.currentUserRolesService, 'getUserRoles').and.returnValue(this.$q.resolve([
             this.roles[0],
             this.roles[1],
             this.roles[2],
             this.roles[3]
         ]));
-        spyOn(this.offlineService, 'isOffline').andReturn(false);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(false);
 
     });
 
@@ -128,7 +128,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     });
 
     it('will fail and empty all permissions if userId not entered', function() {
-        spyOn(this.permissionService, 'empty').andCallThrough();
+        spyOn(this.permissionService, 'empty').and.callThrough();
 
         var failed = false;
         this.permissionService.load()
@@ -180,7 +180,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     });
 
     it('will return cached permissions, if they are available and savedUserId is undefined', function() {
-        this.localStorageService.get.andReturn([{
+        this.localStorageService.get.and.returnValue([{
             right: 'example'
         }]);
 
@@ -201,7 +201,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     });
 
     it('will return cached permissions, if they are available and userId equal to savedUserId', function() {
-        this.localStorageService.get.andReturn([{
+        this.localStorageService.get.and.returnValue([{
             right: 'example'
         }]);
 
@@ -234,7 +234,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     });
 
     it('will call backend if no available cached permissions', function() {
-        this.localStorageService.get.andReturn(null);
+        this.localStorageService.get.and.returnValue(null);
 
         var permissions;
         this.permissionService.load('userId')
@@ -266,8 +266,8 @@ describe('openlmis-permissions.this.permissionService', function() {
     it('will reject if no available cached permissions in offline mode', function() {
         spyOn(this.alertService, 'error');
 
-        this.offlineService.isOffline.andReturn(true);
-        this.localStorageService.get.andReturn(null);
+        this.offlineService.isOffline.and.returnValue(true);
+        this.localStorageService.get.and.returnValue(null);
 
         this.permissionService.load('userId');
         this.$rootScope.$apply();
@@ -280,7 +280,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     describe('hasPermission', function() {
 
         beforeEach(function() {
-            this.localStorageService.get.andReturn([{
+            this.localStorageService.get.and.returnValue([{
                 right: 'example',
                 facilityId: 'facility-id'
             }]);
@@ -336,7 +336,7 @@ describe('openlmis-permissions.this.permissionService', function() {
         });
 
         it('will reject promise if the argument is missing program', function() {
-            this.localStorageService.get.andReturn([{
+            this.localStorageService.get.and.returnValue([{
                 right: 'right',
                 facilityId: 'facility-id',
                 programId: this.programId
@@ -353,7 +353,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     describe('hasPermissionWithAnyProgram', function() {
 
         beforeEach(function() {
-            this.localStorageService.get.andReturn([{
+            this.localStorageService.get.and.returnValue([{
                 right: 'example',
                 facilityId: 'facility-id'
             }]);
@@ -409,7 +409,7 @@ describe('openlmis-permissions.this.permissionService', function() {
         });
 
         it('will resolve promise if the argument is missing program', function() {
-            this.localStorageService.get.andReturn([{
+            this.localStorageService.get.and.returnValue([{
                 right: 'right',
                 facilityId: 'facility-id',
                 programId: this.programId
@@ -426,7 +426,7 @@ describe('openlmis-permissions.this.permissionService', function() {
     describe('hasPermissionWithAnyProgramAndAnyFacility', function() {
 
         beforeEach(function() {
-            this.localStorageService.get.andReturn([{
+            this.localStorageService.get.and.returnValue([{
                 right: 'right',
                 facilityId: 'facility-id',
                 programId: this.programId

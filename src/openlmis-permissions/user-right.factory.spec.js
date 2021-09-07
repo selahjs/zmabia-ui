@@ -71,7 +71,7 @@ describe('userRightsFactory', function() {
                 .build()
         ];
 
-        spyOn(this.permissionService, 'load').andReturn(this.$q.resolve(permissions));
+        spyOn(this.permissionService, 'load').and.returnValue(this.$q.resolve(permissions));
 
         var context = this;
         this.userRightsFactory.buildRights('userId')

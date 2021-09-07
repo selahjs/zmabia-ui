@@ -37,7 +37,7 @@ describe('FeatureFlagService', function() {
 
         this.featureFlagService = new this.FeatureFlagService();
 
-        spyOn(this.FeatureFlagResource.prototype, 'query').andReturn(this.$q.resolve(this.featureFlags));
+        spyOn(this.FeatureFlagResource.prototype, 'query').and.returnValue(this.$q.resolve(this.featureFlags));
     });
 
     describe('isEnabled', function() {

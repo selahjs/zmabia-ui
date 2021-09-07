@@ -36,7 +36,7 @@ describe('OrderableFulfillsResource', function() {
             ]
         };
 
-        this.ParameterSplitter.prototype.split.andReturn([{
+        this.ParameterSplitter.prototype.split.and.returnValue([{
             some: ['paramOne']
         }, {
             some: ['paramTwo']
@@ -58,7 +58,7 @@ describe('OrderableFulfillsResource', function() {
                 some: 'param'
             };
 
-            this.ParameterSplitter.prototype.split.andReturn([params]);
+            this.ParameterSplitter.prototype.split.and.returnValue([params]);
 
             this.$httpBackend
                 .expectGET(this.openlmisUrlFactory('/api/orderableFulfills?some=param'))

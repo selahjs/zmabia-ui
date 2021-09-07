@@ -31,7 +31,7 @@ describe('openlmis-locale-cache run', function() {
             this.$q = $injector.get('$q');
         });
 
-        this.postLoginAction = loginServiceSpy.registerPostLoginAction.calls[0].args[0];
+        this.postLoginAction = loginServiceSpy.registerPostLoginAction.calls.first().args[0];
     });
 
     describe('run block', function() {
@@ -45,7 +45,7 @@ describe('openlmis-locale-cache run', function() {
     describe('post login action', function() {
 
         it('should try to fetch locale settings from the server', function() {
-            this.localeServiceSpy.getLocaleSettings.andReturn(this.$q.resolve());
+            this.localeServiceSpy.getLocaleSettings.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLoginAction()

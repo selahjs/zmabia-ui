@@ -33,8 +33,8 @@ describe('referencedata-user run', function() {
             this.$q = $injector.get('$q');
         });
 
-        this.postLoginAction = this.loginServiceSpy.registerPostLoginAction.calls[0].args[0];
-        this.postLogoutAction = this.loginServiceSpy.registerPostLogoutAction.calls[0].args[0];
+        this.postLoginAction = this.loginServiceSpy.registerPostLoginAction.calls.first().args[0];
+        this.postLogoutAction = this.loginServiceSpy.registerPostLogoutAction.calls.first().args[0];
 
         inject();
     });
@@ -54,7 +54,7 @@ describe('referencedata-user run', function() {
     describe('post login action', function() {
 
         it('should try to fetch current user information', function() {
-            this.currentUserServiceSpy.getUserInfo.andReturn(this.$q.resolve());
+            this.currentUserServiceSpy.getUserInfo.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLoginAction()
@@ -72,7 +72,7 @@ describe('referencedata-user run', function() {
     describe('post logout action', function() {
 
         it('should clear current user cache', function() {
-            this.currentUserServiceSpy.clearCache.andReturn(this.$q.resolve());
+            this.currentUserServiceSpy.clearCache.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLogoutAction()

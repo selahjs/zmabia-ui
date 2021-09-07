@@ -43,7 +43,7 @@ describe('openlmis.administration.roles state', function() {
 
         this.type = 'type';
 
-        spyOn(this.referencedataRightService, 'search').andReturn(this.$q.when(this.rights));
+        spyOn(this.referencedataRightService, 'search').and.returnValue(this.$q.when(this.rights));
 
         this.state = this.$state.get('openlmis.administration.roles.createUpdate');
     });

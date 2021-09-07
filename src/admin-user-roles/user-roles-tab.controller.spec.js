@@ -94,7 +94,7 @@ describe('UserRolesTabController', function() {
         this.vm.$onInit();
         this.$rootScope.$apply();
 
-        spyOn(this.$state, 'go').andReturn();
+        spyOn(this.$state, 'go').and.returnValue();
     });
 
     describe('on init', function() {
@@ -216,7 +216,7 @@ describe('UserRolesTabController', function() {
 
     describe('removeRole', function() {
         beforeEach(function() {
-            this.confirmService.confirmDestroy.andReturn(this.$q.when(true));
+            this.confirmService.confirmDestroy.and.returnValue(this.$q.when(true));
             this.roleAssignmentsCount = this.user.roleAssignments.length;
         });
 

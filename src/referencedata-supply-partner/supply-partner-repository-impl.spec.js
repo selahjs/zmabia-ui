@@ -102,19 +102,20 @@ describe('SupplyPartnerRepositoryImpl', function() {
             .withContent(this.orderables)
             .build();
 
-        spyOn(this.SupplyPartnerResource.prototype, 'get').andReturn(this.$q.resolve(this.supplyPartner));
-        spyOn(this.SupplyPartnerResource.prototype, 'create').andReturn(this.$q.resolve(this.supplyPartner));
-        spyOn(this.SupplyPartnerResource.prototype, 'update').andReturn(this.$q.resolve(this.supplyPartner));
-        spyOn(this.SupervisoryNodeResource.prototype, 'query').andReturn(this.$q.resolve(this.supervisoryNodesPage));
-        spyOn(this.FacilityResource.prototype, 'query').andReturn(this.$q.resolve(this.facilitiesPage));
-        spyOn(this.OrderableResource.prototype, 'query').andReturn(this.$q.resolve(this.orderablesPage));
-        spyOn(this.programService, 'getAll').andReturn(this.$q.resolve(this.programs));
+        spyOn(this.SupplyPartnerResource.prototype, 'get').and.returnValue(this.$q.resolve(this.supplyPartner));
+        spyOn(this.SupplyPartnerResource.prototype, 'create').and.returnValue(this.$q.resolve(this.supplyPartner));
+        spyOn(this.SupplyPartnerResource.prototype, 'update').and.returnValue(this.$q.resolve(this.supplyPartner));
+        spyOn(this.SupervisoryNodeResource.prototype, 'query')
+            .and.returnValue(this.$q.resolve(this.supervisoryNodesPage));
+        spyOn(this.FacilityResource.prototype, 'query').and.returnValue(this.$q.resolve(this.facilitiesPage));
+        spyOn(this.OrderableResource.prototype, 'query').and.returnValue(this.$q.resolve(this.orderablesPage));
+        spyOn(this.programService, 'getAll').and.returnValue(this.$q.resolve(this.programs));
     });
 
     describe('create', function() {
 
         it('should reject if unsuccessful', function() {
-            this.SupplyPartnerResource.prototype.create.andReturn(this.$q.reject());
+            this.SupplyPartnerResource.prototype.create.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartnerRepositoryImpl.create(this.supplyPartner)
@@ -144,7 +145,7 @@ describe('SupplyPartnerRepositoryImpl', function() {
     describe('update', function() {
 
         it('should reject if unsuccessful', function() {
-            this.SupplyPartnerResource.prototype.update.andReturn(this.$q.reject());
+            this.SupplyPartnerResource.prototype.update.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartnerRepositoryImpl.update(this.supplyPartner)
@@ -174,7 +175,7 @@ describe('SupplyPartnerRepositoryImpl', function() {
     describe('get', function() {
 
         it('should reject if get supply partner unsuccessful', function() {
-            this.SupplyPartnerResource.prototype.get.andReturn(this.$q.reject());
+            this.SupplyPartnerResource.prototype.get.and.returnValue(this.$q.reject());
 
             var rejected;
             this.supplyPartnerRepositoryImpl.get(this.supplyPartner.id)

@@ -32,7 +32,7 @@ describe('referencedata-facilities-cache run', function() {
         });
 
         this.getLastCall = function(method) {
-            return method.calls[method.calls.length - 1];
+            return method.calls.mostRecent();
         };
 
         this.postLoginAction = this.getLastCall(loginServiceSpy.registerPostLoginAction).args[0];
@@ -57,7 +57,7 @@ describe('referencedata-facilities-cache run', function() {
     describe('post login action', function() {
 
         it('should set up rights', function() {
-            this.facilityService.cacheAllMinimal.andReturn(this.$q.resolve());
+            this.facilityService.cacheAllMinimal.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLoginAction()
@@ -75,7 +75,7 @@ describe('referencedata-facilities-cache run', function() {
     describe('post logout action', function() {
 
         it('should clear rights', function() {
-            this.facilityService.clearMinimalFacilitiesCache.andReturn(this.$q.resolve());
+            this.facilityService.clearMinimalFacilitiesCache.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLogoutAction()

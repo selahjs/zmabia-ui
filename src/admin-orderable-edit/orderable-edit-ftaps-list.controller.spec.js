@@ -71,18 +71,19 @@ describe('OrderableEditFtapsListController', function() {
         this.facilityTypesMap[this.ftaps[2].facilityType.id] = this.ftaps[2].facilityType.name;
 
         spyOn(this.$state, 'reload');
-        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'update').andReturn(this.$q.resolve(this.ftaps[0]));
-        spyOn(this.FunctionDecorator.prototype, 'withSuccessNotification').andCallThrough();
-        spyOn(this.FunctionDecorator.prototype, 'withErrorNotification').andCallThrough();
-        spyOn(this.FunctionDecorator.prototype, 'withConfirm').andCallThrough();
+        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'update')
+            .and.returnValue(this.$q.resolve(this.ftaps[0]));
+        spyOn(this.FunctionDecorator.prototype, 'withSuccessNotification').and.callThrough();
+        spyOn(this.FunctionDecorator.prototype, 'withErrorNotification').and.callThrough();
+        spyOn(this.FunctionDecorator.prototype, 'withConfirm').and.callThrough();
 
         var context = this;
-        spyOn(this.FunctionDecorator.prototype, 'decorateFunction').andCallFake(function(fn) {
+        spyOn(this.FunctionDecorator.prototype, 'decorateFunction').and.callFake(function(fn) {
             context.fn = fn;
             return this;
         });
 
-        spyOn(this.FunctionDecorator.prototype, 'getDecoratedFunction').andCallFake(function() {
+        spyOn(this.FunctionDecorator.prototype, 'getDecoratedFunction').and.callFake(function() {
             return context.fn;
         });
 
@@ -148,7 +149,7 @@ describe('OrderableEditFtapsListController', function() {
         });
 
         it('should not redirect to the list view on failure', function() {
-            this.FacilityTypeApprovedProductResource.prototype.update.andReturn(this.$q.reject());
+            this.FacilityTypeApprovedProductResource.prototype.update.and.returnValue(this.$q.reject());
 
             this.vm.deactivateFacilityTypeApproveProduct(this.ftaps[0]);
             this.$rootScope.$apply();

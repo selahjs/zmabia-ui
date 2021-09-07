@@ -32,7 +32,7 @@ describe('referencedata-facility run', function() {
         });
 
         this.getLastCall = function(method) {
-            return method.calls[method.calls.length - 1];
+            return method.calls.mostRecent();
         };
 
         this.postLogoutAction = this.getLastCall(loginServiceSpy.registerPostLogoutAction).args[0];
@@ -51,7 +51,7 @@ describe('referencedata-facility run', function() {
     describe('post logout action', function() {
 
         it('should clear rights', function() {
-            this.facilityService.clearFacilitiesCache.andReturn(this.$q.resolve());
+            this.facilityService.clearFacilitiesCache.and.returnValue(this.$q.resolve());
 
             var success;
             this.postLogoutAction()

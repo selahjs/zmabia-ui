@@ -37,9 +37,11 @@ describe('AdminSystemNotificationEditController', function() {
         this.successNotificationKey = 'successNotification.key';
         this.errorNotificationKey = 'errorNotification.key';
 
-        spyOn(this.SystemNotificationResource.prototype, 'create').andReturn(this.$q.resolve(this.systemNotification));
-        spyOn(this.SystemNotificationResource.prototype, 'update').andReturn(this.$q.resolve(this.systemNotification));
-        spyOn(this.$state, 'go').andReturn();
+        spyOn(this.SystemNotificationResource.prototype, 'create')
+            .and.returnValue(this.$q.resolve(this.systemNotification));
+        spyOn(this.SystemNotificationResource.prototype, 'update')
+            .and.returnValue(this.$q.resolve(this.systemNotification));
+        spyOn(this.$state, 'go').and.returnValue();
 
         this.initController = function() {
             this.vm = this.$controller('AdminSystemNotificationEditController', {
@@ -104,7 +106,7 @@ describe('AdminSystemNotificationEditController', function() {
         });
 
         it('should reject if saving failed', function() {
-            this.SystemNotificationResource.prototype.update.andReturn(this.$q.reject());
+            this.SystemNotificationResource.prototype.update.and.returnValue(this.$q.reject());
             this.initController();
 
             var rejected;

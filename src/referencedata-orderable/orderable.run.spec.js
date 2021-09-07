@@ -52,8 +52,8 @@ describe('orderable run', function() {
 
         this.postLoginAction = getLastCall(this.loginServiceSpy.registerPostLoginAction).args[0];
 
-        spyOn(this.programService, 'getUserPrograms').andReturn(this.$q.resolve(this.programs));
-        spyOn(this.OrderableResource.prototype, 'getAll').andReturn(this.$q.when(this.orderables));
+        spyOn(this.programService, 'getUserPrograms').and.returnValue(this.$q.resolve(this.programs));
+        spyOn(this.OrderableResource.prototype, 'getAll').and.returnValue(this.$q.when(this.orderables));
     });
 
     describe('run block', function() {
@@ -83,7 +83,7 @@ describe('orderable run', function() {
     });
 
     function getLastCall(method) {
-        return method.calls[method.calls.length - 1];
+        return method.calls.mostRecent();
     }
 
 });

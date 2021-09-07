@@ -25,7 +25,7 @@ describe('lotService', function() {
 
         module('referencedata-lot', function($provide) {
             $provide.service('localStorageFactory', function() {
-                return jasmine.createSpy('localStorageFactory').andReturn(lotsStorage);
+                return jasmine.createSpy('localStorageFactory').and.returnValue(lotsStorage);
             });
 
             $provide.service('offlineService', function() {
@@ -44,7 +44,7 @@ describe('lotService', function() {
             this.PageDataBuilder = $injector.get('PageDataBuilder');
         });
 
-        this.offlineService.isOffline.andReturn(false);
+        this.offlineService.isOffline.and.returnValue(false);
 
         this.lots = [
             new this.LotDataBuilder()
@@ -92,12 +92,12 @@ describe('lotService', function() {
             this.$rootScope.$apply();
 
             expect(result.content).toEqual(this.lots);
-            expect(this.lotsStorage.put.callCount).toEqual(4);
+            expect(this.lotsStorage.put.calls.count()).toEqual(4);
         });
 
         it('should get a proper lot from local storage', function() {
-            this.offlineService.isOffline.andReturn(true);
-            this.lotsStorage.getBy.andReturn(this.lots[0]);
+            this.offlineService.isOffline.and.returnValue(true);
+            this.lotsStorage.getBy.and.returnValue(this.lots[0]);
             var params = {
                 id: [this.lots[0].id]
             };
@@ -116,8 +116,8 @@ describe('lotService', function() {
         });
 
         it('should get a proper lot from local storage by tradeItemId', function() {
-            this.offlineService.isOffline.andReturn(true);
-            this.lotsStorage.search.andReturn(this.lots);
+            this.offlineService.isOffline.and.returnValue(true);
+            this.lotsStorage.search.and.returnValue(this.lots);
             var params = {
                 tradeItemId: [this.lots[0].tradeItemId]
             };
@@ -138,8 +138,8 @@ describe('lotService', function() {
         it('should reject if lot not found by id in local storage', function() {
             spyOn(this.alertService, 'error');
 
-            this.offlineService.isOffline.andReturn(true);
-            this.lotsStorage.getBy.andReturn(undefined);
+            this.offlineService.isOffline.and.returnValue(true);
+            this.lotsStorage.getBy.and.returnValue(undefined);
             var params = {
                 id: [this.lots[0].id]
             };
@@ -161,8 +161,8 @@ describe('lotService', function() {
         it('should reject if lot not found by tradeItemId in local storage', function() {
             spyOn(this.alertService, 'error');
 
-            this.offlineService.isOffline.andReturn(true);
-            this.lotsStorage.search.andReturn([]);
+            this.offlineService.isOffline.and.returnValue(true);
+            this.lotsStorage.search.and.returnValue([]);
             var params = {
                 tradeItemId: [this.lots[0].tradeItemId]
             };

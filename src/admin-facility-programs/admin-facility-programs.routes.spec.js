@@ -68,17 +68,17 @@ describe('openlmis.administration.facilities.facility.programs state', function(
 
         this.state = this.$state.get('openlmis.administration.facilities.facility.programs');
 
-        spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialogSpy);
-        spyOn(this.programService, 'getAll').andReturn(this.$q.when(this.programs));
-        spyOn(this.facilityOperatorService, 'getAll').andReturn(this.$q.when(this.facilityOperators));
+        spyOn(this.openlmisModalService, 'createDialog').and.returnValue(this.dialogSpy);
+        spyOn(this.programService, 'getAll').and.returnValue(this.$q.when(this.programs));
+        spyOn(this.facilityOperatorService, 'getAll').and.returnValue(this.$q.when(this.facilityOperators));
 
-        spyOn(this.facilityTypeService, 'query').andReturn(this.$q.when(
+        spyOn(this.facilityTypeService, 'query').and.returnValue(this.$q.when(
             new this.PageDataBuilder()
                 .withContent(this.facilityTypes)
                 .build()
         ));
 
-        spyOn(this.geographicZoneService, 'getAll').andReturn(this.$q.when(
+        spyOn(this.geographicZoneService, 'getAll').and.returnValue(this.$q.when(
             new this.PageDataBuilder()
                 .withContent(this.geographicZones)
                 .build()

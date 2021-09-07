@@ -65,7 +65,7 @@ describe('facilityFactory', function() {
             ];
 
             var context = this;
-            this.facilityService.getUserFacilitiesForRight.andCallFake(function(userId, right) {
+            this.facilityService.getUserFacilitiesForRight.and.callFake(function(userId, right) {
                 if (right === context.FULFILLMENT_RIGHTS.ORDERS_VIEW) {
                     return context.$q.when(context.ordersViewFacilities);
                 }
@@ -74,7 +74,7 @@ describe('facilityFactory', function() {
                 }
             });
 
-            this.programService.getUserPrograms.andReturn(this.$q.when([]));
+            this.programService.getUserPrograms.and.returnValue(this.$q.when([]));
         }));
 
         it('should fetch facilities for ORDERS_VIEW right', function() {
@@ -121,11 +121,11 @@ describe('facilityFactory', function() {
                 .withHomeFacilityId(this.homeFacility.id)
                 .buildReferenceDataUserJson();
 
-            spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.resolve(this.user));
+            spyOn(this.currentUserService, 'getUserInfo').and.returnValue(this.$q.resolve(this.user));
         });
 
         it('should fetch home facility for the current user', function() {
-            this.facilityService.get.andReturn(this.$q.resolve(this.homeFacility));
+            this.facilityService.get.and.returnValue(this.$q.resolve(this.homeFacility));
 
             var result;
             this.facilityFactory.getUserHomeFacility().then(function(homeFacility) {
@@ -146,7 +146,7 @@ describe('facilityFactory', function() {
                 new this.MinimalFacilityDataBuilder().build(),
                 new this.MinimalFacilityDataBuilder().build()
             ];
-            spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.when(this.minimalFacilities));
+            spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.when(this.minimalFacilities));
         });
 
         it('should fetch active minimal facilities', function() {
@@ -177,7 +177,7 @@ describe('facilityFactory', function() {
             ];
 
             var context = this;
-            this.facilityService.getUserFacilitiesForRight.andCallFake(function(userId, rightName) {
+            this.facilityService.getUserFacilitiesForRight.and.callFake(function(userId, rightName) {
                 if (rightName === context.REQUISITION_RIGHTS.REQUISITION_CREATE) {
                     return context.$q.when(context.requisitionCreateFacilities);
                 }
@@ -232,9 +232,9 @@ describe('facilityFactory', function() {
                 new this.FacilityDataBuilder().build()
             ];
 
-            this.facilityService.getUserFacilitiesForRight.andReturn(this.$q.resolve(this.facilities));
+            this.facilityService.getUserFacilitiesForRight.and.returnValue(this.$q.resolve(this.facilities));
 
-            this.programService.getUserPrograms.andReturn(this.$q.resolve([this.program]));
+            this.programService.getUserPrograms.and.returnValue(this.$q.resolve([this.program]));
 
         }));
 

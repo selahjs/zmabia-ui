@@ -23,7 +23,7 @@ describe('facilityService', function() {
             facilitiesStorage = this.facilitiesStorage;
         module('referencedata-facility', function($provide) {
             $provide.service('localStorageFactory', function() {
-                return jasmine.createSpy('localStorageFactory').andReturn(facilitiesStorage);
+                return jasmine.createSpy('localStorageFactory').and.returnValue(facilitiesStorage);
             });
 
             $provide.service('offlineService', function() {
@@ -44,7 +44,7 @@ describe('facilityService', function() {
             this.$q = $injector.get('$q');
         });
 
-        this.offlineService.isOffline.andReturn(false);
+        this.offlineService.isOffline.and.returnValue(false);
 
         this.facilityOne = new this.FacilityDataBuilder().buildJson();
         this.facilityTwo = new this.FacilityDataBuilder().buildJson();
@@ -82,8 +82,8 @@ describe('facilityService', function() {
     describe('get', function() {
 
         it('should get facility by id from storage while offline', function() {
-            this.facilitiesStorage.getBy.andReturn(this.facilityTwo);
-            this.offlineService.isOffline.andReturn(true);
+            this.facilitiesStorage.getBy.and.returnValue(this.facilityTwo);
+            this.offlineService.isOffline.and.returnValue(true);
 
             var result;
             this.facilityService.get(this.facilityTwo.id).then(function(facility) {
@@ -114,8 +114,8 @@ describe('facilityService', function() {
     describe('getAll', function() {
 
         it('should get all facilities from storage while offline', function() {
-            this.facilitiesStorage.getAll.andReturn(this.facilities);
-            this.offlineService.isOffline.andReturn(true);
+            this.facilitiesStorage.getAll.and.returnValue(this.facilities);
+            this.offlineService.isOffline.and.returnValue(true);
 
             var result;
             this.facilityService
@@ -144,7 +144,7 @@ describe('facilityService', function() {
             this.$rootScope.$apply();
 
             expect(result.content).toEqual(this.facilities);
-            expect(this.facilitiesStorage.put.callCount).toEqual(2);
+            expect(this.facilitiesStorage.put.calls.count()).toEqual(2);
         });
 
         it('should get all facilities by id and save them to storage', function() {
@@ -171,7 +171,7 @@ describe('facilityService', function() {
             this.$rootScope.$apply();
 
             expect(result.content).toEqual(this.facilities);
-            expect(this.facilitiesStorage.put.callCount).toEqual(2);
+            expect(this.facilitiesStorage.put.calls.count()).toEqual(2);
         });
     });
 
@@ -282,8 +282,8 @@ describe('facilityService', function() {
                     .build()
             ];
 
-            spyOn(this.permissionService, 'load').andReturn(this.$q.resolve(permissions));
-            spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.resolve(this.minimalFacilities));
+            spyOn(this.permissionService, 'load').and.returnValue(this.$q.resolve(permissions));
+            spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.resolve(this.minimalFacilities));
         });
 
         it('should reject if a userId is not specified', function() {

@@ -92,14 +92,16 @@ describe('openlmis.administration.orderables.edit route', function() {
             .withContent(this.ftaps)
             .build();
 
-        spyOn(this.OrderableResource.prototype, 'query').andReturn(this.$q.resolve(this.orderablesPage));
-        spyOn(this.ProgramResource.prototype, 'query').andReturn(this.$q.resolve(this.programs));
-        spyOn(this.OrderableResource.prototype, 'get').andReturn(this.$q.resolve(this.orderable));
-        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'query').andReturn(this.$q.resolve(this.ftapsPage));
-        spyOn(this.$templateCache, 'get').andCallThrough();
-        spyOn(this.authorizationService, 'getUser').andReturn(this.$q.resolve(new this.UserDataBuilder().build()));
+        spyOn(this.OrderableResource.prototype, 'query').and.returnValue(this.$q.resolve(this.orderablesPage));
+        spyOn(this.ProgramResource.prototype, 'query').and.returnValue(this.$q.resolve(this.programs));
+        spyOn(this.OrderableResource.prototype, 'get').and.returnValue(this.$q.resolve(this.orderable));
+        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'query')
+            .and.returnValue(this.$q.resolve(this.ftapsPage));
+        spyOn(this.$templateCache, 'get').and.callThrough();
+        spyOn(this.authorizationService, 'getUser')
+            .and.returnValue(this.$q.resolve(new this.UserDataBuilder().build()));
 
-        spyOn(this.permissionService, 'hasPermissionWithAnyProgramAndAnyFacility').andReturn(this.$q.resolve());
+        spyOn(this.permissionService, 'hasPermissionWithAnyProgramAndAnyFacility').and.returnValue(this.$q.resolve());
 
         this.goToState = function(subState) {
             this.$location.url('/administration/orderables/' + this.orderable.id + subState);
@@ -122,7 +124,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should fetch orderable if it is not present on the orderable list', function() {
-            this.OrderableResource.prototype.query.andReturn(this.$q.resolve(new this.PageDataBuilder().build()));
+            this.OrderableResource.prototype.query.and.returnValue(this.$q.resolve(new this.PageDataBuilder().build()));
 
             this.goToState('/general');
 
@@ -131,7 +133,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should not change state if fetching orderable fails', function() {
-            this.OrderableResource.prototype.query.andReturn(this.$q.reject());
+            this.OrderableResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.goToState('/general');
 
@@ -150,7 +152,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should not change state if fetching programOrderables fails', function() {
-            this.OrderableResource.prototype.query.andReturn(this.$q.reject());
+            this.OrderableResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.goToState('/programs');
 
@@ -177,7 +179,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should resolve canEdit as false if user does not have right to edit program orderable', function() {
-            this.permissionService.hasPermissionWithAnyProgramAndAnyFacility.andReturn(this.$q.reject());
+            this.permissionService.hasPermissionWithAnyProgramAndAnyFacility.and.returnValue(this.$q.reject());
 
             this.goToState('/programs');
 
@@ -185,7 +187,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should resolve canEdit as true if user have right to edit program orderable', function() {
-            this.permissionService.hasPermissionWithAnyProgramAndAnyFacility.andReturn(this.$q.resolve());
+            this.permissionService.hasPermissionWithAnyProgramAndAnyFacility.and.returnValue(this.$q.resolve());
 
             this.goToState('/programs');
 
@@ -198,7 +200,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should not change state if fetching programs fails', function() {
-            this.ProgramResource.prototype.query.andReturn(this.$q.reject());
+            this.ProgramResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.goToState('/programs');
 
@@ -217,7 +219,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should not change state if fetching orderable fails', function() {
-            this.FacilityTypeApprovedProductResource.prototype.query.andReturn(this.$q.reject());
+            this.FacilityTypeApprovedProductResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.goToState('/facilityTypeApprovedPrducts');
 
@@ -253,7 +255,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should resolve canEdit as false if user does not have right to edit ftaps', function() {
-            this.permissionService.hasPermissionWithAnyProgramAndAnyFacility.andReturn(this.$q.reject());
+            this.permissionService.hasPermissionWithAnyProgramAndAnyFacility.and.returnValue(this.$q.reject());
 
             this.goToState('/facilityTypeApprovedProducts');
 
@@ -272,7 +274,7 @@ describe('openlmis.administration.orderables.edit route', function() {
         });
 
         it('should not change state if fetching orderable fails', function() {
-            this.OrderableResource.prototype.query.andReturn(this.$q.reject());
+            this.OrderableResource.prototype.query.and.returnValue(this.$q.reject());
 
             this.goToState('/kitUnpackList');
 
@@ -297,7 +299,7 @@ describe('openlmis.administration.orderables.edit route', function() {
             this.goToState('/kitUnpackList');
 
             expect(this.getResolvedValue('children')).toEqual([]);
-            expect(this.OrderableResource.prototype.query.callCount).toBe(1);
+            expect(this.OrderableResource.prototype.query.calls.count()).toBe(1);
         });
 
         it('should resolve orderables map', function() {

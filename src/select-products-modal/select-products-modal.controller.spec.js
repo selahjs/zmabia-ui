@@ -74,7 +74,7 @@ describe('SelectProductsModalController', function() {
         this.$stateParams = {};
 
         spyOn(this.$state, 'go');
-        spyOn(this.selectProductsModalService, 'getSelections').andReturn(this.selections);
+        spyOn(this.selectProductsModalService, 'getSelections').and.returnValue(this.selections);
 
         this.initController = function() {
             this.vm = this.$controller('SelectProductsModalController', {
