@@ -39,10 +39,10 @@ describe('openlmis.administration.facilities.facility state', function() {
             new this.FacilityDataBuilder().build()
         ];
 
-        spyOn(this.geographicZoneService, 'getAll').and.returnValue(this.$q.when({
+        spyOn(this.geographicZoneService, 'getAll').andReturn(this.$q.when({
             content: []
         }));
-        spyOn(this.facilityService, 'search').and.returnValue(this.$q.when({
+        spyOn(this.facilityService, 'search').andReturn(this.$q.when({
             content: []
         }));
 

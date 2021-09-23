@@ -33,9 +33,9 @@ describe('openlmis.administration.supplyPartners.add state', function() {
 
         this.supplyPartner = new this.SupplyPartnerDataBuilder().build();
 
-        spyOn(this.$templateCache, 'get').and.callThrough();
-        spyOn(this.paginationService, 'registerUrl').and.returnValue(this.$q.when());
-        spyOn(this.AdminSupplyPartnerAddService.prototype, 'initSupplyPartner').and.returnValue(this.supplyPartner);
+        spyOn(this.$templateCache, 'get').andCallThrough();
+        spyOn(this.paginationService, 'registerUrl').andReturn(this.$q.when());
+        spyOn(this.AdminSupplyPartnerAddService.prototype, 'initSupplyPartner').andReturn(this.supplyPartner);
 
         this.$location.url('/administration/supplyPartners/new');
         this.$rootScope.$apply();

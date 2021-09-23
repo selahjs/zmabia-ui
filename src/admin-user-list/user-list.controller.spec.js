@@ -49,8 +49,8 @@ describe('UserListController', function() {
             users: this.usersList
         });
 
-        spyOn(this.$state, 'reload').and.returnValue();
-        spyOn(this.$state, 'go').and.returnValue();
+        spyOn(this.$state, 'reload').andReturn();
+        spyOn(this.$state, 'go').andReturn();
     });
 
     describe('onInit', function() {
@@ -103,7 +103,7 @@ describe('UserListController', function() {
 
         beforeEach(function() {
             this.modalDeferred = this.$q.defer();
-            this.userPasswordModalFactoryMock.resetPassword.and.returnValue(this.modalDeferred.promise);
+            this.userPasswordModalFactoryMock.resetPassword.andReturn(this.modalDeferred.promise);
         });
 
         it('should open user password modal', function() {

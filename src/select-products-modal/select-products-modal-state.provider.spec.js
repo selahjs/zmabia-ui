@@ -56,11 +56,11 @@ describe('selectProductsModalStateProvider', function() {
             paginationService: this.paginationService
         });
 
-        spyOn(this.OrderableResource.prototype, 'query').and.returnValue(this.$q.resolve(this.orderablesPage));
-        spyOn(this.selectProductsModalService, 'getOrderables').and.returnValue();
-        spyOn(this.selectProductsModalService, 'getSelections').and.returnValue({});
+        spyOn(this.OrderableResource.prototype, 'query').andReturn(this.$q.resolve(this.orderablesPage));
+        spyOn(this.selectProductsModalService, 'getOrderables').andReturn();
+        spyOn(this.selectProductsModalService, 'getSelections').andReturn({});
 
-        spyOn(this.modalStateProvider, 'state').and.callFake(function(stateName, config) {
+        spyOn(this.modalStateProvider, 'state').andCallFake(function(stateName, config) {
             context.config = config;
             context.stateName = stateName;
             return context;
@@ -79,7 +79,7 @@ describe('selectProductsModalStateProvider', function() {
     describe('stateWithAddOrderablesChildState', function() {
 
         beforeEach(function() {
-            spyOn(this.$stateProvider, 'state').and.returnValue();
+            spyOn(this.$stateProvider, 'state').andReturn();
         });
 
         it('should register the state as page if no display is defined', function() {
@@ -143,7 +143,7 @@ describe('selectProductsModalStateProvider', function() {
         });
 
         it('should resolve external as false if no orderables provided', function() {
-            this.selectProductsModalService.getOrderables.and.returnValue(this.orderables);
+            this.selectProductsModalService.getOrderables.andReturn(this.orderables);
 
             var result = this.config.resolve.external(this.selectProductsModalService);
 
@@ -152,7 +152,7 @@ describe('selectProductsModalStateProvider', function() {
         });
 
         it('should resolve external as true if any orderable provided', function() {
-            this.selectProductsModalService.getOrderables.and.returnValue();
+            this.selectProductsModalService.getOrderables.andReturn();
 
             var result = this.config.resolve.external(this.selectProductsModalService);
 
@@ -161,7 +161,7 @@ describe('selectProductsModalStateProvider', function() {
         });
 
         it('should resolve orderables for external pagination', function() {
-            this.selectProductsModalService.getOrderables.and.returnValue(this.orderables);
+            this.selectProductsModalService.getOrderables.andReturn(this.orderables);
 
             this.config.resolve.orderables(this.OrderableResource, this.paginationService,
                 this.$state.params, this.selectProductsModalService);
@@ -179,7 +179,7 @@ describe('selectProductsModalStateProvider', function() {
                 productCode: this.codeParam
             };
 
-            this.selectProductsModalService.getOrderables.and.returnValue();
+            this.selectProductsModalService.getOrderables.andReturn();
 
             this.config.resolve.orderables(this.OrderableResource, this.paginationService,
                 this.$state.params, this.selectProductsModalService, true);
@@ -203,7 +203,7 @@ describe('selectProductsModalStateProvider', function() {
                 search: this.search
             };
 
-            this.selectProductsModalService.getOrderables.and.returnValue();
+            this.selectProductsModalService.getOrderables.andReturn();
 
             this.config.resolve.orderables(this.OrderableResource, this.paginationService,
                 this.$state.params, this.selectProductsModalService, false);

@@ -42,16 +42,16 @@ describe('currentUserService', function() {
             .withId(this.authUser.user_id)
             .build();
 
-        spyOn(this.authorizationService, 'getUser').and.returnValue(this.authUser);
+        spyOn(this.authorizationService, 'getUser').andReturn(this.authUser);
         spyOn(this.localStorageService, 'get');
         spyOn(this.localStorageService, 'remove');
-        spyOn(this.UserRepository.prototype, 'get').and.returnValue(this.$q.resolve(this.user));
+        spyOn(this.UserRepository.prototype, 'get').andReturn(this.$q.resolve(this.user));
     });
 
     describe('getUserInfo', function() {
 
         it('should reject promise if user is not logged in', function() {
-            this.authorizationService.getUser.and.returnValue();
+            this.authorizationService.getUser.andReturn();
 
             var rejected;
             this.currentUserService.getUserInfo()
@@ -67,7 +67,7 @@ describe('currentUserService', function() {
 
         it('should reject promise if user is logged in but no details are cached and they does not exist on the server',
             function() {
-                this.UserRepository.prototype.get.and.returnValue(this.$q.reject());
+                this.UserRepository.prototype.get.andReturn(this.$q.reject());
 
                 var rejected;
                 this.currentUserService.getUserInfo()
@@ -81,7 +81,7 @@ describe('currentUserService', function() {
             });
 
         it('should return cached user if available', function() {
-            this.localStorageService.get.and.returnValue(angular.toJson(this.cachedUser));
+            this.localStorageService.get.andReturn(angular.toJson(this.cachedUser));
 
             var result;
             this.currentUserService.getUserInfo().then(function(response) {
@@ -98,14 +98,14 @@ describe('currentUserService', function() {
             this.currentUserService.getUserInfo();
             this.$rootScope.$apply();
 
-            expect(this.localStorageService.get.calls.count()).toEqual(1);
-            expect(this.UserRepository.prototype.get.calls.count()).toEqual(1);
+            expect(this.localStorageService.get.callCount).toEqual(1);
+            expect(this.UserRepository.prototype.get.callCount).toEqual(1);
 
             this.currentUserService.getUserInfo();
             this.$rootScope.$apply();
 
-            expect(this.localStorageService.get.calls.count()).toEqual(1);
-            expect(this.UserRepository.prototype.get.calls.count()).toEqual(1);
+            expect(this.localStorageService.get.callCount).toEqual(1);
+            expect(this.UserRepository.prototype.get.callCount).toEqual(1);
         });
 
         it('should fetch user from the server if none is cached', function() {
@@ -121,7 +121,7 @@ describe('currentUserService', function() {
         });
 
         it('should reject promise if object returned by service is not an User', function() {
-            this.UserRepository.prototype.get.and.returnValue(this.$q.resolve({
+            this.UserRepository.prototype.get.andReturn(this.$q.resolve({
                 not: 'an',
                 instance: 'of',
                 user: 'class'
@@ -146,15 +146,15 @@ describe('currentUserService', function() {
             this.currentUserService.getUserInfo();
             this.$rootScope.$apply();
 
-            expect(this.localStorageService.get.calls.count()).toEqual(1);
-            expect(this.UserRepository.prototype.get.calls.count()).toEqual(1);
+            expect(this.localStorageService.get.callCount).toEqual(1);
+            expect(this.UserRepository.prototype.get.callCount).toEqual(1);
 
             this.currentUserService.clearCache();
             this.currentUserService.getUserInfo();
             this.$rootScope.$apply();
 
-            expect(this.localStorageService.get.calls.count()).toEqual(2);
-            expect(this.UserRepository.prototype.get.calls.count()).toEqual(2);
+            expect(this.localStorageService.get.callCount).toEqual(2);
+            expect(this.UserRepository.prototype.get.callCount).toEqual(2);
             expect(this.localStorageService.remove).toHaveBeenCalledWith(this.currentUser);
         });
 

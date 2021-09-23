@@ -33,12 +33,12 @@ describe('AdminSupplyPartnerAddService', function() {
         this.supplyPartner = new this.SupplyPartnerDataBuilder().buildWithAssociations();
         this.adminSupplyPartnerAddService = new this.AdminSupplyPartnerAddService();
 
-        spyOn(this.SupplyPartner.prototype, 'create').and.returnValue(this.$q.when(this.supplyPartner));
+        spyOn(this.SupplyPartner.prototype, 'create').andReturn(this.$q.when(this.supplyPartner));
         spyOn(this.loadingModalService, 'open');
         spyOn(this.loadingModalService, 'close');
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.$q.resolve());
+        spyOn(this.confirmService, 'confirm').andReturn(this.$q.resolve());
         spyOn(this.$state, 'go');
     });
 
@@ -70,9 +70,6 @@ describe('AdminSupplyPartnerAddService', function() {
         beforeEach(function() {
             var suite = this;
 
-            this.SupplyPartner.prototype.create.and.returnValue(this.$q.when(this.supplyPartner));
-            this.confirmService.confirm.and.returnValue(this.$q.resolve());
-
             this.adminSupplyPartnerAddService.initSupplyPartner()
                 .then(function(supplyPartner) {
                     suite.createdSupplyPartner = supplyPartner;
@@ -96,7 +93,7 @@ describe('AdminSupplyPartnerAddService', function() {
         });
 
         it('should close loading modal after failing to create', function() {
-            this.SupplyPartner.prototype.create.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.create.andReturn(this.$q.reject());
 
             this.createdSupplyPartner.create();
             this.$rootScope.$apply();
@@ -106,7 +103,7 @@ describe('AdminSupplyPartnerAddService', function() {
 
         it('should reject with original error if create fails', function() {
             var error = 'Some error message';
-            this.SupplyPartner.prototype.create.and.returnValue(this.$q.reject(error));
+            this.SupplyPartner.prototype.create.andReturn(this.$q.reject(error));
 
             var result;
             this.createdSupplyPartner.create()
@@ -150,7 +147,7 @@ describe('AdminSupplyPartnerAddService', function() {
         });
 
         it('should open loading modal if user refuses to add associations', function() {
-            this.confirmService.confirm.and.returnValue(this.$q.reject());
+            this.confirmService.confirm.andReturn(this.$q.reject());
             this.createdSupplyPartner.create();
 
             this.$rootScope.$apply();
@@ -177,7 +174,7 @@ describe('AdminSupplyPartnerAddService', function() {
         });
 
         it('should show error notification', function() {
-            this.SupplyPartner.prototype.create.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.create.andReturn(this.$q.reject());
 
             this.createdSupplyPartner.create();
             this.$rootScope.$apply();
@@ -187,7 +184,7 @@ describe('AdminSupplyPartnerAddService', function() {
         });
 
         it('should not show successful notification on failure', function() {
-            this.SupplyPartner.prototype.create.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.create.andReturn(this.$q.reject());
 
             this.createdSupplyPartner.create();
             this.$rootScope.$apply();

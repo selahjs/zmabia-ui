@@ -41,15 +41,15 @@ describe('ServiceAccountListController', function() {
         });
         this.vm.$onInit();
 
-        spyOn(this.$state, 'reload').and.returnValue();
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.$q.resolve());
-        spyOn(this.loadingModalService, 'open').and.returnValue(this.$q.resolve());
-        spyOn(this.loadingModalService, 'close').and.returnValue(this.$q.resolve());
-        spyOn(this.serviceAccountFactory, 'create').and.returnValue(this.$q.resolve(this.serviceAccounts[0]));
-        spyOn(this.serviceAccountFactory, 'remove').and.returnValue(this.$q.resolve());
-        spyOn(this.notificationService, 'success').and.returnValue(this.$q.resolve());
-        spyOn(this.notificationService, 'error').and.returnValue(this.$q.resolve());
-        spyOn(this.messageService, 'get').and.callFake(function(key) {
+        spyOn(this.$state, 'reload').andReturn();
+        spyOn(this.confirmService, 'confirm').andReturn(this.$q.resolve());
+        spyOn(this.loadingModalService, 'open').andReturn(this.$q.resolve());
+        spyOn(this.loadingModalService, 'close').andReturn(this.$q.resolve());
+        spyOn(this.serviceAccountFactory, 'create').andReturn(this.$q.resolve(this.serviceAccounts[0]));
+        spyOn(this.serviceAccountFactory, 'remove').andReturn(this.$q.resolve());
+        spyOn(this.notificationService, 'success').andReturn(this.$q.resolve());
+        spyOn(this.notificationService, 'error').andReturn(this.$q.resolve());
+        spyOn(this.messageService, 'get').andCallFake(function(key) {
             return key;
         });
     });
@@ -77,7 +77,7 @@ describe('ServiceAccountListController', function() {
         });
 
         it('should not call any service when confirmation fails', function() {
-            this.confirmService.confirm.and.returnValue(this.$q.reject());
+            this.confirmService.confirm.andReturn(this.$q.reject());
 
             this.vm.add();
             this.$rootScope.$apply();
@@ -93,7 +93,7 @@ describe('ServiceAccountListController', function() {
         });
 
         it('should display error notification when service account creation fails', function() {
-            this.serviceAccountFactory.create.and.returnValue(this.$q.reject());
+            this.serviceAccountFactory.create.andReturn(this.$q.reject());
 
             this.vm.add();
             this.$rootScope.$apply();
@@ -126,7 +126,7 @@ describe('ServiceAccountListController', function() {
         });
 
         it('should not call any service when confirmation fails', function() {
-            this.confirmService.confirm.and.returnValue(this.$q.reject());
+            this.confirmService.confirm.andReturn(this.$q.reject());
 
             this.vm.remove('token');
             this.$rootScope.$apply();
@@ -142,7 +142,7 @@ describe('ServiceAccountListController', function() {
         });
 
         it('should display error notification when service account delete fails', function() {
-            this.serviceAccountFactory.remove.and.returnValue(this.$q.reject());
+            this.serviceAccountFactory.remove.andReturn(this.$q.reject());
 
             this.vm.remove('token');
             this.$rootScope.$apply();

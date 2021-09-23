@@ -66,7 +66,7 @@ describe('SupervisoryNodeListController', function() {
         });
         this.vm.$onInit();
 
-        spyOn(this.$state, 'go').and.returnValue();
+        spyOn(this.$state, 'go').andReturn();
     });
 
     describe('onInit', function() {

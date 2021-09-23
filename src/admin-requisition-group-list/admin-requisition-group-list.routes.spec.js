@@ -64,20 +64,20 @@ describe('openlmis.administration.requisitionGroupList', function() {
         this.objectMapper = new this.ObjectMapper();
 
         spyOn(this.requisitionGroupService, 'search')
-            .and.returnValue(this.$q.resolve(new this.PageDataBuilder()
+            .andReturn(this.$q.resolve(new this.PageDataBuilder()
                 .withContent(this.requisitionGroups)
                 .build()));
-        spyOn(this.programService, 'getAll').and.returnValue(this.$q.resolve(this.programs));
+        spyOn(this.programService, 'getAll').andReturn(this.$q.resolve(this.programs));
         spyOn(this.geographicZoneService, 'getAll')
-            .and.returnValue(this.$q.resolve(new this.PageDataBuilder()
+            .andReturn(this.$q.resolve(new this.PageDataBuilder()
                 .withContent(this.geographicZones)
                 .build()));
-        spyOn(this.FacilityResource.prototype, 'query').and.returnValue(this.$q.resolve(
+        spyOn(this.FacilityResource.prototype, 'query').andReturn(this.$q.resolve(
             new this.PageDataBuilder()
                 .withContent(this.facilities)
                 .build()
         ));
-        spyOn(this.$templateCache, 'get').and.callThrough();
+        spyOn(this.$templateCache, 'get').andCallThrough();
 
         this.goToUrl = goToUrl;
         this.getResolvedValue = getResolvedValue;
@@ -129,7 +129,7 @@ describe('openlmis.administration.requisitionGroupList', function() {
 
         it('should not resolve facilitiesMap if requisition groups is empty', function() {
             this.requisitionGroupService.search
-                .and.returnValue(this.$q.resolve(new this.PageDataBuilder()
+                .andReturn(this.$q.resolve(new this.PageDataBuilder()
                     .withContent([])
                     .build()));
 

@@ -82,10 +82,7 @@ describe('SystemNotificationListController', function() {
         });
         this.vm.$onInit();
 
-        this.$stateParams.page = 0;
-        this.$stateParams.size = 10;
-
-        spyOn(this.$state, 'go').and.returnValue();
+        spyOn(this.$state, 'go').andReturn();
     });
 
     describe('$onInit', function() {

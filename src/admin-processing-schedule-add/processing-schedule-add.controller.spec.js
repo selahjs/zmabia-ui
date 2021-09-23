@@ -37,14 +37,14 @@ describe('ProcessingScheduleAddController', function() {
         this.saveDeferred = this.$q.defer();
         this.loadingDeferred = this.$q.defer();
 
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.confirmDeferred.promise);
-        spyOn(this.stateTrackerService, 'goToPreviousState').and.callFake(this.loadingDeferred.resolve);
-        spyOn(this.processingScheduleService, 'create').and.returnValue(this.saveDeferred.promise);
-        spyOn(this.loadingModalService, 'open').and.returnValue(this.loadingDeferred.promise);
-        spyOn(this.loadingModalService, 'close').and.callFake(this.loadingDeferred.resolve);
+        spyOn(this.confirmService, 'confirm').andReturn(this.confirmDeferred.promise);
+        spyOn(this.stateTrackerService, 'goToPreviousState').andCallFake(this.loadingDeferred.resolve);
+        spyOn(this.processingScheduleService, 'create').andReturn(this.saveDeferred.promise);
+        spyOn(this.loadingModalService, 'open').andReturn(this.loadingDeferred.promise);
+        spyOn(this.loadingModalService, 'close').andCallFake(this.loadingDeferred.resolve);
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
-        spyOn(this.messageService, 'get').and.callFake(function(key, param) {
+        spyOn(this.messageService, 'get').andCallFake(function(key, param) {
             if (key === 'adminProcessingScheduleAdd.save.question') {
                 return 'Do you want to save Processing Schedule ' + param.processingSchedule + '?';
             }

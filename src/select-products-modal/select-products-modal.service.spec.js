@@ -42,17 +42,12 @@ describe('selectProductsModalService', function() {
 
     describe('show', function() {
 
-        beforeEach(function() {
-            this.config = {};
-            this.config.products = this.orderables;
-        });
-
         it('it should redirect to .addOrderables state', function() {
             this.selectProductsModalService.show(this.config);
 
             expect(this.$state.go).toHaveBeenCalledWith('.addOrderables', {
-                productCode: undefined,
-                productName: undefined
+                code: undefined,
+                name: undefined
             }, {
                 notify: false
             });
@@ -88,21 +83,17 @@ describe('selectProductsModalService', function() {
 
     describe('resolve', function() {
 
-        beforeEach(function() {
-            this.config = {};
-            this.config.products = this.orderables;
-        });
-
         it('it should resolve selected products', function() {
             this.config.selections = [this.orderables[0], this.orderables[2], this.orderables[4]];
             this.selectProductsModalService.show(this.config);
 
-            expect(this.$state.go).toHaveBeenCalled();
-
             this.selectProductsModalService.resolve();
             this.$rootScope.$apply();
 
-            expect(this.$state.go).toHaveBeenCalledWith('^', {}, {
+            expect(this.$state.go).toHaveBeenCalledWith('^', {
+                code: undefined,
+                name: undefined
+            }, {
                 notify: false
             });
         });
@@ -111,21 +102,17 @@ describe('selectProductsModalService', function() {
 
     describe('reject', function() {
 
-        beforeEach(function() {
-            this.config = {};
-            this.config.products = this.orderables;
-        });
-
         it('it should reject selected products', function() {
             this.config.selections = [this.orderables[0], this.orderables[2], this.orderables[4]];
             this.selectProductsModalService.show(this.config);
 
-            expect(this.$state.go).toHaveBeenCalled();
-
             this.selectProductsModalService.reject();
             this.$rootScope.$apply();
 
-            expect(this.$state.go).toHaveBeenCalledWith('^', {}, {
+            expect(this.$state.go).toHaveBeenCalledWith('^', {
+                code: undefined,
+                name: undefined
+            }, {
                 notify: false
             });
         });

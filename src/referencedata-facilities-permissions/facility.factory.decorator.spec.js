@@ -50,9 +50,9 @@ describe('facilityFactory', function() {
                 .build()
         ];
 
-        spyOn(this.authorizationService, 'getUser').and.returnValue(new this.UserDataBuilder().buildAuthUserJson());
-        spyOn(this.permissionService, 'load').and.returnValue(this.$q.resolve(this.permissions));
-        spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.resolve(this.minimalFacilities));
+        spyOn(this.authorizationService, 'getUser').andReturn(new this.UserDataBuilder().buildAuthUserJson());
+        spyOn(this.permissionService, 'load').andReturn(this.$q.resolve(this.permissions));
+        spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.resolve(this.minimalFacilities));
     });
 
     describe('getSupervisedFacilitiesBasedOnRights', function() {

@@ -58,11 +58,10 @@ describe('OrderableAddEditFtapsController', function() {
         this.successNotificationKey = 'successMessage.key';
         this.errorNotificationKey = 'errorMessage.key';
 
-        spyOn(this.$state, 'go').and.returnValue(true);
-        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'query')
-            .and.returnValue(this.$q.resolve(this.ftapsPage));
-        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'update').and.returnValue(this.$q.resolve(this.ftap));
-        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'create').and.returnValue(this.$q.resolve(this.ftap));
+        spyOn(this.$state, 'go').andReturn(true);
+        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'query').andReturn(this.$q.resolve(this.ftapsPage));
+        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'update').andReturn(this.$q.resolve(this.ftap));
+        spyOn(this.FacilityTypeApprovedProductResource.prototype, 'create').andReturn(this.$q.resolve(this.ftap));
 
         this.vm = this.$controller('OrderableAddEditFtapsController', {
             facilityTypeApprovedProduct: this.ftap,
@@ -142,7 +141,7 @@ describe('OrderableAddEditFtapsController', function() {
         });
 
         it('should create new ftap if it never existed', function() {
-            this.FacilityTypeApprovedProductResource.prototype.query.and.returnValue(this.$q.resolve(
+            this.FacilityTypeApprovedProductResource.prototype.query.andReturn(this.$q.resolve(
                 new this.PageDataBuilder()
                     .withContent([])
             ));
@@ -173,7 +172,7 @@ describe('OrderableAddEditFtapsController', function() {
 
         it('should not redirect to the list view on failure', function() {
             this.vm.facilityTypeApprovedProduct.id = undefined;
-            this.FacilityTypeApprovedProductResource.prototype.query.and.returnValue(this.$q.reject());
+            this.FacilityTypeApprovedProductResource.prototype.query.andReturn(this.$q.reject());
 
             this.vm.saveFacilityTypeApprovedProduct();
             this.$rootScope.$apply();

@@ -32,7 +32,7 @@ describe('referencedata-program run', function() {
         });
 
         this.getLastCall = function(method) {
-            return method.calls.mostRecent();
+            return method.calls[method.calls.length - 1];
         };
 
         this.postLogoutAction = this.getLastCall(loginServiceSpy.registerPostLogoutAction).args[0];
@@ -51,7 +51,7 @@ describe('referencedata-program run', function() {
     describe('post logout action', function() {
 
         it('should clear rights', function() {
-            this.programService.clearProgramsCache.and.returnValue(this.$q.resolve());
+            this.programService.clearProgramsCache.andReturn(this.$q.resolve());
 
             var success;
             this.postLogoutAction()

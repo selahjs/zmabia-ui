@@ -34,7 +34,7 @@ describe('partnerNodesCount', function() {
 
     it('should return message for empty partner node list', function() {
         var message = 'No partner nodes';
-        this.messageService.get.and.returnValue(message);
+        this.messageService.get.andReturn(message);
 
         var result = this.$filter('partnerNodesCount')([]);
 
@@ -44,7 +44,7 @@ describe('partnerNodesCount', function() {
 
     it('should return message for single partner node', function() {
         var message = '1 Partner Node';
-        this.messageService.get.and.returnValue(message);
+        this.messageService.get.andReturn(message);
 
         var result = this.$filter('partnerNodesCount')([
             this.partnerNodes[0]
@@ -56,7 +56,7 @@ describe('partnerNodesCount', function() {
 
     it('should return message for multiple partner nodes', function() {
         var message = '2 Partner Nodes';
-        this.messageService.get.and.returnValue(message);
+        this.messageService.get.andReturn(message);
 
         var result = this.$filter('partnerNodesCount')(this.partnerNodes);
 
@@ -68,7 +68,7 @@ describe('partnerNodesCount', function() {
 
     it('should return message for null partner nodes list', function() {
         var message = 'No partner nodes';
-        this.messageService.get.and.returnValue(message);
+        this.messageService.get.andReturn(message);
 
         var result = this.$filter('partnerNodesCount')(null);
 
@@ -78,7 +78,7 @@ describe('partnerNodesCount', function() {
 
     it('should return message for undefined partner nodes list', function() {
         var message = 'No partner nodes';
-        this.messageService.get.and.returnValue(message);
+        this.messageService.get.andReturn(message);
 
         var result = this.$filter('partnerNodesCount')(undefined);
 

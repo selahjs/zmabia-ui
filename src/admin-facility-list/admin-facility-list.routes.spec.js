@@ -43,13 +43,13 @@ describe('openlmis.administration.facilities state', function() {
             new this.FacilityDataBuilder().build()
         ];
 
-        spyOn(this.geographicZoneService, 'getAll').and.returnValue(this.$q.when(
+        spyOn(this.geographicZoneService, 'getAll').andReturn(this.$q.when(
             new this.PageDataBuilder()
                 .withContent(this.geographicZones)
                 .build()
         ));
 
-        spyOn(this.facilityService, 'search').and.returnValue(this.$q.when(
+        spyOn(this.facilityService, 'search').andReturn(this.$q.when(
             new this.PageDataBuilder()
                 .withContent(this.facilities)
                 .build()
@@ -77,7 +77,7 @@ describe('openlmis.administration.facilities state', function() {
     });
 
     it('should resolve geographicZones', function() {
-        this.geographicZoneService.getAll.and.returnValue(this.$q.when({
+        this.geographicZoneService.getAll.andReturn(this.$q.when({
             content: this.geographicZones
         }));
 
@@ -88,7 +88,7 @@ describe('openlmis.administration.facilities state', function() {
     });
 
     it('should resolve facilities', function() {
-        this.facilityService.search.and.returnValue(this.$q.when({
+        this.facilityService.search.andReturn(this.$q.when({
             content: this.facilities
         }));
 
@@ -107,7 +107,7 @@ describe('openlmis.administration.facilities state', function() {
     });
 
     it('should use template', function() {
-        spyOn(this.$templateCache, 'get').and.callThrough();
+        spyOn(this.$templateCache, 'get').andCallThrough();
 
         this.goToUrl('/administration/facilities');
 

@@ -67,9 +67,9 @@ describe('openlmis.administration.orderables.edit.programs.edit route', function
             .build();
 
         spyOn(this.OrderableDisplayCategoryResource.prototype, 'query')
-            .and.returnValue(this.$q.resolve(this.orderableDisplayCategories));
-        spyOn(this.OrderableResource.prototype, 'query').and.returnValue(this.$q.resolve(this.orderablesPage));
-        spyOn(this.ProgramResource.prototype, 'query').and.returnValue(this.$q.resolve(this.programs));
+            .andReturn(this.$q.resolve(this.orderableDisplayCategories));
+        spyOn(this.OrderableResource.prototype, 'query').andReturn(this.$q.resolve(this.orderablesPage));
+        spyOn(this.ProgramResource.prototype, 'query').andReturn(this.$q.resolve(this.programs));
 
         this.goToState = function() {
             this.$location.url('/administration/orderables/' + this.orderable.id + '/programs'

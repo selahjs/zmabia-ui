@@ -59,15 +59,15 @@ describe('FacilityAddController', function() {
         this.saveDeferred = this.$q.defer();
         var loadingDeferred = this.$q.defer();
 
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.confirmDeferred.promise);
-        spyOn(this.stateTrackerService, 'goToPreviousState').and.callFake(loadingDeferred.resolve);
-        spyOn(this.FacilityRepository.prototype, 'create').and.returnValue(this.saveDeferred.promise);
+        spyOn(this.confirmService, 'confirm').andReturn(this.confirmDeferred.promise);
+        spyOn(this.stateTrackerService, 'goToPreviousState').andCallFake(loadingDeferred.resolve);
+        spyOn(this.FacilityRepository.prototype, 'create').andReturn(this.saveDeferred.promise);
         spyOn(this.$state, 'go');
-        spyOn(this.loadingModalService, 'open').and.returnValue(loadingDeferred.promise);
-        spyOn(this.loadingModalService, 'close').and.callFake(loadingDeferred.resolve);
+        spyOn(this.loadingModalService, 'open').andReturn(loadingDeferred.promise);
+        spyOn(this.loadingModalService, 'close').andCallFake(loadingDeferred.resolve);
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
-        spyOn(this.messageService, 'get').and.callFake(function(key, param) {
+        spyOn(this.messageService, 'get').andCallFake(function(key, param) {
             if (key === 'adminFacilityAdd.doYouWantToAddPrograms') {
                 return 'Do you want to add programs to ' + param.facility + '?';
             }
@@ -128,7 +128,7 @@ describe('FacilityAddController', function() {
     describe('save', function() {
 
         it('should prompt user to add programs', function() {
-            this.FacilityRepository.prototype.create.and.returnValue(this.$q.when(this.facility));
+            this.FacilityRepository.prototype.create.andReturn(this.$q.when(this.facility));
             this.vm.save();
             this.$rootScope.$apply();
 
@@ -173,7 +173,7 @@ describe('FacilityAddController', function() {
         });
 
         it('should take to the user to add programs page if user agrees to it', function() {
-            this.FacilityRepository.prototype.create.and.returnValue(this.$q.when(this.facility));
+            this.FacilityRepository.prototype.create.andReturn(this.$q.when(this.facility));
             this.vm.save();
 
             this.confirmDeferred.resolve();

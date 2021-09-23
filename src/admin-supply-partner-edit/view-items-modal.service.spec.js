@@ -47,14 +47,14 @@ describe('viewItemsModalService', function() {
         describe('modal behavior', function() {
 
             beforeEach(function() {
-                spyOn(this.openlmisModalService, 'createDialog').and.returnValue(this.dialog);
+                spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialog);
             });
 
             it('should not open second dialog if the first one is still open', function() {
                 this.viewItemsModalService.show(this.config);
                 this.viewItemsModalService.show(this.config);
 
-                expect(this.openlmisModalService.createDialog.calls.count()).toBe(1);
+                expect(this.openlmisModalService.createDialog.calls.length).toBe(1);
             });
 
             it('should close modal if dialog resolves', function() {
@@ -62,11 +62,11 @@ describe('viewItemsModalService', function() {
                 this.dialogDeferred.resolve();
                 this.$rootScope.$apply();
 
-                expect(this.openlmisModalService.createDialog.calls.count()).toBe(1);
+                expect(this.openlmisModalService.createDialog.calls.length).toBe(1);
 
                 this.viewItemsModalService.show(this.config);
 
-                expect(this.openlmisModalService.createDialog.calls.count()).toBe(2);
+                expect(this.openlmisModalService.createDialog.calls.length).toBe(2);
             });
 
             it('should close modal if dialog does not resolve', function() {
@@ -74,24 +74,24 @@ describe('viewItemsModalService', function() {
                 this.dialogDeferred.reject();
                 this.$rootScope.$apply();
 
-                expect(this.openlmisModalService.createDialog.calls.count()).toBe(1);
+                expect(this.openlmisModalService.createDialog.calls.length).toBe(1);
 
                 this.viewItemsModalService.show(this.config);
 
-                expect(this.openlmisModalService.createDialog.calls.count()).toBe(2);
+                expect(this.openlmisModalService.createDialog.calls.length).toBe(2);
             });
         });
 
         describe('resolves', function() {
 
             beforeEach(function() {
-                spyOn(this.openlmisModalService, 'createDialog').and.callThrough();
+                spyOn(this.openlmisModalService, 'createDialog').andCallThrough();
             });
 
             it('should resolve title label from config object', function() {
                 this.viewItemsModalService.show(this.config);
 
-                expect(this.openlmisModalService.createDialog.calls.first().args[0].resolve['titleLabel'])
+                expect(this.openlmisModalService.createDialog.calls[0].args[0].resolve['titleLabel'])
                     .toEqual(this.testTitleLabel);
             });
 
@@ -99,7 +99,7 @@ describe('viewItemsModalService', function() {
                 this.config.titleLabel = null;
                 this.viewItemsModalService.show(this.config);
 
-                expect(this.openlmisModalService.createDialog.calls.first().args[0].resolve['titleLabel'])
+                expect(this.openlmisModalService.createDialog.calls[0].args[0].resolve['titleLabel'])
                     .toEqual('adminSupplyPartnerEdit.items');
             });
         });

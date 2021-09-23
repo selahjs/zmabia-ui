@@ -31,10 +31,10 @@ describe('RoleFormController', function() {
         this.deferred = this.$q.defer();
         this.confirmDeferred = this.$q.defer();
 
-        spyOn(this.referencedataRoleService, 'update').and.returnValue(this.deferred.promise);
-        spyOn(this.referencedataRoleService, 'create').and.returnValue(this.deferred.promise);
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.confirmDeferred.promise);
-        spyOn(this.loadingModalService, 'open').and.returnValue(this.$q.when());
+        spyOn(this.referencedataRoleService, 'update').andReturn(this.deferred.promise);
+        spyOn(this.referencedataRoleService, 'create').andReturn(this.deferred.promise);
+        spyOn(this.confirmService, 'confirm').andReturn(this.confirmDeferred.promise);
+        spyOn(this.loadingModalService, 'open').andReturn(this.$q.when());
         spyOn(this.notificationService, 'success');
         spyOn(this.loadingModalService, 'close');
         spyOn(this.$state, 'go');

@@ -54,7 +54,7 @@ describe('referencedata-lot run', function() {
 
         this.postLoginAction = getLastCall(this.loginServiceSpy.registerPostLoginAction).args[0];
 
-        spyOn(this.lotService, 'query').and.returnValue(this.$q.resolve(this.lotsPage));
+        spyOn(this.lotService, 'query').andReturn(this.$q.resolve(this.lotsPage));
         spyOn(this.lotService, 'clearLotsOffline');
     });
 
@@ -84,7 +84,7 @@ describe('referencedata-lot run', function() {
     });
 
     function getLastCall(method) {
-        return method.calls.mostRecent();
+        return method.calls[method.calls.length - 1];
     }
 
 });

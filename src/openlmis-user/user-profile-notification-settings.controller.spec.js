@@ -59,7 +59,7 @@ describe('UserProfileNotificationSettingsController', function() {
         this.user = new this.UserDataBuilder().build();
 
         spyOn(this.$state, 'reload');
-        spyOn(this.UserSubscriptionResource.prototype, 'create').and.returnValue(this.$q.resolve([
+        spyOn(this.UserSubscriptionResource.prototype, 'create').andReturn(this.$q.resolve([
             this.userSubscriptions[1]
         ]));
 
@@ -128,7 +128,7 @@ describe('UserProfileNotificationSettingsController', function() {
         });
 
         it('should not reload on error', function() {
-            this.UserSubscriptionResource.prototype.create.and.returnValue(this.$q.reject());
+            this.UserSubscriptionResource.prototype.create.andReturn(this.$q.reject());
 
             this.vm.saveUserSubscriptions();
             this.$rootScope.$apply();

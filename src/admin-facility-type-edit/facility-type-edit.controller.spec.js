@@ -35,12 +35,12 @@ describe('FacilityTypeEditController', function() {
         this.confirmDeferred = this.$q.defer();
         this.saveDeferred = this.$q.defer();
 
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.confirmDeferred.promise);
-        spyOn(this.stateTrackerService, 'goToPreviousState').and.returnValue(true);
-        spyOn(this.facilityTypeService, 'update').and.returnValue(this.saveDeferred.promise);
-        spyOn(this.facilityTypeService, 'create').and.returnValue(this.saveDeferred.promise);
-        spyOn(this.loadingModalService, 'open').and.returnValue(true);
-        spyOn(this.loadingModalService, 'close').and.returnValue(true);
+        spyOn(this.confirmService, 'confirm').andReturn(this.confirmDeferred.promise);
+        spyOn(this.stateTrackerService, 'goToPreviousState').andReturn(true);
+        spyOn(this.facilityTypeService, 'update').andReturn(this.saveDeferred.promise);
+        spyOn(this.facilityTypeService, 'create').andReturn(this.saveDeferred.promise);
+        spyOn(this.loadingModalService, 'open').andReturn(true);
+        spyOn(this.loadingModalService, 'close').andReturn(true);
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
 

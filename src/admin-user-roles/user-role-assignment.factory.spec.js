@@ -84,7 +84,7 @@ describe('userRoleAssignmentFactory', function() {
         var resultUser;
 
         beforeEach(function() {
-            this.UserRepository.prototype.get.and.returnValue(this.$q.resolve(this.user));
+            this.UserRepository.prototype.get.andReturn(this.$q.resolve(this.user));
             this.userRoleAssignmentFactory
                 .getUser(this.user.id, this.roles, this.programs, this.supervisoryNodes, this.warehouses)
                 .then(function(response) {

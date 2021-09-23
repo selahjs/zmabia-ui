@@ -176,7 +176,7 @@ describe('SupervisoryNode', function() {
     describe('save', function() {
 
         it('should reject if save fails', function() {
-            this.repository.update.and.returnValue(this.$q.reject());
+            this.repository.update.andReturn(this.$q.reject());
 
             var rejected;
             this.supervisoryNode.save().catch(function() {
@@ -188,7 +188,7 @@ describe('SupervisoryNode', function() {
         });
 
         it('should resolve when save is successful', function() {
-            this.repository.update.and.returnValue(this.$q.resolve(this.supervisoryNode));
+            this.repository.update.andReturn(this.$q.resolve(this.supervisoryNode));
 
             var result;
             this.supervisoryNode.save().then(function(supervisoryNode) {

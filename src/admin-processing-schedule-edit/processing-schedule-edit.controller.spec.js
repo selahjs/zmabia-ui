@@ -44,16 +44,16 @@ describe('ProcessingScheduleEditController', function() {
         this.saveDeferred = this.$q.defer();
         this.loadingDeferred = this.$q.defer();
 
-        spyOn(this.confirmService, 'confirm').and.returnValue(this.confirmDeferred.promise);
-        spyOn(this.stateTrackerService, 'goToPreviousState').and.callFake(this.loadingDeferred.resolve);
-        spyOn(this.periodService, 'create').and.returnValue(this.saveDeferred.promise);
+        spyOn(this.confirmService, 'confirm').andReturn(this.confirmDeferred.promise);
+        spyOn(this.stateTrackerService, 'goToPreviousState').andCallFake(this.loadingDeferred.resolve);
+        spyOn(this.periodService, 'create').andReturn(this.saveDeferred.promise);
         spyOn(this.$state, 'reload');
         spyOn(this.$state, 'go');
-        spyOn(this.loadingModalService, 'open').and.returnValue(this.loadingDeferred.promise);
-        spyOn(this.loadingModalService, 'close').and.callFake(this.loadingDeferred.resolve);
+        spyOn(this.loadingModalService, 'open').andReturn(this.loadingDeferred.promise);
+        spyOn(this.loadingModalService, 'close').andCallFake(this.loadingDeferred.resolve);
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
-        spyOn(this.messageService, 'get').and.callFake(function(key, param) {
+        spyOn(this.messageService, 'get').andCallFake(function(key, param) {
             if (key === 'adminProcessingScheduleEdit.add.question') {
                 return 'Do you want to add Processing Period ' + param.period + '?';
             }

@@ -56,7 +56,7 @@ describe('SupplyLineListController', function() {
         });
         this.vm.$onInit();
 
-        spyOn(this.$state, 'go').and.returnValue();
+        spyOn(this.$state, 'go').andReturn();
     });
 
     describe('onInit', function() {
@@ -97,8 +97,7 @@ describe('SupplyLineListController', function() {
             expect(this.$state.go).toHaveBeenCalledWith('openlmis.administration.supplyLines', {
                 page: this.stateParams.page,
                 size: this.stateParams.size,
-                supplyingFacilityId: this.vm.supplyingFacilityId,
-                programId: undefined
+                supplyingFacilityId: this.vm.supplyingFacilityId
             }, {
                 reload: true
             });
@@ -113,7 +112,6 @@ describe('SupplyLineListController', function() {
             expect(this.$state.go).toHaveBeenCalledWith('openlmis.administration.supplyLines', {
                 page: this.stateParams.page,
                 size: this.stateParams.size,
-                supplyingFacilityId: undefined,
                 programId: this.vm.programId
             }, {
                 reload: true

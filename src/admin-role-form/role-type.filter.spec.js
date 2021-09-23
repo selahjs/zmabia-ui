@@ -37,14 +37,14 @@ describe('role type filter', function() {
     });
 
     it('should return translated role name', function() {
-        this.messageService.get.and.returnValue('Administration');
+        this.messageService.get.andReturn('Administration');
 
         expect(this.roleTypeFilter('GENERAL_ADMIN')).toEqual('Administration');
         expect(this.messageService.get).toHaveBeenCalledWith('referencedataRoles.administration');
     });
 
     it('should return translated role description if flag is set', function() {
-        this.messageService.get.and.returnValue('Role Type Description');
+        this.messageService.get.andReturn('Role Type Description');
 
         expect(this.roleTypeFilter('GENERAL_ADMIN', true)).toEqual('Role Type Description');
         expect(this.messageService.get).toHaveBeenCalledWith('adminRoleForm.generalAdminDescription');

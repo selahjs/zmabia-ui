@@ -68,9 +68,9 @@ describe('OrderableEditKitUnpackListController', function() {
         this.orderablesMap[this.orderables[4].id] = this.orderables[4];
 
         spyOn(this.selectProductsModalService, 'show');
-        spyOn(this.OrderableResource.prototype, 'update').and.returnValue(this.$q.resolve(this.orderable));
-        spyOn(this.alertService, 'error').and.returnValue();
-        spyOn(this.stateTrackerService, 'goToPreviousState').and.returnValue(true);
+        spyOn(this.OrderableResource.prototype, 'update').andReturn(this.$q.resolve(this.orderable));
+        spyOn(this.alertService, 'error').andReturn();
+        spyOn(this.stateTrackerService, 'goToPreviousState').andReturn(true);
 
         this.vm = this.$controller('OrderableEditKitUnpackListController', {
             orderable: this.orderable,
@@ -99,7 +99,7 @@ describe('OrderableEditKitUnpackListController', function() {
     describe('addChild', function() {
 
         it('should add children', function() {
-            this.selectProductsModalService.show.and.returnValue(this.$q.resolve([
+            this.selectProductsModalService.show.andReturn(this.$q.resolve([
                 this.orderables[0],
                 this.orderables[1],
                 this.orderables[2],
@@ -113,7 +113,7 @@ describe('OrderableEditKitUnpackListController', function() {
         });
 
         it('should remove unselected children', function() {
-            this.selectProductsModalService.show.and.returnValue(this.$q.resolve([
+            this.selectProductsModalService.show.andReturn(this.$q.resolve([
                 this.orderables[0]
             ]));
 
@@ -129,7 +129,7 @@ describe('OrderableEditKitUnpackListController', function() {
         });
 
         it('should not add children if orderable selection rejects', function() {
-            this.selectProductsModalService.show.and.returnValue(this.$q.reject());
+            this.selectProductsModalService.show.andReturn(this.$q.reject());
 
             this.vm.addChild();
             this.$rootScope.$apply();
@@ -138,7 +138,7 @@ describe('OrderableEditKitUnpackListController', function() {
         });
 
         it('should not clear quantities of existing children', function() {
-            this.selectProductsModalService.show.and.returnValue(this.$q.resolve([
+            this.selectProductsModalService.show.andReturn(this.$q.resolve([
                 this.orderables[2],
                 this.orderables[3]
             ]));
@@ -149,7 +149,7 @@ describe('OrderableEditKitUnpackListController', function() {
             this.vm.orderable.children[0].quantity = 150;
             this.vm.orderable.children[1].quantity = 300;
 
-            this.selectProductsModalService.show.and.returnValue(this.$q.resolve([
+            this.selectProductsModalService.show.andReturn(this.$q.resolve([
                 this.orderables[1],
                 this.orderables[2],
                 this.orderables[3]
@@ -216,7 +216,7 @@ describe('OrderableEditKitUnpackListController', function() {
         });
 
         it('should not redirect to the list view on failure', function() {
-            this.OrderableResource.prototype.update.and.returnValue(this.$q.reject());
+            this.OrderableResource.prototype.update.andReturn(this.$q.reject());
 
             this.vm.saveOrderable();
             this.$rootScope.$apply();

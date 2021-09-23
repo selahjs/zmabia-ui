@@ -33,15 +33,15 @@ describe('FacilityViewController', function() {
             this.FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
-        spyOn(this.FacilityRepository.prototype, 'update').and.returnValue(this.$q.when());
+        spyOn(this.FacilityRepository.prototype, 'update').andReturn(this.$q.when());
 
         var loadingModalPromise = this.$q.defer();
-        spyOn(this.loadingModalService, 'close').and.callFake(loadingModalPromise.resolve);
-        spyOn(this.loadingModalService, 'open').and.returnValue(loadingModalPromise.promise);
+        spyOn(this.loadingModalService, 'close').andCallFake(loadingModalPromise.resolve);
+        spyOn(this.loadingModalService, 'open').andReturn(loadingModalPromise.promise);
 
-        spyOn(this.notificationService, 'success').and.returnValue(true);
-        spyOn(this.notificationService, 'error').and.returnValue(true);
-        spyOn(this.$state, 'go').and.callFake(loadingModalPromise.resolve);
+        spyOn(this.notificationService, 'success').andReturn(true);
+        spyOn(this.notificationService, 'error').andReturn(true);
+        spyOn(this.$state, 'go').andCallFake(loadingModalPromise.resolve);
 
         this.facilityTypes = [
             new this.FacilityTypeDataBuilder().build(),
@@ -118,7 +118,7 @@ describe('FacilityViewController', function() {
         });
 
         it('should expose managedExternally flag', function() {
-            spyOn(this.facility, 'isManagedExternally').and.returnValue(true);
+            spyOn(this.facility, 'isManagedExternally').andReturn(true);
 
             this.vm.$onInit();
 
@@ -164,7 +164,7 @@ describe('FacilityViewController', function() {
         });
 
         it('should close loading modal and show error notification after save fails', function() {
-            this.FacilityRepository.prototype.update.and.returnValue(this.$q.reject());
+            this.FacilityRepository.prototype.update.andReturn(this.$q.reject());
             this.vm.saveFacilityDetails();
             this.$rootScope.$apply();
 
@@ -205,10 +205,10 @@ describe('FacilityViewController', function() {
             this.vm.addProgram();
 
             expect(this.vm.facilityWithPrograms.supportedPrograms[0])
-                .toEqual(jasmine.objectContaining(angular.extend({}, program, {
+                .toEqual(angular.extend({}, program, {
                     supportStartDate: new Date('08/10/2017'),
                     supportActive: true
-                })));
+                }));
         });
 
         it('should clear selections', function() {

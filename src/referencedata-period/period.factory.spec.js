@@ -44,7 +44,7 @@ describe('periodFactory', function() {
             size: 10
         };
 
-        spyOn(this.periodService, 'query').and.returnValue(this.$q.resolve(this.periodsPage));
+        spyOn(this.periodService, 'query').andReturn(this.$q.resolve(this.periodsPage));
     });
 
     describe('getSortedPeriodsForSchedule', function() {
@@ -94,7 +94,7 @@ describe('periodFactory', function() {
         });
 
         it('should resolve to undefined if there is no period', function() {
-            this.periodService.query.and.returnValue(this.$q.resolve(new this.PageDataBuilder().build()));
+            this.periodService.query.andReturn(this.$q.resolve(new this.PageDataBuilder().build()));
 
             var result;
             this.periodFactory.getNewStartDateForSchedule(this.scheduleId)

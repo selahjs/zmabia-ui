@@ -39,9 +39,9 @@ describe('OrderableAddEditGeneralController', function() {
         this.orderableListRelativePath = 'orderable.list.relative.path';
 
         spyOn(this.$state, 'go');
-        spyOn(this.OrderableResource.prototype, 'update').and.returnValue(this.$q.resolve(this.orderable));
-        spyOn(this.FunctionDecorator.prototype, 'withSuccessNotification').and.callThrough();
-        spyOn(this.FunctionDecorator.prototype, 'withErrorNotification').and.callThrough();
+        spyOn(this.OrderableResource.prototype, 'update').andReturn(this.$q.resolve(this.orderable));
+        spyOn(this.FunctionDecorator.prototype, 'withSuccessNotification').andCallThrough();
+        spyOn(this.FunctionDecorator.prototype, 'withErrorNotification').andCallThrough();
 
         this.vm = this.$controller('OrderableAddEditGeneralController', {
             orderable: this.orderable,
@@ -99,7 +99,7 @@ describe('OrderableAddEditGeneralController', function() {
         });
 
         it('should not redirect to the list view on failure', function() {
-            this.OrderableResource.prototype.update.and.returnValue(this.$q.reject());
+            this.OrderableResource.prototype.update.andReturn(this.$q.reject());
 
             this.vm.saveOrderable();
             this.$rootScope.$apply();
@@ -110,7 +110,7 @@ describe('OrderableAddEditGeneralController', function() {
         it('should redirect to the edit screen if creating a new orderable', function() {
             var createdOrderable = new this.OrderableDataBuilder().build();
 
-            this.OrderableResource.prototype.update.and.returnValue(this.$q.resolve(createdOrderable));
+            this.OrderableResource.prototype.update.andReturn(this.$q.resolve(createdOrderable));
             this.orderable.id = undefined;
             this.vm.$onInit();
 

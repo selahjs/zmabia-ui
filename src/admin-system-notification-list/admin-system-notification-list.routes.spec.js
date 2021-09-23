@@ -75,9 +75,9 @@ describe('openlmis.administration.systemNotifications route', function() {
             .withContent(this.users)
             .build();
 
-        spyOn(this.ReferenceDataUserResource.prototype, 'query').and.returnValue(this.$q.resolve(this.usersPage));
+        spyOn(this.ReferenceDataUserResource.prototype, 'query').andReturn(this.$q.resolve(this.usersPage));
         spyOn(this.SystemNotificationResource.prototype, 'query')
-            .and.returnValue(this.$q.resolve(this.systemNotificationsPage));
+            .andReturn(this.$q.resolve(this.systemNotificationsPage));
 
         this.goToUrl = function(url) {
             this.$location.url(url);
@@ -127,7 +127,7 @@ describe('openlmis.administration.systemNotifications route', function() {
     });
 
     it('should not change state when fetching system notifications fails', function() {
-        this.SystemNotificationResource.prototype.query.and.returnValue(this.$q.reject());
+        this.SystemNotificationResource.prototype.query.andReturn(this.$q.reject());
 
         this.goToUrl('/administration/systemNotifications?page=0&size=10');
 
@@ -135,7 +135,7 @@ describe('openlmis.administration.systemNotifications route', function() {
     });
 
     it('should not change state when fetching users fails', function() {
-        this.ReferenceDataUserResource.prototype.query.and.returnValue(this.$q.reject());
+        this.ReferenceDataUserResource.prototype.query.andReturn(this.$q.reject());
 
         this.goToUrl('/administration/systemNotifications?page=0&size=10');
 
@@ -146,6 +146,8 @@ describe('openlmis.administration.systemNotifications route', function() {
         this.goToUrl('/administration/systemNotifications?page=0&size=10');
 
         expect(this.SystemNotificationResource.prototype.query).toHaveBeenCalledWith({
+            isDisplayed: undefined,
+            authorId: undefined,
             page: '0',
             size: '10'
         });

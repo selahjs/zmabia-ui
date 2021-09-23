@@ -68,9 +68,9 @@ describe('OrderableProgramEditController', function() {
         this.editMode = true;
 
         spyOn(this.$state, 'go');
-        spyOn(this.OrderableResource.prototype, 'update').and.returnValue(this.$q.resolve(this.orderable));
-        spyOn(this.FunctionDecorator.prototype, 'withSuccessNotification').and.callThrough();
-        spyOn(this.FunctionDecorator.prototype, 'withErrorNotification').and.callThrough();
+        spyOn(this.OrderableResource.prototype, 'update').andReturn(this.$q.resolve(this.orderable));
+        spyOn(this.FunctionDecorator.prototype, 'withSuccessNotification').andCallThrough();
+        spyOn(this.FunctionDecorator.prototype, 'withErrorNotification').andCallThrough();
 
         this.vm = this.$controller('OrderableProgramEditController', {
             orderable: this.orderable,
@@ -137,7 +137,7 @@ describe('OrderableProgramEditController', function() {
         });
 
         it('should not redirect to the previous state on failure', function() {
-            this.OrderableResource.prototype.update.and.returnValue(this.$q.reject());
+            this.OrderableResource.prototype.update.andReturn(this.$q.reject());
 
             this.vm.saveProgramOrderable();
             this.$rootScope.$apply();

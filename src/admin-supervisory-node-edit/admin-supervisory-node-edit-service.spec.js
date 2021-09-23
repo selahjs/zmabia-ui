@@ -38,7 +38,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         this.supervisoryNodeId = this.supervisoryNode.id;
         this.adminSupervisoryNodeEditService = new this.AdminSupervisoryNodeEditService();
 
-        spyOn(this.SupervisoryNodeRepository.prototype, 'get').and.returnValue();
+        spyOn(this.SupervisoryNodeRepository.prototype, 'get').andReturn();
         spyOn(this.SupervisoryNode.prototype, 'save');
         spyOn(this.SupervisoryNode.prototype, 'removeChildNode');
         spyOn(this.SupervisoryNode.prototype, 'removePartnerNode');
@@ -53,7 +53,7 @@ describe('AdminSupervisoryNodeEditService', function() {
     describe('getSupervisoryNode', function() {
 
         it('should fetch supervisory node', function() {
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.resolve(this.supervisoryNode));
 
             this.adminSupervisoryNodeEditService.getSupervisoryNode(this.supervisoryNodeId);
 
@@ -61,7 +61,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should resolve to supervisory node when supervisory node is fetched', function() {
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.resolve(this.supervisoryNode));
 
             var result;
             this.adminSupervisoryNodeEditService
@@ -75,7 +75,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should reject if failed to be fetched', function() {
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.reject());
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.reject());
 
             var rejected;
             this.adminSupervisoryNodeEditService
@@ -92,7 +92,7 @@ describe('AdminSupervisoryNodeEditService', function() {
             var originalSave = this.supervisoryNode.save,
                 originalRemoveChildNode = this.supervisoryNode.removeChildNode;
 
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.resolve(this.supervisoryNode));
 
             var result;
             this.adminSupervisoryNodeEditService
@@ -111,8 +111,8 @@ describe('AdminSupervisoryNodeEditService', function() {
     describe('decoratedSave', function() {
 
         beforeEach(function() {
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.resolve(this.supervisoryNode));
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.resolve(this.supervisoryNode));
 
             var suite = this;
             this.adminSupervisoryNodeEditService.getSupervisoryNode()
@@ -137,7 +137,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should close loading modal after failing to save', function() {
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.reject());
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.reject());
 
             this.supervisoryNode.save();
             this.$rootScope.$apply();
@@ -147,7 +147,7 @@ describe('AdminSupervisoryNodeEditService', function() {
 
         it('should reject with original error if save fails', function() {
             var error = 'Some error message';
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.reject(error));
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.reject(error));
 
             var result;
             this.supervisoryNode.save()
@@ -186,7 +186,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should show error notification', function() {
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.reject());
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.reject());
 
             this.supervisoryNode.save();
             this.$rootScope.$apply();
@@ -196,7 +196,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should not show successful notification on failure', function() {
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.reject());
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.reject());
 
             this.supervisoryNode.save();
             this.$rootScope.$apply();
@@ -214,7 +214,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should not take user to the View Supervisory Node view after failed save', function() {
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.reject());
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.reject());
 
             this.supervisoryNode.save();
             this.$rootScope.$apply();
@@ -227,9 +227,9 @@ describe('AdminSupervisoryNodeEditService', function() {
     describe('removeChildNode', function() {
 
         beforeEach(function() {
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.resolve(this.supervisoryNode));
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.resolve(this.supervisoryNode));
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.resolve(this.supervisoryNode));
+            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
 
             var suite = this;
             this.adminSupervisoryNodeEditService.getSupervisoryNode()
@@ -249,7 +249,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should open loading modal after confirmation', function() {
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
+            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
 
             this.supervisoryNode.removeChildNode(this.supervisoryNode.childNodes[0].id);
 
@@ -261,7 +261,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should do nothing without confirmation', function() {
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.defer().promise);
+            this.confirmService.confirmDestroy.andReturn(this.$q.defer().promise);
 
             this.supervisoryNode.removeChildNode(this.supervisoryNode.childNodes[0].id);
 
@@ -285,7 +285,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should close loading modal on failure', function() {
-            this.SupervisoryNode.prototype.removeChildNode.and.throwError('Error message');
+            this.SupervisoryNode.prototype.removeChildNode.andThrow('Error message');
 
             this.supervisoryNode.removeChildNode(this.supervisoryNode.childNodes[0].id);
             this.$rootScope.$apply();
@@ -295,9 +295,9 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should reject with exception message if removing throws an exception', function() {
-            var error = new Error('Error message');
+            var errorMessage = 'Error message';
 
-            this.SupervisoryNode.prototype.removeChildNode.and.throwError('Error message');
+            this.SupervisoryNode.prototype.removeChildNode.andThrow('Error message');
 
             var result;
             this.supervisoryNode.removeChildNode(this.supervisoryNode.childNodes[0].id)
@@ -306,7 +306,7 @@ describe('AdminSupervisoryNodeEditService', function() {
                 });
             this.$rootScope.$apply();
 
-            expect(result).toEqual(error);
+            expect(result).toEqual(errorMessage);
         });
 
         it('should resolve when successful', function() {
@@ -333,9 +333,9 @@ describe('AdminSupervisoryNodeEditService', function() {
     describe('removePartnerNode', function() {
 
         beforeEach(function() {
-            this.SupervisoryNodeRepository.prototype.get.and.returnValue(this.$q.resolve(this.supervisoryNode));
-            this.SupervisoryNode.prototype.save.and.returnValue(this.$q.resolve(this.supervisoryNode));
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
+            this.SupervisoryNodeRepository.prototype.get.andReturn(this.$q.resolve(this.supervisoryNode));
+            this.SupervisoryNode.prototype.save.andReturn(this.$q.resolve(this.supervisoryNode));
+            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
 
             var suite = this;
             this.adminSupervisoryNodeEditService.getSupervisoryNode()
@@ -355,7 +355,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should open loading modal after confirmation', function() {
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
+            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
 
             this.supervisoryNode.removePartnerNode(this.supervisoryNode.partnerNodes[0].id);
 
@@ -367,7 +367,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should do nothing without confirmation', function() {
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.defer().promise);
+            this.confirmService.confirmDestroy.andReturn(this.$q.defer().promise);
 
             this.supervisoryNode.removePartnerNode(this.supervisoryNode.partnerNodes[0].id);
 
@@ -391,7 +391,7 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should close loading modal on failure', function() {
-            this.SupervisoryNode.prototype.removePartnerNode.and.throwError('Error message');
+            this.SupervisoryNode.prototype.removePartnerNode.andThrow('Error message');
 
             this.supervisoryNode.removePartnerNode(this.supervisoryNode.partnerNodes[0].id);
             this.$rootScope.$apply();
@@ -401,9 +401,9 @@ describe('AdminSupervisoryNodeEditService', function() {
         });
 
         it('should reject with exception message if removing throws an exception', function() {
-            var error = new Error('Error message');
+            var errorMessage = 'Error message';
 
-            this.SupervisoryNode.prototype.removePartnerNode.and.throwError('Error message');
+            this.SupervisoryNode.prototype.removePartnerNode.andThrow('Error message');
 
             var result;
             this.supervisoryNode.removePartnerNode(this.supervisoryNode.partnerNodes[0].id)
@@ -412,7 +412,7 @@ describe('AdminSupervisoryNodeEditService', function() {
                 });
             this.$rootScope.$apply();
 
-            expect(result).toEqual(error);
+            expect(result).toEqual(errorMessage);
         });
 
         it('should resolve when successful', function() {

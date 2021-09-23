@@ -53,14 +53,14 @@ describe('openlmis.administration.facilities.facility.add state', function() {
             new this.FacilityTypeDataBuilder().build()
         ];
 
-        spyOn(this.geographicZoneService, 'getAll').and.returnValue(this.$q.when({
+        spyOn(this.geographicZoneService, 'getAll').andReturn(this.$q.when({
             content: []
         }));
-        spyOn(this.facilityService, 'search').and.returnValue(this.$q.when({
+        spyOn(this.facilityService, 'search').andReturn(this.$q.when({
             content: []
         }));
-        spyOn(this.facilityTypeService, 'query').and.returnValue(this.$q.when([]));
-        spyOn(this.facilityOperatorService, 'getAll').and.returnValue(this.$q.when([]));
+        spyOn(this.facilityTypeService, 'query').andReturn(this.$q.when([]));
+        spyOn(this.facilityOperatorService, 'getAll').andReturn(this.$q.when([]));
 
         this.$state.go('openlmis.administration.facilities');
         this.$rootScope.$apply();
@@ -84,7 +84,7 @@ describe('openlmis.administration.facilities.facility.add state', function() {
     });
 
     it('should resolve facility types', function() {
-        this.facilityTypeService.query.and.returnValue(this.$q.when(this.facilityTypes));
+        this.facilityTypeService.query.andReturn(this.$q.when(this.facilityTypes));
 
         this.goToUrl('/administration/facilities/new/details');
 
@@ -95,7 +95,7 @@ describe('openlmis.administration.facilities.facility.add state', function() {
     });
 
     it('should resolve geographicZones', function() {
-        this.geographicZoneService.getAll.and.returnValue(this.$q.when({
+        this.geographicZoneService.getAll.andReturn(this.$q.when({
             content: this.geographicZones
         }));
 
@@ -105,7 +105,7 @@ describe('openlmis.administration.facilities.facility.add state', function() {
     });
 
     it('should resolve facility operators', function() {
-        this.facilityOperatorService.getAll.and.returnValue(this.$q.when(this.facilityOperators));
+        this.facilityOperatorService.getAll.andReturn(this.$q.when(this.facilityOperators));
 
         this.goToUrl('/administration/facilities/new/details');
 
@@ -119,7 +119,7 @@ describe('openlmis.administration.facilities.facility.add state', function() {
     });
 
     it('should use template', function() {
-        spyOn(this.$templateCache, 'get').and.callThrough();
+        spyOn(this.$templateCache, 'get').andCallThrough();
 
         this.goToUrl('/administration/facilities/new/details');
 

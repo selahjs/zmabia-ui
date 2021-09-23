@@ -55,7 +55,7 @@ describe('referencedata-system-notification run', function() {
     });
 
     function getLastCall(method) {
-        return method.calls.mostRecent();
+        return method.calls[method.calls.length - 1];
     }
 
 });

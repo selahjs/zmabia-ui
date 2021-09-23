@@ -46,20 +46,20 @@ describe('UserRepositoryImpl', function() {
 
         this.authUser = this.userDataBuilder.buildAuthUserJson();
 
-        spyOn(this.AuthUserResource.prototype, 'create').and.returnValue(this.$q.resolve(this.authUser));
-        spyOn(this.AuthUserResource.prototype, 'get').and.returnValue(this.$q.resolve(this.authUser));
+        spyOn(this.AuthUserResource.prototype, 'create').andReturn(this.$q.resolve(this.authUser));
+        spyOn(this.AuthUserResource.prototype, 'get').andReturn(this.$q.resolve(this.authUser));
 
         spyOn(this.ReferenceDataUserResource.prototype, 'query');
         spyOn(this.ReferenceDataUserResource.prototype, 'update')
-            .and.returnValue(this.$q.resolve(this.userDataBuilder.buildReferenceDataUserJson()));
+            .andReturn(this.$q.resolve(this.userDataBuilder.buildReferenceDataUserJson()));
         spyOn(this.ReferenceDataUserResource.prototype, 'get')
-            .and.returnValue(this.$q.resolve(this.userDataBuilder.buildReferenceDataUserJson()));
+            .andReturn(this.$q.resolve(this.userDataBuilder.buildReferenceDataUserJson()));
 
         spyOn(this.UserContactDetailsResource.prototype, 'query');
         spyOn(this.UserContactDetailsResource.prototype, 'update')
-            .and.returnValue(this.$q.resolve(this.userDataBuilder.buildUserContactDetailsJson()));
+            .andReturn(this.$q.resolve(this.userDataBuilder.buildUserContactDetailsJson()));
         spyOn(this.UserContactDetailsResource.prototype, 'get')
-            .and.returnValue(this.$q.resolve(this.userDataBuilder.buildUserContactDetailsJson()));
+            .andReturn(this.$q.resolve(this.userDataBuilder.buildUserContactDetailsJson()));
 
         this.userRepositoryImpl = new this.UserRepositoryImpl();
     });
@@ -68,7 +68,7 @@ describe('UserRepositoryImpl', function() {
 
         it('should create reference data user before creating contact and auth details', function() {
             var referenceDataUserUpdateDeferred = this.$q.defer();
-            this.ReferenceDataUserResource.prototype.update.and.returnValue(referenceDataUserUpdateDeferred.promise);
+            this.ReferenceDataUserResource.prototype.update.andReturn(referenceDataUserUpdateDeferred.promise);
 
             this.userRepositoryImpl.create(this.user);
 
@@ -102,7 +102,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if reference data user creation failed', function() {
-            this.ReferenceDataUserResource.prototype.update.and.returnValue(this.$q.reject());
+            this.ReferenceDataUserResource.prototype.update.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.create(this.user)
@@ -115,7 +115,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if auth data user creation failed', function() {
-            this.AuthUserResource.prototype.create.and.returnValue(this.$q.reject());
+            this.AuthUserResource.prototype.create.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.create(this.user)
@@ -128,7 +128,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if user contact details creation failed', function() {
-            this.UserContactDetailsResource.prototype.update.and.returnValue(this.$q.reject());
+            this.UserContactDetailsResource.prototype.update.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.create(this.user)
@@ -172,7 +172,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if reference data user update failed', function() {
-            this.ReferenceDataUserResource.prototype.update.and.returnValue(this.$q.reject());
+            this.ReferenceDataUserResource.prototype.update.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.update(this.user)
@@ -185,7 +185,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if user contact details update failed', function() {
-            this.UserContactDetailsResource.prototype.update.and.returnValue(this.$q.reject());
+            this.UserContactDetailsResource.prototype.update.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.update(this.user)
@@ -198,7 +198,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if auth data user update failed', function() {
-            this.AuthUserResource.prototype.create.and.returnValue(this.$q.reject());
+            this.AuthUserResource.prototype.create.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.update(this.user)
@@ -237,7 +237,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if reference data user creation failed', function() {
-            this.ReferenceDataUserResource.prototype.get.and.returnValue(this.$q.reject());
+            this.ReferenceDataUserResource.prototype.get.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.get(this.user.id)
@@ -250,7 +250,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if user contact details creation failed', function() {
-            this.UserContactDetailsResource.prototype.get.and.returnValue(this.$q.reject());
+            this.UserContactDetailsResource.prototype.get.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.get(this.user.id)
@@ -267,7 +267,7 @@ describe('UserRepositoryImpl', function() {
     describe('query', function() {
 
         beforeEach(function() {
-            this.ReferenceDataUserResource.prototype.query.and.returnValue(this.$q.resolve(
+            this.ReferenceDataUserResource.prototype.query.andReturn(this.$q.resolve(
                 new this.PageDataBuilder()
                     .withContent([
                         this.userBuilders[0].buildReferenceDataUserJson(),
@@ -277,7 +277,7 @@ describe('UserRepositoryImpl', function() {
                     .build()
             ));
 
-            this.UserContactDetailsResource.prototype.query.and.returnValue(this.$q.resolve(
+            this.UserContactDetailsResource.prototype.query.andReturn(this.$q.resolve(
                 new this.PageDataBuilder()
                     .withContent([
                         this.userBuilders[0].buildUserContactDetailsJson(),
@@ -289,7 +289,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should fetch user contact details first if searching by email', function() {
-            this.ReferenceDataUserResource.prototype.query.and.returnValue(this.$q.resolve(
+            this.ReferenceDataUserResource.prototype.query.andReturn(this.$q.resolve(
                 new this.PageDataBuilder()
                     .withContent([
                         this.userBuilders[0].buildReferenceDataUserJson(),
@@ -331,7 +331,7 @@ describe('UserRepositoryImpl', function() {
 
         it('should not call reference data if there are no matching contact details', function() {
             this.UserContactDetailsResource.prototype.query
-                .and.returnValue(this.$q.resolve(new this.PageDataBuilder().build()));
+                .andReturn(this.$q.resolve(new this.PageDataBuilder().build()));
 
             var result,
                 params = {
@@ -384,7 +384,7 @@ describe('UserRepositoryImpl', function() {
 
         it('should not call notification if there are no matching users', function() {
             this.ReferenceDataUserResource.prototype.query
-                .and.returnValue(this.$q.resolve(new this.PageDataBuilder().build()));
+                .andReturn(this.$q.resolve(new this.PageDataBuilder().build()));
 
             var result,
                 params = {
@@ -405,7 +405,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reference data user if there is no contact details', function() {
-            this.UserContactDetailsResource.prototype.query.and.returnValue(this.$q.resolve(
+            this.UserContactDetailsResource.prototype.query.andReturn(this.$q.resolve(
                 new this.PageDataBuilder()
                     .withContent([
                         this.userBuilders[0].buildUserContactDetailsJson(),
@@ -444,7 +444,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if reference data rejects', function() {
-            this.ReferenceDataUserResource.prototype.query.and.returnValue(this.$q.reject());
+            this.ReferenceDataUserResource.prototype.query.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.query()
@@ -457,7 +457,7 @@ describe('UserRepositoryImpl', function() {
         });
 
         it('should reject if notification rejects', function() {
-            this.UserContactDetailsResource.prototype.query.and.returnValue(this.$q.reject());
+            this.UserContactDetailsResource.prototype.query.andReturn(this.$q.reject());
 
             var rejected;
             this.userRepositoryImpl.query()

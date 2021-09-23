@@ -39,7 +39,7 @@ describe('openlmis.administration.users state', function() {
             .withContent(this.users)
             .build();
 
-        spyOn(this.UserRepository.prototype, 'query').and.returnValue(this.$q.when(this.usersPage));
+        spyOn(this.UserRepository.prototype, 'query').andReturn(this.$q.when(this.usersPage));
 
         this.goToUrl = function(url) {
             this.$location.url(url);

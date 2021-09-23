@@ -103,23 +103,21 @@ describe('openlmis.profile', function() {
         this.objectMapper = new this.ObjectMapper();
 
         spyOn(this.AdminUserRolesSupervisoryNodeResource.prototype, 'query')
-            .and.returnValue(this.$q.resolve(new this.PageDataBuilder()
+            .andReturn(this.$q.resolve(new this.PageDataBuilder()
                 .withContent(this.supervisoryNodes)
                 .build()));
-        spyOn(this.referencedataRoleFactory, 'getAllWithType').and.returnValue(this.$q.resolve(this.roles));
-        spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.resolve(this.warehouses));
-        spyOn(this.facilityService, 'getMinimal').and.returnValue(this.$q.resolve(this.homeFacility));
-        spyOn(this.currentUserService, 'getUserInfo').and.returnValue(this.$q.resolve(this.user));
-        spyOn(this.UserRepository.prototype, 'get').and.returnValue(this.$q.resolve(this.user));
-        spyOn(this.programService, 'getAll').and.returnValue(this.$q.resolve(this.programs));
-        spyOn(this.userRoleAssignmentFactory, 'getUser').and.returnValue(this.$q.resolve(this.user));
-        spyOn(this.$templateCache, 'get').and.callThrough();
-        spyOn(this.authUserService, 'getVerificationEmail')
-            .and.returnValue(this.$q.resolve(this.pendingVerificationEmail));
-        spyOn(this.UserSubscriptionResource.prototype, 'query')
-            .and.returnValue(this.$q.resolve(this.userSubscriptions));
+        spyOn(this.referencedataRoleFactory, 'getAllWithType').andReturn(this.$q.resolve(this.roles));
+        spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.resolve(this.warehouses));
+        spyOn(this.facilityService, 'getMinimal').andReturn(this.$q.resolve(this.homeFacility));
+        spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.resolve(this.user));
+        spyOn(this.UserRepository.prototype, 'get').andReturn(this.$q.resolve(this.user));
+        spyOn(this.programService, 'getAll').andReturn(this.$q.resolve(this.programs));
+        spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.resolve(this.user));
+        spyOn(this.$templateCache, 'get').andCallThrough();
+        spyOn(this.authUserService, 'getVerificationEmail').andReturn(this.$q.resolve(this.pendingVerificationEmail));
+        spyOn(this.UserSubscriptionResource.prototype, 'query').andReturn(this.$q.resolve(this.userSubscriptions));
         spyOn(this.DigestConfigurationResource.prototype, 'query')
-            .and.returnValue(this.$q.resolve(this.digestConfigurationsPage));
+            .andReturn(this.$q.resolve(this.digestConfigurationsPage));
 
         this.goToUrl = function(url) {
             this.$location.url(url);

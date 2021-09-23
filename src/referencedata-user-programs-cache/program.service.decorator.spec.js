@@ -21,7 +21,7 @@ describe('ProgramService getUserPrograms decorator', function() {
         module('referencedata-user');
         module('referencedata-user-programs-cache', function($provide) {
             $provide.factory('localStorageFactory', function() {
-                cache.getAll.and.returnValue([]);
+                cache.getAll.andReturn([]);
                 return function() {
                     return cache;
                 };
@@ -50,7 +50,7 @@ describe('ProgramService getUserPrograms decorator', function() {
     });
 
     it('should return a cached programs if available', function() {
-        this.cache.search.and.returnValue(this.programs);
+        this.cache.search.andReturn(this.programs);
 
         var result;
         this.programService
@@ -69,7 +69,7 @@ describe('ProgramService getUserPrograms decorator', function() {
             .expectGET(this.openlmisUrlFactory('api/users/' + this.user.id + '/programs'))
             .respond(200, this.programs);
 
-        this.cache.search.and.returnValue(undefined);
+        this.cache.search.andReturn(undefined);
 
         var result;
         this.programService
@@ -80,7 +80,7 @@ describe('ProgramService getUserPrograms decorator', function() {
         this.$httpBackend.flush();
         this.$rootScope.$apply();
 
-        expect(this.cache.put.calls.count()).toEqual(2);
+        expect(this.cache.put.callCount).toEqual(2);
         expect(angular.toJson(result)).toEqual(angular.toJson([
             _.extend({}, this.programs[0], this.userIdOffline),
             _.extend({}, this.programs[1], this.userIdOffline)

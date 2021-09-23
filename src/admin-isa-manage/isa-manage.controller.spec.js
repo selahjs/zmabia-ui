@@ -36,8 +36,8 @@ describe('IsaManageController', function() {
 
         this.vm = this.$controller('IsaManageController', {});
 
-        spyOn(this.$state, 'reload').and.returnValue(true);
-        spyOn(this.loadingModalService, 'open').and.returnValue(this.$q.when());
+        spyOn(this.$state, 'reload').andReturn(true);
+        spyOn(this.loadingModalService, 'open').andReturn(this.$q.when());
     });
 
     describe('init', function() {
@@ -55,7 +55,7 @@ describe('IsaManageController', function() {
 
         it('should call isaService and return download url', function() {
             var downloadUrl = 'some-domain/download';
-            spyOn(this.isaService, 'getDownloadUrl').and.returnValue(downloadUrl);
+            spyOn(this.isaService, 'getDownloadUrl').andReturn(downloadUrl);
 
             var result = this.vm.getExportUrl();
 
@@ -72,14 +72,14 @@ describe('IsaManageController', function() {
             };
             this.deferred = this.$q.defer();
 
-            spyOn(this.isaService, 'upload').and.returnValue(this.deferred.promise);
+            spyOn(this.isaService, 'upload').andReturn(this.deferred.promise);
             spyOn(this.notificationService, 'success');
             spyOn(this.notificationService, 'error');
         });
 
         it('should call isaService and show success notification', function() {
             var message = 'message';
-            spyOn(this.messageService, 'get').and.returnValue(message);
+            spyOn(this.messageService, 'get').andReturn(message);
 
             this.vm.file = this.file;
             this.deferred.resolve(this.response);

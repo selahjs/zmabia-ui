@@ -73,11 +73,11 @@ describe('facilityProgramCacheService', function() {
                 .build()
         ];
 
-        spyOn(this.authorizationService, 'getUser').and.returnValue(this.user);
-        spyOn(this.programService, 'getUserPrograms').and.returnValue(this.$q.when(this.programs));
-        spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.when(this.facilities));
-        spyOn(this.permissionService, 'load').and.returnValue(this.$q.when(permissions));
-        spyOn(this.currentUserService, 'getUserInfo').and.returnValue(this.$q.when(this.referencedataUser));
+        spyOn(this.authorizationService, 'getUser').andReturn(this.user);
+        spyOn(this.programService, 'getUserPrograms').andReturn(this.$q.when(this.programs));
+        spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.when(this.facilities));
+        spyOn(this.permissionService, 'load').andReturn(this.$q.when(permissions));
+        spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.when(this.referencedataUser));
 
         this.facilityProgramCacheService.pushRightsForModule('module', ['right-1']);
         this.loadPromise = this.facilityProgramCacheService.loadData('module');
@@ -111,7 +111,7 @@ describe('facilityProgramCacheService', function() {
         });
 
         it('should reject promise if request fails', function() {
-            this.currentUserService.getUserInfo.and.returnValue(this.$q.reject());
+            this.currentUserService.getUserInfo.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityProgramCacheService.loadData()

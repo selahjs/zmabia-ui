@@ -49,7 +49,7 @@ describe('Facility service minimal decorator', function() {
         spyOn(this.LocalDatabase.prototype, 'getAll');
         spyOn(this.LocalDatabase.prototype, 'get');
         spyOn(this.LocalDatabase.prototype, 'removeAll');
-        spyOn(this.offlineService, 'isOffline').and.returnValue(false);
+        spyOn(this.offlineService, 'isOffline').andReturn(false);
     });
 
     describe('cacheAllMinimal', function() {
@@ -57,9 +57,9 @@ describe('Facility service minimal decorator', function() {
         var fetchDeferred, removeDeferred, putDeferred;
 
         beforeEach(function() {
-            this.originalGetAllMinimalSpy.and.returnValue(this.$q.resolve(this.minimalFacilities));
-            this.LocalDatabase.prototype.removeAll.and.returnValue(this.$q.resolve());
-            this.LocalDatabase.prototype.putAll.and.returnValue(this.$q.resolve());
+            this.originalGetAllMinimalSpy.andReturn(this.$q.resolve(this.minimalFacilities));
+            this.LocalDatabase.prototype.removeAll.andReturn(this.$q.resolve());
+            this.LocalDatabase.prototype.putAll.andReturn(this.$q.resolve());
         });
 
         it('should cache on the first call', function() {
@@ -68,10 +68,10 @@ describe('Facility service minimal decorator', function() {
             removeDeferred = this.$q.defer();
             putDeferred = this.$q.defer();
 
-            this.LocalDatabase.prototype.putAll.and.returnValue(putDeferred.promise);
-            this.LocalDatabase.prototype.removeAll.and.returnValue(removeDeferred.promise);
+            this.LocalDatabase.prototype.putAll.andReturn(putDeferred.promise);
+            this.LocalDatabase.prototype.removeAll.andReturn(removeDeferred.promise);
 
-            this.originalGetAllMinimalSpy.and.returnValue(fetchDeferred.promise);
+            this.originalGetAllMinimalSpy.andReturn(fetchDeferred.promise);
 
             var success;
             this.facilityService.cacheAllMinimal()
@@ -104,7 +104,7 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should reject if fetching fails', function() {
-            this.originalGetAllMinimalSpy.and.returnValue(this.$q.reject());
+            this.originalGetAllMinimalSpy.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityService.cacheAllMinimal()
@@ -117,7 +117,7 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should reject if database fails to clear', function() {
-            this.LocalDatabase.prototype.removeAll.and.returnValue(this.$q.reject());
+            this.LocalDatabase.prototype.removeAll.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityService.cacheAllMinimal()
@@ -130,7 +130,7 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should reject if database fails to save', function() {
-            this.LocalDatabase.prototype.putAll.and.returnValue(this.$q.reject());
+            this.LocalDatabase.prototype.putAll.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityService.cacheAllMinimal()
@@ -143,12 +143,12 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should attempt to fetch the facilities if the first attempt fails', function() {
-            this.LocalDatabase.prototype.putAll.and.returnValue(this.$q.reject());
+            this.LocalDatabase.prototype.putAll.andReturn(this.$q.reject());
 
             this.facilityService.cacheAllMinimal();
             this.$rootScope.$apply();
 
-            this.LocalDatabase.prototype.putAll.and.returnValue(this.$q.resolve());
+            this.LocalDatabase.prototype.putAll.andReturn(this.$q.resolve());
 
             var success;
             this.facilityService.cacheAllMinimal()
@@ -163,7 +163,7 @@ describe('Facility service minimal decorator', function() {
         it('should not fetch data twice for following requests', function() {
             this.facilityService.cacheAllMinimal();
 
-            this.originalGetAllMinimalSpy.calls.reset();
+            this.originalGetAllMinimalSpy.reset();
 
             var success;
             this.facilityService.cacheAllMinimal()
@@ -180,7 +180,7 @@ describe('Facility service minimal decorator', function() {
             this.facilityService.cacheAllMinimal();
             this.$rootScope.$apply();
 
-            this.originalGetAllMinimalSpy.calls.reset();
+            this.originalGetAllMinimalSpy.reset();
 
             var success;
             this.facilityService.cacheAllMinimal()
@@ -197,7 +197,7 @@ describe('Facility service minimal decorator', function() {
             this.facilityService.cacheAllMinimal();
             this.$rootScope.$apply();
 
-            this.originalGetAllMinimalSpy.calls.reset();
+            this.originalGetAllMinimalSpy.reset();
 
             this.facilityService.clearMinimalFacilitiesCache();
             this.$rootScope.$apply();
@@ -214,8 +214,8 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should return cached data in offline mode', function() {
-            this.LocalDatabase.prototype.getAll.and.returnValue(this.$q.resolve(this.minimalFacilities));
-            this.offlineService.isOffline.and.returnValue(true);
+            this.LocalDatabase.prototype.getAll.andReturn(this.$q.resolve(this.minimalFacilities));
+            this.offlineService.isOffline.andReturn(true);
 
             var result;
             this.facilityService.getAllMinimal()
@@ -234,8 +234,8 @@ describe('Facility service minimal decorator', function() {
     describe('getAllMinimal', function() {
 
         beforeEach(function() {
-            spyOn(this.facilityService, 'cacheAllMinimal').and.returnValue(this.$q.resolve());
-            this.LocalDatabase.prototype.getAll.and.returnValue(this.$q.resolve(this.minimalFacilities));
+            spyOn(this.facilityService, 'cacheAllMinimal').andReturn(this.$q.resolve());
+            this.LocalDatabase.prototype.getAll.andReturn(this.$q.resolve(this.minimalFacilities));
         });
 
         it('should return cached facilities', function() {
@@ -250,7 +250,7 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should reject if caching fails', function() {
-            this.facilityService.cacheAllMinimal.and.returnValue(this.$q.reject());
+            this.facilityService.cacheAllMinimal.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityService.getAllMinimal()
@@ -268,8 +268,8 @@ describe('Facility service minimal decorator', function() {
     describe('getMinimal', function() {
 
         beforeEach(function() {
-            spyOn(this.facilityService, 'cacheAllMinimal').and.returnValue(this.$q.resolve());
-            this.LocalDatabase.prototype.get.and.returnValue(this.$q.resolve(this.minimalFacilities[0]));
+            spyOn(this.facilityService, 'cacheAllMinimal').andReturn(this.$q.resolve());
+            this.LocalDatabase.prototype.get.andReturn(this.$q.resolve(this.minimalFacilities[0]));
         });
 
         it('should return cached facilities', function() {
@@ -284,7 +284,7 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should reject if caching fails', function() {
-            this.facilityService.cacheAllMinimal.and.returnValue(this.$q.reject());
+            this.facilityService.cacheAllMinimal.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityService.getMinimal()
@@ -302,7 +302,7 @@ describe('Facility service minimal decorator', function() {
     describe('clearMinimalFacilitiesCache', function() {
 
         it('should clear the database', function() {
-            this.LocalDatabase.prototype.removeAll.and.returnValue(this.$q.resolve());
+            this.LocalDatabase.prototype.removeAll.andReturn(this.$q.resolve());
 
             this.facilityService.clearMinimalFacilitiesCache();
 
@@ -311,7 +311,7 @@ describe('Facility service minimal decorator', function() {
 
         it('should resolve once the database is cleared', function() {
             var deferred = this.$q.defer();
-            this.LocalDatabase.prototype.removeAll.and.returnValue(deferred.promise);
+            this.LocalDatabase.prototype.removeAll.andReturn(deferred.promise);
 
             var success;
             this.facilityService.clearMinimalFacilitiesCache()
@@ -329,7 +329,7 @@ describe('Facility service minimal decorator', function() {
         });
 
         it('should reject if database fail to clear', function() {
-            this.LocalDatabase.prototype.removeAll.and.returnValue(this.$q.reject());
+            this.LocalDatabase.prototype.removeAll.andReturn(this.$q.reject());
 
             var rejected;
             this.facilityService.clearMinimalFacilitiesCache()

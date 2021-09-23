@@ -35,8 +35,8 @@ describe('OpenlmisPrinter', function() {
         this.tabSpy.document = this.documentSpy;
 
         spyOn(this.accessTokenFactory, 'addAccessToken');
-        spyOn(this.messageService, 'get').and.returnValue(this.loadingMessage);
-        spyOn(this.$window, 'open').and.returnValue(this.tabSpy);
+        spyOn(this.messageService, 'get').andReturn(this.loadingMessage);
+        spyOn(this.$window, 'open').andReturn(this.tabSpy);
     });
 
     describe('constructor', function() {
@@ -115,7 +115,7 @@ describe('OpenlmisPrinter', function() {
             this.printer.openTab();
 
             var accessTokenSuffix = this.accessTokenSuffix;
-            this.accessTokenFactory.addAccessToken.and.callFake(function(url) {
+            this.accessTokenFactory.addAccessToken.andCallFake(function(url) {
                 return url + accessTokenSuffix;
             });
         });

@@ -51,11 +51,11 @@ describe('openlmis.administration.users.form', function() {
 
         this.verificationEmail = new this.VerificationEmailDataBuilder().build();
 
-        spyOn(this.facilityService, 'getAllMinimal').and.returnValue(this.$q.resolve(this.facilities));
-        spyOn(this.UserRepository.prototype, 'query').and.returnValue(this.$q.resolve(this.users));
-        spyOn(this.UserService.prototype, 'get').and.returnValue(this.$q.resolve(this.users.content[0]));
-        spyOn(this.authUserService, 'getVerificationEmail').and.returnValue(this.$q.resolve(this.verificationEmail));
-        spyOn(this.$templateCache, 'get').and.callThrough();
+        spyOn(this.facilityService, 'getAllMinimal').andReturn(this.$q.resolve(this.facilities));
+        spyOn(this.UserRepository.prototype, 'query').andReturn(this.$q.resolve(this.users));
+        spyOn(this.UserService.prototype, 'get').andReturn(this.$q.resolve(this.users.content[0]));
+        spyOn(this.authUserService, 'getVerificationEmail').andReturn(this.$q.resolve(this.verificationEmail));
+        spyOn(this.$templateCache, 'get').andCallThrough();
 
         this.goToUrl = function(url) {
             this.$location.url(url);
@@ -117,7 +117,7 @@ describe('openlmis.administration.users.form', function() {
                 .asNew()
                 .build();
 
-            this.UserService.prototype.get.and.returnValue(this.$q.resolve(user));
+            this.UserService.prototype.get.andReturn(this.$q.resolve(user));
 
             this.goToUrl(
                 '/administration/users/form/' + this.users.content[0].id + '?usersPage=0&usersSize=10&sort=username'

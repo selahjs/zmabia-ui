@@ -35,7 +35,7 @@ describe('AdminSupplyPartnerEditService', function() {
         this.supplyPartnerId = this.supplyPartner.id;
         this.adminSupplyPartnerEditService = new this.AdminSupplyPartnerEditService();
 
-        spyOn(this.SupplyPartnerRepository.prototype, 'get').and.returnValue();
+        spyOn(this.SupplyPartnerRepository.prototype, 'get').andReturn();
         spyOn(this.SupplyPartner.prototype, 'save');
         spyOn(this.SupplyPartner.prototype, 'removeAssociation');
         spyOn(this.loadingModalService, 'open');
@@ -49,7 +49,7 @@ describe('AdminSupplyPartnerEditService', function() {
     describe('getSupplyPartner', function() {
 
         it('should fetch supply partner', function() {
-            this.SupplyPartnerRepository.prototype.get.and.returnValue(this.$q.resolve(this.supplyPartner));
+            this.SupplyPartnerRepository.prototype.get.andReturn(this.$q.resolve(this.supplyPartner));
 
             this.adminSupplyPartnerEditService.getSupplyPartner(this.supplyPartnerId);
 
@@ -57,7 +57,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should resolve to supply partner when supply partner is fetched', function() {
-            this.SupplyPartnerRepository.prototype.get.and.returnValue(this.$q.resolve(this.supplyPartner));
+            this.SupplyPartnerRepository.prototype.get.andReturn(this.$q.resolve(this.supplyPartner));
 
             var result;
             this.adminSupplyPartnerEditService
@@ -71,7 +71,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should reject if failed to be fetched', function() {
-            this.SupplyPartnerRepository.prototype.get.and.returnValue(this.$q.reject());
+            this.SupplyPartnerRepository.prototype.get.andReturn(this.$q.reject());
 
             var rejected;
             this.adminSupplyPartnerEditService
@@ -88,7 +88,7 @@ describe('AdminSupplyPartnerEditService', function() {
             var originalSave = this.supplyPartner.save,
                 originalRemoveChildNode = this.supplyPartner.removeAssociation;
 
-            this.SupplyPartnerRepository.prototype.get.and.returnValue(this.$q.resolve(this.supplyPartner));
+            this.SupplyPartnerRepository.prototype.get.andReturn(this.$q.resolve(this.supplyPartner));
 
             var result;
             this.adminSupplyPartnerEditService
@@ -107,8 +107,8 @@ describe('AdminSupplyPartnerEditService', function() {
     describe('decoratedSave', function() {
 
         beforeEach(function() {
-            this.SupplyPartnerRepository.prototype.get.and.returnValue(this.$q.resolve(this.supplyPartner));
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.resolve(this.supplyPartner));
+            this.SupplyPartnerRepository.prototype.get.andReturn(this.$q.resolve(this.supplyPartner));
+            this.SupplyPartner.prototype.save.andReturn(this.$q.resolve(this.supplyPartner));
 
             var suite = this;
             this.adminSupplyPartnerEditService.getSupplyPartner()
@@ -133,7 +133,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should close loading modal after failing to save', function() {
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.save.andReturn(this.$q.reject());
 
             this.supplyPartner.save();
             this.$rootScope.$apply();
@@ -143,7 +143,7 @@ describe('AdminSupplyPartnerEditService', function() {
 
         it('should reject with original error if save fails', function() {
             var error = 'Some error message';
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.reject(error));
+            this.SupplyPartner.prototype.save.andReturn(this.$q.reject(error));
 
             var result;
             this.supplyPartner.save()
@@ -182,7 +182,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should show error notification', function() {
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.save.andReturn(this.$q.reject());
 
             this.supplyPartner.save();
             this.$rootScope.$apply();
@@ -192,7 +192,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should not show successful notification on failure', function() {
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.save.andReturn(this.$q.reject());
 
             this.supplyPartner.save();
             this.$rootScope.$apply();
@@ -210,7 +210,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should not take user to the View Supervisory Node view after failed save', function() {
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.reject());
+            this.SupplyPartner.prototype.save.andReturn(this.$q.reject());
 
             this.supplyPartner.save();
             this.$rootScope.$apply();
@@ -223,9 +223,9 @@ describe('AdminSupplyPartnerEditService', function() {
     describe('removeAssociation', function() {
 
         beforeEach(function() {
-            this.SupplyPartnerRepository.prototype.get.and.returnValue(this.$q.resolve(this.supplyPartner));
-            this.SupplyPartner.prototype.save.and.returnValue(this.$q.resolve(this.supplyPartner));
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
+            this.SupplyPartnerRepository.prototype.get.andReturn(this.$q.resolve(this.supplyPartner));
+            this.SupplyPartner.prototype.save.andReturn(this.$q.resolve(this.supplyPartner));
+            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
 
             var suite = this;
             this.adminSupplyPartnerEditService.getSupplyPartner()
@@ -245,7 +245,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should open loading modal after confirmation', function() {
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.resolve());
+            this.confirmService.confirmDestroy.andReturn(this.$q.resolve());
 
             this.supplyPartner.removeAssociation(this.supplyPartner.associations[0].id);
 
@@ -257,7 +257,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should do nothing without confirmation', function() {
-            this.confirmService.confirmDestroy.and.returnValue(this.$q.defer().promise);
+            this.confirmService.confirmDestroy.andReturn(this.$q.defer().promise);
 
             this.supplyPartner.removeAssociation(this.supplyPartner.associations[0].id);
 
@@ -281,7 +281,7 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should close loading modal on failure', function() {
-            this.SupplyPartner.prototype.removeAssociation.and.throwError('Error message');
+            this.SupplyPartner.prototype.removeAssociation.andThrow('Error message');
 
             this.supplyPartner.removeAssociation(this.supplyPartner.associations[0].id);
             this.$rootScope.$apply();
@@ -291,9 +291,9 @@ describe('AdminSupplyPartnerEditService', function() {
         });
 
         it('should reject with exception message if removing throws an exception', function() {
-            var error = new Error('Error message');
+            var errorMessage = 'Error message';
 
-            this.SupplyPartner.prototype.removeAssociation.and.throwError('Error message');
+            this.SupplyPartner.prototype.removeAssociation.andThrow('Error message');
 
             var result;
             this.supplyPartner.removeAssociation(this.supplyPartner.associations[0].id)
@@ -302,7 +302,7 @@ describe('AdminSupplyPartnerEditService', function() {
                 });
             this.$rootScope.$apply();
 
-            expect(result).toEqual(error);
+            expect(result).toEqual(errorMessage);
         });
 
         it('should resolve when successful', function() {
