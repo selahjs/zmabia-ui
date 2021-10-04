@@ -2,6 +2,7 @@
 ==================
 
 Improvements:
+* [OLMIS-7342](https://openlmis.atlassian.net/browse/OLMIS-7342): Create navigation bar and make it responsive.
 * [OLMIS-7321](https://openlmis.atlassian.net/browse/OLMIS-7321): Improved the home page screen to be responsive.
 * [OLMIS-7318](https://openlmis.atlassian.net/browse/OLMIS-7318): Added the ability to hide unnecessary modules on mobile.
 * [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Update scss files to enable webpack build.

@@ -70,3 +70,80 @@ body > header {
         flex: 0 0 auto;
     }
 }
+
+.navbar {
+    width: 100%;
+
+    .navbar-right {
+        float: right !important;
+
+        @media screen and (max-width: $res-md) {
+            margin-left: auto !important;
+        }
+    }
+
+    .nav.navbar-nav {
+        flex-direction: row;
+    }
+ 
+}
+
+header > .navbar {
+    @media screen and (max-width: $res-xs) {
+        padding: 0% 1% !important;
+    }
+    @media screen and (max-width: $res-xs) {
+        padding: 0% 1% !important;
+    }
+    
+}
+
+header > .navbar.display-in-browser {
+    display: block;
+    @media screen and (max-width: $res-md) {
+        display: none;
+    }
+}
+
+header > .navbar.display-in-browser {
+    display: block;
+    @media screen and (max-width: $res-md) {
+        display: none !important;
+    }
+}
+
+header > .navbar.display-in-mobile {
+    display: none;
+    @media screen and (max-width: $res-md) {
+        display: flex;
+    }
+}
+
+.navbar {
+    margin: 0em;
+}
+
+.navbar-header {
+    display: flex;
+    padding: 10px 0px;
+
+    .locale-container {
+        @media screen and (max-width: $res-md) {
+            margin-left: 10px;
+        }
+    }
+
+    .openlmis-button-group {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .navbar-toggler {
+        padding: 0px 20px;
+    }
+}
+
+header > .navbar .navbar-nav > li > a {
+    color: $white;
+    font-weight: bold;
+}
