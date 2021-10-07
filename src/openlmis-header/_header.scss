@@ -153,7 +153,8 @@ header > .navbar.display-in-mobile {
 
     .locale-container {
         @media screen and (max-width: $res-md) {
-            margin-left: 10px;
+            margin: 10px;
+            margin-bottom: 7.5px;
         }
     }
 
