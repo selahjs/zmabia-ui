@@ -2,6 +2,7 @@
 ==================
 
 Improvements:
+* [OLMIS-7405](https://openlmis.atlassian.net/browse/OLMIS-7405): Minimize difference between uat Mobile UI and demo-v3 Mobile UI servers
 * [OLMIS-7342](https://openlmis.atlassian.net/browse/OLMIS-7342): Create navigation bar and make it responsive.
 * [OLMIS-7321](https://openlmis.atlassian.net/browse/OLMIS-7321): Improved the home page screen to be responsive.
 * [OLMIS-7318](https://openlmis.atlassian.net/browse/OLMIS-7318): Added the ability to hide unnecessary modules on mobile.
