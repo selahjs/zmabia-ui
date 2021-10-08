@@ -138,7 +138,7 @@ header > .navbar.display-in-browser {
 
 header > .navbar.display-in-mobile {
     display: none;
-    @media screen and (max-width: $res-md - 1px) {
+    @media screen and (max-width: ($res-md)) {
         display: flex;
     }
 }
