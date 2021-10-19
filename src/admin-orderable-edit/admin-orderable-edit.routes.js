@@ -165,7 +165,7 @@
                 abstract: true,
                 template: '<div ui-view></div>',
                 resolve: {
-                    children: function(orderable) {
+                    cachedChildren: function(orderable) {
                         return orderable.children;
                     }
                 }
@@ -179,9 +179,9 @@
                 templateUrl: 'admin-orderable-edit/orderable-edit-kit-unpack-list.html',
                 controllerAs: 'vm',
                 nonTrackable: true,
-                parentResolves: ['children'],
+                parentResolves: ['cachedChildren'],
                 resolve: {
-                    children: function($stateParams, children, paginationService) {
+                    children: function($stateParams, cachedChildren, paginationService) {
                         var stateParams = angular.copy($stateParams);
                         stateParams.productName = undefined;
                         stateParams.productCode = undefined;
@@ -189,7 +189,7 @@
                         stateParams.code = undefined;
 
                         return paginationService.registerList(null, stateParams, function() {
-                            return children;
+                            return cachedChildren;
                         }, {
                             paginationId: 'kitUnpackList'
                         });

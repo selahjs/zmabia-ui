@@ -10,6 +10,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-7422](https://openlmis.atlassian.net/browse/OLMIS-7422): Fix internal application error after trying to "Edit"  Supervisory Nodes.
+* [OLMIS-7420](https://openlmis.atlassian.net/browse/OLMIS-7420): Fix internal application error during Unpacking the kit
 
 5.6.5 / 2021-05-27
 ==================
