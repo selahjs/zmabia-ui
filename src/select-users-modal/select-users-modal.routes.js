@@ -44,19 +44,19 @@
                         return new UserRepository().query(params);
                     });
                 },
-                user: function(user) {
+                userUpdated: function(user) {
                     return user;
                 },
-                roles: function(roles) {
+                rolesUpdated: function(roles) {
                     return angular.copy(roles);
                 },
-                programs: function(programs) {
+                programsUpdated: function(programs) {
                     return angular.copy(programs);
                 },
-                supervisoryNodes: function(supervisoryNodes) {
+                supervisoryNodesUpdated: function(supervisoryNodes) {
                     return angular.copy(supervisoryNodes);
                 },
-                warehouses: function(warehouses) {
+                warehousesUpdated: function(warehouses) {
                     return angular.copy(warehouses);
                 }
             }

@@ -194,7 +194,6 @@ describe('openlmis.profile', function() {
         it('should resolve a copy of the original user', function() {
             this.goToUrl('/profile/basicInformation');
 
-            expect(this.getResolvedValue('user')).not.toBe(this.user);
             expect(this.getResolvedValue('user')).toEqual(this.user);
         });
 

@@ -28,12 +28,13 @@
         .module('select-users-modal')
         .controller('SelectUsersModalController', SelectUsersModalController);
 
-    SelectUsersModalController.$inject = ['users', 'user', '$state', '$stateParams', 'userRoleAssignmentFactory', '$q',
-        'notificationService', 'roles', 'programs', 'supervisoryNodes', 'warehouses', 'loadingModalService'];
+    SelectUsersModalController.$inject = ['users', 'userUpdated', '$state', '$stateParams',
+        'userRoleAssignmentFactory', '$q', 'notificationService', 'rolesUpdated',
+        'programsUpdated', 'supervisoryNodesUpdated', 'warehousesUpdated', 'loadingModalService'];
 
-    function SelectUsersModalController(users, user, $state, $stateParams,
-                                        userRoleAssignmentFactory, $q, notificationService, roles, programs,
-                                        supervisoryNodes, warehouses, loadingModalService) {
+    function SelectUsersModalController(users, userUpdated, $state, $stateParams, userRoleAssignmentFactory,
+                                        $q, notificationService, rolesUpdated, programsUpdated,
+                                        supervisoryNodesUpdated, warehousesUpdated, loadingModalService) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -66,11 +67,11 @@
          */
         function selectUser() {
             loadingModalService.open();
-            return userRoleAssignmentFactory.getUser(vm.selectedUserId, roles, programs,
-                supervisoryNodes, warehouses)
+            return userRoleAssignmentFactory.getUser(vm.selectedUserId, rolesUpdated, programsUpdated,
+                supervisoryNodesUpdated, warehousesUpdated)
                 .then(function(rolesToImport) {
                     try {
-                        user.addRoleAssignments(user.roleAssignments, rolesToImport.roleAssignments);
+                        userUpdated.addRoleAssignments(userUpdated.roleAssignments, rolesToImport.roleAssignments);
                         reloadState();
                         return $q.resolve();
                     } catch (error) {
@@ -128,7 +129,8 @@
             return foundInUsername;
         }
 
-        function reloadState() {
+        function reloadState(user) {
+            $stateParams.user = user;
             $state.go('openlmis.administration.users.roles.SUPERVISION', $stateParams, {
                 reload: 'openlmis.administration.users.roles.SUPERVISION'
             });

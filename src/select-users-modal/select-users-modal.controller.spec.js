@@ -34,53 +34,59 @@ describe('SelectUsersModalController', function() {
             this.$state = $injector.get('$state');
         });
 
-        this.roles = [
+        this.rolesUpdated = [
             new this.RoleDataBuilder().build(),
             new this.RoleDataBuilder().build(),
             new this.RoleDataBuilder().build(),
             new this.RoleDataBuilder().build()
         ];
 
-        this.programs = [
+        this.programsUpdated = [
             new this.ProgramDataBuilder().build(),
             new this.ProgramDataBuilder().build()
         ];
 
-        this.supervisoryNodes = [
+        this.supervisoryNodesUpdated = [
             new this.SupervisoryNodeDataBuilder().build(),
             new this.SupervisoryNodeDataBuilder().build()
         ];
 
-        this.warehouses = [
+        this.warehousesUpdated = [
             new this.MinimalFacilityDataBuilder().build(),
             new this.MinimalFacilityDataBuilder().build()
         ];
 
         this.homeFacility = new this.MinimalFacilityDataBuilder().build();
 
-        this.user = new this.UserDataBuilder()
+        this.userUpdated = new this.UserDataBuilder()
             .withHomeFacilityId(this.homeFacility.id)
             .build();
 
         this.users = [
             new this.UserDataBuilder()
                 .withHomeFacilityId(this.homeFacility.id)
-                .withSupervisionRoleAssignment(this.roles[0].id, this.supervisoryNodes[0].id, this.programs[0].id)
+                .withSupervisionRoleAssignment(this.rolesUpdated[0].id,
+                    this.supervisoryNodesUpdated[0].id,
+                    this.programsUpdated[0].id)
                 .withUsername('FirstUser')
                 .build(),
             new this.UserDataBuilder()
                 .withHomeFacilityId(this.homeFacility.id)
-                .withSupervisionRoleAssignment(this.roles[1].id, this.supervisoryNodes[1].id, this.programs[1].id)
+                .withSupervisionRoleAssignment(this.rolesUpdated[1].id,
+                    this.supervisoryNodesUpdated[1].id,
+                    this.programsUpdated[1].id)
                 .withUsername('SecondUser')
                 .build(),
             new this.UserDataBuilder()
                 .withHomeFacilityId(this.homeFacility.id)
-                .withOrderFulfillmentRoleAssignment(this.roles[2].id, this.warehouses[0].id)
+                .withOrderFulfillmentRoleAssignment(this.rolesUpdated[2].id,
+                    this.warehousesUpdated[0].id)
                 .withUsername('ThirdUser')
                 .build(),
             new this.UserDataBuilder()
                 .withHomeFacilityId(this.homeFacility.id)
-                .withOrderFulfillmentRoleAssignment(this.roles[3].id, this.warehouses[1].id)
+                .withOrderFulfillmentRoleAssignment(this.rolesUpdated[3].id,
+                    this.warehousesUpdated[1].id)
                 .withUsername('FourthUser')
                 .build()
         ];
@@ -100,11 +106,11 @@ describe('SelectUsersModalController', function() {
         this.initController = function() {
             this.vm = this.$controller('SelectUsersModalController', {
                 users: this.users,
-                user: this.user,
-                roles: this.roles,
-                supervisoryNodes: this.supervisoryNodes,
-                programs: this.programs,
-                warehouses: this.warehouses,
+                userUpdated: this.userUpdated,
+                rolesUpdated: this.rolesUpdated,
+                supervisoryNodesUpdated: this.supervisoryNodesUpdated,
+                programsUpdated: this.programsUpdated,
+                warehousesUpdated: this.warehousesUpdated,
                 $stateParams: this.$stateParams
             });
             this.vm.$onInit();
@@ -200,23 +206,23 @@ describe('SelectUsersModalController', function() {
         it('should not import roles if roles are already assigned', function() {
             spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.resolve(this.selectedUser));
             var roleAssignmentsCount = this.selectedUser.roleAssignments.length;
-            this.user.roleAssignments = this.selectedUser.roleAssignments;
+            this.userUpdated.roleAssignments = this.selectedUser.roleAssignments;
 
             this.vm.selectUser();
             this.$rootScope.$apply();
 
-            expect(this.user.roleAssignments.length).toEqual(roleAssignmentsCount);
+            expect(this.userUpdated.roleAssignments.length).toEqual(roleAssignmentsCount);
         });
 
         it('should import roles successfully', function() {
             spyOn(this.userRoleAssignmentFactory, 'getUser').andReturn(this.$q.resolve(this.selectedUser));
             this.vm.selectUser();
 
-            expect(this.user.roleAssignments[0]).toEqual(undefined);
+            expect(this.userUpdated.roleAssignments[0]).toEqual(undefined);
 
             this.$rootScope.$apply();
 
-            expect(this.user.roleAssignments[0]).toEqual(this.selectedUser.roleAssignments[0]);
+            expect(this.userUpdated.roleAssignments[0]).toEqual(this.selectedUser.roleAssignments[0]);
         });
 
         it('should not import roles if select has failed', function() {
@@ -225,7 +231,7 @@ describe('SelectUsersModalController', function() {
 
             this.$rootScope.$apply();
 
-            expect(this.user.roleAssignments[0]).toEqual(undefined);
+            expect(this.userUpdated.roleAssignments[0]).toEqual(undefined);
         });
 
     });
