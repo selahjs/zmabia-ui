@@ -2,8 +2,10 @@
 <form name="saveKitUnpackListForm" id="saveKitUnpackList" class="form-inline" ng-submit="vm.saveOrderable()">
     <section class="openlmis-table-container">
         <div class="is-primary">
-            <button type="button" ng-click="vm.addChild()">
-                {{'adminOrderableEdit.addProduct' | message}}</button></div>
+            <button type="button" class="add" ng-click="vm.addChild()">
+                {{'adminOrderableEdit.addProduct' | message}}
+            </button>
+        </div>
         <table>
             <caption ng-if="!vm.children || vm.children.length === 0">
                 {{'adminOrderableEdit.noKitProductsFound' | message}}
