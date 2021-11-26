@@ -1,0 +1,128 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2017 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU Affero General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU Affero General Public License for more details. You should have received a copy of
+ * the GNU Affero General Public License along with this program. If not, see
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ */
+
+(function() {
+
+    'use strict';
+
+    /**
+     * @ngdoc controller
+     * @name admin-lot-list.controller:LotListController
+     *
+     * @description
+     * Controller for managing lot list screen.
+     */
+    angular
+        .module('admin-lot-list')
+        .controller('LotListController', controller);
+
+    controller.$inject = ['$state', '$stateParams', 'lots', 'orderablesFilterOptions'];
+
+    function controller($state, $stateParams, lots,  orderablesFilterOptions) {
+
+        var vm = this;
+        vm.$onInit = onInit;
+
+        /**
+         * @ngdoc property
+         * @propertyOf admin-lot-list.controller:LotListController
+         * @name lots
+         * @type {Array}
+         *
+         * @description
+         * Contains filtered lots.
+         */
+        vm.lots = [];
+
+        /**
+         * @ngdoc property
+         * @propertyOf admin-lot-list.controller:LotListController
+         * @name orderablesFilterOptions
+         * @type {Array}
+         *
+         * @description
+         * Contains orderables visible in filter
+         */
+        vm.orderablesFilterOptions = [];
+
+        /**
+         * @ngdoc property
+         * @propertyOf admin-lot-list.controller:LotListController
+         * @name orderableId
+         * @type {String}
+         *
+         * @description
+         * Orderable id to filter by
+         * When set to null, no lots are visible
+         * When set to '*', all lots are visible
+         * When set to uuid, lots for specific orderable are visible
+         */
+        vm.orderableId = null;
+
+        /**
+         * @ngdoc property
+         * @propertyOf admin-lot-list.controller:LotListController
+         * @name expirationDateFrom
+         * @type {String}
+         */
+        vm.expirationDateFrom = null;
+
+        /**
+         * @ngdoc property
+         * @propertyOf admin-lot-list.controller:LotListController
+         * @name expirationDateTo
+         * @type {String}
+         */
+        vm.expirationDateTo = null;
+
+        /**
+         * @ngdoc method
+         * @methodOf admin-lot-list.controller:LotListController
+         * @name search
+         *
+         * @description
+         * Filters lots
+         */
+        vm.search = function() {
+            var stateParams = angular.copy($stateParams);
+
+            stateParams.orderableId = vm.orderableId;
+            stateParams.expirationDateFrom = vm.expirationDateFrom;
+            stateParams.expirationDateTo = vm.expirationDateTo;
+
+            $state.go('openlmis.administration.lots', stateParams, {
+                reload: true
+            });
+        };
+
+        /**
+         * @ngdoc method
+         * @methodOf admin-lot-list.controller:LotListController
+         * @name $onInit
+         *
+         * @description
+         * Initializes controller
+         */
+        function onInit() {
+            vm.lots = lots;
+            vm.orderablesFilterOptions = orderablesFilterOptions;
+
+            vm.orderableId = $stateParams.orderableId;
+            vm.expirationDateFrom = $stateParams.expirationDateFrom;
+            vm.expirationDateTo = $stateParams.expirationDateTo;
+        }
+    }
+
+})();
