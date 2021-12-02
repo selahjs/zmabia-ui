@@ -72,7 +72,7 @@ describe('openlmis.administration.lot state', function() {
         };
     });
 
-    it('should be available under /administration/lot URL', function() {
+    it('should be available under /administration/lots URL', function() {
         expect(this.$state.current.name).not.toEqual('openlmis.administration.lots');
 
         this.goToUrl('/administration/lots');
@@ -80,7 +80,7 @@ describe('openlmis.administration.lot state', function() {
         expect(this.$state.current.name).toEqual('openlmis.administration.lots');
     });
 
-    it('should use template', function() {
+    it('should use html template', function() {
         spyOn(this.$templateCache, 'get').andCallThrough();
 
         this.goToUrl('/administration/lots');
@@ -96,62 +96,12 @@ describe('openlmis.administration.lot state', function() {
         expect(this.orderableService.search).toHaveBeenCalled();
     });
 
-    it('should resolve orderablesFilterOptions with All option as first element', function() {
-        this.goToUrl('/administration/lots');
-
-        var options = this.getResolvedValue('orderablesFilterOptions');
-
-        expect(options[0].value).toEqual('*');
-        expect(options[0].name).toEqual('All');
-    });
-
-    it('should resolve empty paginatedLots when orderableId filter is empty ', function() {
+    it('should resolve non-empty paginatedLots when orderableId filter is empty ', function() {
         this.goToUrl('/administration/lots');
 
         var paginatedLots = this.getResolvedValue('paginatedLots');
-
-        expect(paginatedLots.length).toEqual(0);
-    });
-
-    it('should resolve non-empty paginatedLots when orderableId filter is * ', function() {
-        this.lotService.query.andReturn(this.$q.when({
-            content: [
-                new this.LotDataBuilder().build()
-            ]
-        }));
-
-        this.goToUrl('/administration/lots?orderableId=*');
-
-        var paginatedLots = this.getResolvedValue('paginatedLots');
-
-        expect(this.lotService.query).toHaveBeenCalledWith({
-            page: 0,
-            size: 10,
-            tradeItemIdIgnored: true
-        });
 
         expect(paginatedLots.length).toNotEqual(0);
-    });
-
-    it('should resolve non-empty paginatedLots when orderableId filter is set ', function() {
-        var lot = new this.LotDataBuilder().build();
-        this.lotService.query.andReturn(this.$q.when({
-            content: [lot]
-        }));
-
-        this.goToUrl('/administration/lots?orderableId=123');
-
-        var paginatedLots = this.getResolvedValue('paginatedLots');
-
-        expect(this.lotService.query).toHaveBeenCalledWith({
-            page: 0,
-            size: 10,
-            tradeItemIdIgnored: true,
-            orderableId: '123'
-        });
-
-        expect(paginatedLots.length).toEqual(1);
-        expect(paginatedLots[0]).toEqual(lot);
     });
 
     it('should resolve non-empty paginatedLots when expirationDateFrom filter is set ', function() {
@@ -160,7 +110,7 @@ describe('openlmis.administration.lot state', function() {
             content: [lot]
         }));
 
-        this.goToUrl('/administration/lots?expirationDateFrom=1970-01-01&orderableId=*');
+        this.goToUrl('/administration/lots?expirationDateFrom=1970-01-01');
 
         var paginatedLots = this.getResolvedValue('paginatedLots');
 
@@ -181,7 +131,7 @@ describe('openlmis.administration.lot state', function() {
             content: [lot]
         }));
 
-        this.goToUrl('/administration/lots?expirationDateTo=1970-01-01&orderableId=*');
+        this.goToUrl('/administration/lots?expirationDateTo=1970-01-01');
 
         var paginatedLots = this.getResolvedValue('paginatedLots');
 
@@ -219,7 +169,7 @@ describe('openlmis.administration.lot state', function() {
             ]
         }));
 
-        this.goToUrl('/administration/lots?orderableId=*');
+        this.goToUrl('/administration/lots');
 
         var lots = this.getResolvedValue('lots');
 

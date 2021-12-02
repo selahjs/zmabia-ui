@@ -30,10 +30,10 @@ describe('LotListController', function() {
             new this.LotDataBuilder().build()
         ];
 
-        this.orderablesFilterOptions = [
+        this.orderables = [
             {
-                value: '1',
-                name: 'Option 1'
+                id: '1',
+                fullProductName: 'Option 1'
             }
         ];
 
@@ -44,7 +44,7 @@ describe('LotListController', function() {
 
         this.vm = this.$controller('LotListController', {
             lots: this.lots,
-            orderablesFilterOptions: this.orderablesFilterOptions,
+            orderables: this.orderables,
             $stateParams: this.stateParams
         });
 
@@ -63,22 +63,22 @@ describe('LotListController', function() {
             expect(this.vm.lots).toEqual(this.lots);
         });
 
-        it('should expose orderablesFilterOptions', function() {
-            expect(this.vm.orderablesFilterOptions).toEqual(this.orderablesFilterOptions);
+        it('should expose orderables', function() {
+            expect(this.vm.orderables).toEqual(this.orderables);
         });
     });
 
     describe('search', function() {
 
         it('should set orderableId param', function() {
-            this.vm.orderableId = '*';
+            this.vm.orderableId = 'abcd';
 
             this.vm.search();
 
             expect(this.$state.go).toHaveBeenCalledWith('openlmis.administration.lots', {
                 page: this.stateParams.page,
                 size: this.stateParams.size,
-                orderableId: '*'
+                orderableId: 'abcd'
             }, {
                 reload: true
             });

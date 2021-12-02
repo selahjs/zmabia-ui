@@ -34,24 +34,9 @@
             resolve: {
                 paginatedLots: function($q, $stateParams, paginationService, lotService) {
                     return paginationService.registerUrl($stateParams, function(stateParams) {
-                        if (!stateParams.hasOwnProperty('orderableId')
-                            || stateParams.orderableId === null) {
-                            return $q(function(resolve) {
-                                resolve({
-                                    content: []
-                                });
-                            });
-                        }
-
                         var params = angular.copy(stateParams);
 
-                        params.page = stateParams.page;
-                        params.size = stateParams.size;
                         params.tradeItemIdIgnored = true;
-
-                        if (params.orderableId === '*') {
-                            delete params.orderableId;
-                        }
 
                         return lotService.query(params);
                     });
@@ -82,31 +67,27 @@
                         };
                     });
                 },
-                orderables: function($q, orderableService) {
+                orderables: function($q, $stateParams, orderableService) {
+                    if ($stateParams.orderables) {
+                        return $stateParams.orderables;
+                    }
+
                     var deferred = $q.defer();
 
                     orderableService.search().then(function(response) {
-                        // NOP Confirm that only orderables with lots should be visible
-                        // deferred.resolve(response.content.filter(function (x) {
-                        //     return !angular.equals(x.identifiers, {});
-                        // }));
+                        $stateParams.orderables = response.content;
                         deferred.resolve(response.content);
                     }, deferred.reject);
 
                     return deferred.promise;
                 },
                 orderablesFilterOptions: function(orderables) {
-                    return [
-                        {
-                            value: '*',
-                            name: 'All'
-                        }
-                    ].concat(orderables.map(function(p) {
+                    return orderables.map(function(p) {
                         return {
                             value: p.id,
                             name: p.fullProductName
                         };
-                    }));
+                    });
                 }
             }
         });

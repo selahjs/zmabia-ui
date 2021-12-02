@@ -28,9 +28,9 @@
         .module('admin-lot-list')
         .controller('LotListController', controller);
 
-    controller.$inject = ['$state', '$stateParams', 'lots', 'orderablesFilterOptions'];
+    controller.$inject = ['$state', '$stateParams', 'lots', 'orderables'];
 
-    function controller($state, $stateParams, lots,  orderablesFilterOptions) {
+    function controller($state, $stateParams, lots,  orderables) {
 
         var vm = this;
         vm.$onInit = onInit;
@@ -49,13 +49,13 @@
         /**
          * @ngdoc property
          * @propertyOf admin-lot-list.controller:LotListController
-         * @name orderablesFilterOptions
+         * @name orderables
          * @type {Array}
          *
          * @description
          * Contains orderables visible in filter
          */
-        vm.orderablesFilterOptions = [];
+        vm.orderables = [];
 
         /**
          * @ngdoc property
@@ -117,7 +117,7 @@
          */
         function onInit() {
             vm.lots = lots;
-            vm.orderablesFilterOptions = orderablesFilterOptions;
+            vm.orderables = orderables;
 
             vm.orderableId = $stateParams.orderableId;
             vm.expirationDateFrom = $stateParams.expirationDateFrom;
