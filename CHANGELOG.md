@@ -4,6 +4,7 @@
 New functionality that are backwards-compatible:
 * [OLMIS-7462](https://openlmis.atlassian.net/browse/OLMIS-7462): Show all lots when entering lot management page
 * [OLMIS-7443](https://openlmis.atlassian.net/browse/OLMIS-7443): Add lot management view page
+* [OLMIS-7444](https://openlmis.atlassian.net/browse/OLMIS-7443): Add edit modal to lot management page
 
 5.6.6 / 2021-10-28
 ==================

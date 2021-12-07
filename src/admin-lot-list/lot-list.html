@@ -40,7 +40,9 @@
             <td>{{lot.expirationDate}}</td>
             <td>{{lot.manufacturedDate}}</td>
             <td>
-                <button>{{'adminLotList.edit' | message}}</button>
+                <button ui-sref="openlmis.administration.lots.edit({lotId: lot.id})">
+                    {{'adminLotList.edit' | message}}
+                </button>
             </td>
         </tr>
         </tbody>

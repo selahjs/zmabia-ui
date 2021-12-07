@@ -63,7 +63,8 @@
                                 : orderable.fullProductName,
                             lotCode: lot.lotCode,
                             expirationDate: lot.expirationDate,
-                            manufacturedDate: lot.manufactureDate
+                            manufacturedDate: lot.manufactureDate,
+                            id: lot.id
                         };
                     });
                 },
