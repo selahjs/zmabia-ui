@@ -7,5 +7,7 @@
     "adminLotEdit.cancel": "Cancel",
     "adminLotEdit.save": "Save",
     "adminLotEdit.save.confirmationQuestion": "Do you want to edit this lot?",
-    "adminLotsEdit.lotNotFound": "Lot not found"
+    "adminLotsEdit.lotNotFound": "Lot not found",
+    "adminLotEdit.save.success": "Lot saved successfully",
+    "adminLotEdit.save.failure": "Failed to save lot"
 }
