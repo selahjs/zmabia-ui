@@ -27,6 +27,7 @@
 
         LotDataBuilder.prototype.build = build;
         LotDataBuilder.prototype.withId = withId;
+        LotDataBuilder.prototype.withCode = withCode;
         LotDataBuilder.prototype.withExpirationDate = withExpirationDate;
         LotDataBuilder.prototype.withTradeItemId = withTradeItemId;
         LotDataBuilder.prototype.withoutExpirationDate = withoutExpirationDate;
@@ -45,6 +46,11 @@
 
         function withId(id) {
             this.id = id;
+            return this;
+        }
+
+        function withCode(code) {
+            this.lotCode = code;
             return this;
         }
 
