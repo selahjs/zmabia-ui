@@ -32,7 +32,8 @@
         return {
             CCE_MANAGE: 'CCE_MANAGE',
             CCE_INVENTORY_VIEW: 'CCE_INVENTORY_VIEW',
-            CCE_INVENTORY_EDIT: 'CCE_INVENTORY_EDIT'
+            CCE_INVENTORY_EDIT: 'CCE_INVENTORY_EDIT',
+            CCE_INVENTORY_TRANSFER: 'CCE_INVENTORY_TRANSFER'
         };
     }
 

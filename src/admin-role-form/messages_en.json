@@ -53,6 +53,7 @@
     "adminRoleForm.cceManage": "Manage CCE",
     "adminRoleForm.cceInventoryView": "View Cold Chain Equipment Inventory",
     "adminRoleForm.cceInventoryEdit": "Edit Cold Chain Equipment Inventory",
+    "adminRoleForm.cceInventoryTransfer": "Transfer Cold Chain Equipment Inventory",
     "adminRoleForm.programsManage": "Manage programs",
     "adminRoleForm.systemIdealStockAmountsManage": "Manage System Ideal Stock Amounts",
     "adminRoleForm.idealStockAmountView": "View Ideal Stock Amount",
