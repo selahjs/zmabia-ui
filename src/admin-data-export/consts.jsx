@@ -15,30 +15,30 @@
 
 export const TYPE_OF_EXPORTS = [
     {
-        value: "Program",
-        name: "Program"
+        value: "Product",
+        name: "Products"
     }
 ];
 
 export const DATA_EXPORT = [
         {
-            "type": "Program",
-            "id": "orderable",
-            "name": "Orderable.csv"
+            "type": "Product",
+            "id": "orderable.csv",
+            "name": "orderable.csv"
         },
         {
-            "type": "Program",
-            "id": "orderableIdentifier",
-            "name": "OrderableIdentifier.csv"
+            "type": "Product",
+            "id": "orderableIdentifier.csv",
+            "name": "orderableIdentifier.csv"
         },
         {
-            "type": "Program",
-            "id": "programOrderable",
-            "name": "ProgramOrderable.csv"
+            "type": "Product",
+            "id": "programOrderable.csv",
+            "name": "programOrderable.csv"
         },
         {
-            "type": "Program",
-            "id": "tradeItem",
-            "name": "TradeItem.csv"
+            "type": "Product",
+            "id": "tradeItem.csv",
+            "name": "tradeItem.csv"
         }
 ];
