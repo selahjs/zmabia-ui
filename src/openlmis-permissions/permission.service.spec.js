@@ -33,6 +33,7 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.currentUserRolesService = $injector.get('currentUserRolesService');
             this.alertService = $injector.get('alertService');
             this.offlineService = $injector.get('offlineService');
+            this.requisitionGroupService = $injector.get('requisitionGroupService');
         });
 
         this.possessedRightName = 'POSSESSED_RIGHT';
@@ -118,6 +119,18 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.roles[3]
         ]));
         spyOn(this.offlineService, 'isOffline').andReturn(false);
+        spyOn(this.requisitionGroupService, 'getAll').andReturn(this.$q.resolve([
+            {
+                memberFacilities: [
+                    {
+                        id: this.facilityId
+                    }
+                ],
+                supervisoryNode: {
+                    id: this.supervisoryNodeId
+                }
+            }
+        ]));
 
     });
 
@@ -507,7 +520,7 @@ describe('openlmis-permissions.this.permissionService', function() {
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.nonPossessedRightName,
                     this.programId,
-                    this.supervisoryNodeId
+                    this.facilityId
                 )
                 .then(function(response) {
                     result = response;
@@ -523,7 +536,7 @@ describe('openlmis-permissions.this.permissionService', function() {
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.otherPossessedRight,
                     this.programId,
-                    this.supervisoryNodeId
+                    this.facilityId
                 )
                 .then(function(response) {
                     result = response;
@@ -539,7 +552,7 @@ describe('openlmis-permissions.this.permissionService', function() {
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.anotherPossessedRight,
                     this.programId,
-                    this.supervisoryNodeId
+                    this.facilityId
                 )
                 .then(function(response) {
                     result = response;
@@ -555,7 +568,7 @@ describe('openlmis-permissions.this.permissionService', function() {
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.possessedRightName,
                     this.programId,
-                    this.supervisoryNodeId
+                    this.facilityId
                 )
                 .then(function(response) {
                     result = response;
