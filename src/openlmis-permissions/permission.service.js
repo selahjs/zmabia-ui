@@ -50,11 +50,11 @@
 
     service.$inject = [
         '$q', '$http', 'openlmisUrlFactory', 'localStorageService', 'Permission', 'currentUserRolesService',
-        'currentUserService'
+        'currentUserService', '$injector'
     ];
 
     function service($q, $http, openlmisUrlFactory, localStorageService, Permission, currentUserRolesService,
-                     currentUserService) {
+                     currentUserService, $injector) {
         // Used in service.load and service.getPermissionStringsFromServer/service.empty respectively
         var savedUserId,
             dataPromise;
@@ -68,6 +68,7 @@
         this.hasRoleWithRight = hasRoleWithRight;
         this.hasRoleWithRightForProgramAndSupervisoryNode = hasRoleWithRightForProgramAndSupervisoryNode;
         this.hasRoleWithRightAndFacility = hasRoleWithRightAndFacility;
+        this.requisitionGroupService = $injector.get('requisitionGroupService');
 
         /**
          * @ngdoc method
@@ -264,24 +265,36 @@
          *
          * @param  {string}  rightName          the name of the right
          * @param  {string}  programId          the id of the program
-         * @param  {string}  supervisoryNodeId  the id of the supervisory node   
+         * @param  {string}  facilityId         the id of the facility
          * @return {Promise}                    the promise resolving to a boolean, true if user has role with the given
-         *                                      right for the given program and supervisory node, false otherwise, the
-         *                                      promise is rejected if checking right fails
+         *                                      right for the given program and facility supervisory node, 
+         *                                      false otherwise, the promise is rejected if checking right fails
          */
-        function hasRoleWithRightForProgramAndSupervisoryNode(rightName, programId, supervisoryNodeId) {
+        function hasRoleWithRightForProgramAndSupervisoryNode(rightName, programId, facilityId) {
             return $q
                 .all([
+                    this.requisitionGroupService.getAll(),
                     currentUserRolesService.getUserRoles(),
                     currentUserService.getUserInfo()
                 ])
                 .then(function(resolves) {
-                    var roles = resolves[0],
-                        user = resolves[1];
+                    var requisitionGroups = resolves[0];
+                    var roles = resolves[1];
+                    var user = resolves[2];
+
+                    var facilitySupervisoryNodesIds = requisitionGroups.filter(function(requistionGroup) {
+                        return requistionGroup.memberFacilities.filter(function(memberFacility) {
+                            return memberFacility.id === facilityId;
+                        }).length > 0;
+                    }).map(function(matchedRequisitionGroup) {
+                        return matchedRequisitionGroup.supervisoryNode.id;
+                    });
 
                     var matchingRoleIds = user.roleAssignments
                         .filter(matchesByProperty('programId', programId))
-                        .filter(matchesByProperty('supervisoryNodeId', supervisoryNodeId))
+                        .filter(function(role) {
+                            return facilitySupervisoryNodesIds.includes(role.supervisoryNodeId);
+                        })
                         .map(toRoleId);
 
                     return roles

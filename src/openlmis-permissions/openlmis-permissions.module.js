@@ -31,7 +31,8 @@
         'openlmis-login',
         'referencedata-program',
         'referencedata-user',
-        'referencedata-role'
+        'referencedata-role',
+        'referencedata-requisition-group'
     ]);
 
 })();
