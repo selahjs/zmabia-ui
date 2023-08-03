@@ -64,9 +64,8 @@ const AdminDataExportPage = () => {
                 `${serverService.urlFactory(`/api/exportData?format=csv&data=${data}&access_token=${token}`)}`,
                 "_blank"
             );
-            setDisplayLoading(false);
             toast.success('Data has been exported correctly');
-        });
+        }).finally(() => setDisplayLoading(false));
 
         setTypeOfExport("");
         setSelectedFiles([]);
@@ -136,9 +135,11 @@ const AdminDataExportPage = () => {
                   Export
                 </button>
             </div>
-            <Loading display={displayLoading}/>
+            {displayLoading && 
+              <Loading/>
+            }
         </>
-    )
+    );
 };
 
 export default AdminDataExportPage;
