@@ -1,3 +1,8 @@
+5.6.11-SNAPSHOT / WIP
+==================
+Improvements:
+* [OLMIS-7752](https://openlmis.atlassian.net/browse/OLMIS-7752): Added Loading Component to Data Export Page
+
 5.6.10 / 2023-06-26
 ==================
 
