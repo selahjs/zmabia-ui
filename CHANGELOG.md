@@ -1,7 +1,8 @@
 5.6.11-SNAPSHOT / WIP
 ==================
-Improvements:
+New functionality that are backwards-compatible:
 * [OLMIS-7752](https://openlmis.atlassian.net/browse/OLMIS-7752): Added Loading Component to Data Export and Import Pages
+* [OLMIS-7673](https://openlmis.atlassian.net/browse/OLMIS-7673): Add import page
 
 5.6.10 / 2023-06-26
 ==================
