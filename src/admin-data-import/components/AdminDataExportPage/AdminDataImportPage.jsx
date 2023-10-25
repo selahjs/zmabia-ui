@@ -37,11 +37,11 @@ const AdminDataImportPage = () => {
         if (selectedFile) {
             setDisplayLoading(true);
             serverService.importData(selectedFile)
+                .then(() => toast.success('Data has been imported correctly'))
                 .finally(() => {
                     setSelectedFile('');
                     setTypeOfImport('');
                     setDisplayLoading(false);
-                    toast.success('Data has been imported correctly')
                 });
         }
     }
