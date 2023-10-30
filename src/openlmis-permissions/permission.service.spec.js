@@ -48,6 +48,17 @@ describe('openlmis-permissions.this.permissionService', function() {
         this.facilityId = 'facility-id',
         this.someFacility = 'some-facility';
 
+        this.requisition = {
+            facility: {
+                id: this.facilityId
+            },
+            program: {
+                id: this.programId
+            },
+            supervisoryNode: this.supervisoryNodeId,
+            status: 'APPROVED'
+        };
+
         this.possessedRight = new this.RightDataBuilder()
             .withName(this.possessedRightName)
             .build();
@@ -519,8 +530,7 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.permissionService
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.nonPossessedRightName,
-                    this.programId,
-                    this.facilityId
+                    this.requisition
                 )
                 .then(function(response) {
                     result = response;
@@ -535,8 +545,7 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.permissionService
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.otherPossessedRight,
-                    this.programId,
-                    this.facilityId
+                    this.requisition
                 )
                 .then(function(response) {
                     result = response;
@@ -551,8 +560,7 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.permissionService
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.anotherPossessedRight,
-                    this.programId,
-                    this.facilityId
+                    this.requisition
                 )
                 .then(function(response) {
                     result = response;
@@ -567,8 +575,7 @@ describe('openlmis-permissions.this.permissionService', function() {
             this.permissionService
                 .hasRoleWithRightForProgramAndSupervisoryNode(
                     this.possessedRightName,
-                    this.programId,
-                    this.facilityId
+                    this.requisition
                 )
                 .then(function(response) {
                     result = response;

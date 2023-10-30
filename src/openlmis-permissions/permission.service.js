@@ -264,37 +264,47 @@
          * supervisory node.
          *
          * @param  {string}  rightName          the name of the right
-         * @param  {string}  programId          the id of the program
-         * @param  {string}  facilityId         the id of the facility
+         * @param  {Object}  requisition        the requisition 
          * @return {Promise}                    the promise resolving to a boolean, true if user has role with the given
          *                                      right for the given program and facility supervisory node, 
          *                                      false otherwise, the promise is rejected if checking right fails
          */
-        function hasRoleWithRightForProgramAndSupervisoryNode(rightName, programId, facilityId) {
-            return $q
-                .all([
-                    this.requisitionGroupService.getAll(),
-                    currentUserRolesService.getUserRoles(),
-                    currentUserService.getUserInfo()
-                ])
-                .then(function(resolves) {
-                    var requisitionGroups = resolves[0];
-                    var roles = resolves[1];
-                    var user = resolves[2];
+        function hasRoleWithRightForProgramAndSupervisoryNode(rightName, requisition) {
+            var requisitionInFirstApproval = requisition.status === 'AUTHORIZED';
+            var promiseArray = [
+                currentUserRolesService.getUserRoles(),
+                currentUserService.getUserInfo()
+            ];
 
-                    var facilitySupervisoryNodesIds = requisitionGroups.filter(function(requistionGroup) {
-                        return requistionGroup.memberFacilities.filter(function(memberFacility) {
-                            return memberFacility.id === facilityId;
-                        }).length > 0;
-                    }).map(function(matchedRequisitionGroup) {
-                        return matchedRequisitionGroup.supervisoryNode.id;
-                    });
+            if (requisitionInFirstApproval) {
+                promiseArray.push(this.requisitionGroupService.getAll());
+            }
+
+            return $q
+                .all(promiseArray)
+                .then(function(resolves) {
+                    var roles = resolves[0];
+                    var user = resolves[1];
+                    var requisitionGroups = requisitionInFirstApproval ? resolves[2] : [];
+
+                    if (requisitionInFirstApproval) {
+                        var facilitySupervisoryNodesIds = requisitionGroups.filter(function(requistionGroup) {
+                            return requistionGroup.memberFacilities.filter(function(memberFacility) {
+                                return memberFacility.id === requisition.facility.id;
+                            }).length > 0;
+                        }).map(function(matchedRequisitionGroup) {
+                            return matchedRequisitionGroup.supervisoryNode.id;
+                        });
+                    }
+
+                    var filterFunction = requisitionInFirstApproval ?
+                        function(role) {
+                            return facilitySupervisoryNodesIds.includes(role.supervisoryNodeId);
+                        } : matchesByProperty('supervisoryNodeId', requisition.supervisoryNode);
 
                     var matchingRoleIds = user.roleAssignments
-                        .filter(matchesByProperty('programId', programId))
-                        .filter(function(role) {
-                            return facilitySupervisoryNodesIds.includes(role.supervisoryNodeId);
-                        })
+                        .filter(matchesByProperty('programId', requisition.program.id))
+                        .filter(filterFunction)
                         .map(toRoleId);
 
                     return roles
