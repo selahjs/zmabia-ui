@@ -13,5 +13,6 @@
     "adminFacilityTypeEdit.save.failure": "Failed to save facility type",
     "adminFacilityTypeEdit.create.question": "Do you want to create the facility type?",
     "adminFacilityTypeEdit.create.success": "Facility type created successfully",
-    "adminFacilityTypeEdit.create.failure": "Failed to create facility type"
+    "adminFacilityTypeEdit.create.failure": "Failed to create facility type",
+    "adminFacilityTypeEdit.primaryHealthCare": "Primary health care"
 }
