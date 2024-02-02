@@ -84,13 +84,13 @@
         /**
          * @ngdoc property
          * @propertyOf admin-requisition-group-view.controller:RequisitionGroupViewController
-         * @name selectedType
+         * @name selectedTab
          * @type {Number}
          *
          * @description
          * Contains number of currently selected tab.
          */
-        vm.selectedType = undefined;
+        vm.selectedTab = undefined;
 
         /**
          * @ngdoc method
