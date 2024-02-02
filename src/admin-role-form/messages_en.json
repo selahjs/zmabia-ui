@@ -72,5 +72,12 @@
     "adminRoleForm.lotsManage": "Manage lots",
     "adminRoleForm.orderCreate": "Create orders",
     "adminRoleForm.dataExport": "Export Data",
-    "adminRoleForm.dataImport": "Import Data"
+    "adminRoleForm.dataImport": "Import Data",
+    "adminRoleForm.manageBuq": "Manage BUQ",
+    "adminRoleForm.approveBuq": "Approve BUQ",
+    "adminRoleForm.mohApproval": "MOH Approval",
+    "adminRoleForm.poralgApproval": "PORALG Approval",
+    "adminRoleForm.createForecasting": "Create Forecasting",
+    "adminRoleForm.authorizeForecasting": "Authorize Forecasting",
+    "adminRoleForm.prepareBuq": "Prepare BUQ"
 }
