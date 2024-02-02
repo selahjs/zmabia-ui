@@ -1,5 +1,8 @@
 <h2>{{'adminRequisitionGroupList.requisitionGroups' | message}}</h2>
 <section class="openlmis-table-container">
+    <button id="add-requisition-group" class="add" ng-click="vm.goToAddRequisitionGroup()">
+        {{'adminRequisitionGroupList.addRequisitionGroup' | message}}
+    </button>
     <form ng-submit="vm.search()">
         <fieldset class="form-group">
             <label for="name">{{'adminRequisitionGroupList.requisitionGroupName' | message}}</label>
@@ -50,6 +53,7 @@
                 <td>{{requisitionGroup.memberFacilities.length}}</td>
                 <td>
                     <button class="primary" ui-sref="openlmis.administration.requisitionGroupView({id: requisitionGroup.id})">{{'adminRequisitionGroupList.view' | message}}</button>
+                    <button ui-sref=".edit({id: requisitionGroup.id})">{{'adminRequisitionGroupList.edit' | message}}</button>
                 </td>
             </tr>
         </tbody>

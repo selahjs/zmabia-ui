@@ -37,6 +37,7 @@
 
         vm.$onInit = onInit;
         vm.search = search;
+        vm.goToAddRequisitionGroup = goToAddRequisitionGroup;
 
         /**
          * @ngdoc property
@@ -151,6 +152,18 @@
             $state.go('openlmis.administration.requisitionGroupList', stateParams, {
                 reload: true
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf admin-requisition-group-list.controller:RequisitionGroupListController
+         * @name goToAddRequisitionGroup
+         *
+         * @description
+         * Takes the user to the add requisition group page.
+         */
+        function goToAddRequisitionGroup() {
+            $state.go('openlmis.administration.requisitionGroupAdd');
         }
     }
 })();
