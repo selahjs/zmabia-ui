@@ -41,13 +41,18 @@
             search: {
                 url: referencedataUrlFactory('/api/requisitionGroups/search'),
                 method: 'POST'
+            },
+            update: {
+                method: 'PUT'
             }
         });
 
         return {
             get: get,
             getAll: getAll,
-            search: search
+            search: search,
+            create: create,
+            update: update
         };
 
         /**
@@ -95,6 +100,38 @@
          */
         function search(paginationParams, queryParams) {
             return resource.search(paginationParams, queryParams).$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-requisition-group.requisitionGroupService
+         * @name update
+         *
+         * @description
+         * Updates requisition group.
+         *
+         * @param  {Object}  requisitionGroup RequisitionGroup to be updated
+         * @return {Promise}         Updated requisitionGroup
+         */
+        function update(requisitionGroup) {
+            return resource.update({
+                id: requisitionGroup.id
+            }, requisitionGroup).$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-requisition-group.requisitionGroupService
+         * @name create
+         *
+         * @description
+         * Creates new requisitionGroup.
+         *
+         * @param  {Object}  requisitionGroup RequisitionGroup to be created
+         * @return {Promise}         Updated requisitionGroup
+         */
+        function create(requisitionGroup) {
+            return resource.save(null, requisitionGroup).$promise;
         }
     }
 })();
