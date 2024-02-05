@@ -46,15 +46,17 @@
          * @param  {String}  description    the description of the facility type to be created
          * @param  {Number}  displayOrder   the display order of the facility type to be created
          * @param  {Boolean} active         true if the facility type is active
+         * @param  {boolean} primaryHealthCare true if the facility type is primary health care
          * @return {Object}                 the facility type object
          */
-        function FacilityType(id, code, name, description, displayOrder, active) {
+        function FacilityType(id, code, name, description, displayOrder, active, primaryHealthCare) {
             this.id = id;
             this.code = code;
             this.name = name;
             this.description = description;
             this.displayOrder = displayOrder;
             this.active = active;
+            this.primaryHealthCare = primaryHealthCare;
         }
 
     }
