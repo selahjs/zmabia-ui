@@ -65,6 +65,7 @@
             this.partnerNodeOf = json.partnerNodeOf;
             this.requisitionGroup = json.requisitionGroup;
             this.repository = repository;
+            this.extraData = json.extraData;
         }
 
         /**

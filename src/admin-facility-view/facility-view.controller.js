@@ -30,11 +30,13 @@
 
     controller.$inject = [
         '$q', '$state', 'facility', 'facilityTypes', 'geographicZones', 'facilityOperators',
-        'programs', 'FacilityRepository', 'loadingModalService', 'notificationService'
+        'programs', 'FacilityRepository', 'loadingModalService', 'notificationService',
+        'tzPeriodService', 'messageService', 'confirmService'
     ];
 
     function controller($q, $state, facility, facilityTypes, geographicZones, facilityOperators,
-                        programs, FacilityRepository, loadingModalService, notificationService) {
+                        programs, FacilityRepository, loadingModalService, notificationService,
+                        tzPeriodService, messageService, confirmService) {
 
         var vm = this;
 
@@ -43,6 +45,7 @@
         vm.saveFacilityDetails = saveFacilityDetails;
         vm.saveFacilityWithPrograms = saveFacilityWithPrograms;
         vm.addProgram = addProgram;
+        vm.deleteProgramAssociate = deleteProgramAssociate;
 
         /**
          * @ngdoc property
@@ -221,6 +224,29 @@
                     loadingModalService.close();
                     return $q.reject();
                 });
+        }
+
+        function deleteProgramAssociate(program) {
+            var confirmMessage = messageService.get('adminFacilityView.question', {
+                period: program.name
+            });
+
+            confirmService.confirm(confirmMessage,
+                'adminFacilityView.deleteAssociatedProgram').then(function() {
+                var loadingPromise = loadingModalService.open();
+                tzPeriodService
+                    .deleteProgramAssociate(program.id, vm.facility.id)
+                    .then(function() {
+                        loadingPromise.then(function() {
+                            notificationService.success('adminFacilityView.deleteAssociatedPrograms.success');
+                        });
+                        $state.reload('openlmis.administration.facility.view');
+                    })
+                    .catch(function() {
+                        loadingModalService.close();
+                        notificationService.error('adminFacilityView.deleteAssociatedPrograms.fail');
+                    });
+            });
         }
     }
 })();

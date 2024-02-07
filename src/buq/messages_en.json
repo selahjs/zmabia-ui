@@ -1,0 +1,13 @@
+{
+    "buq.label": "BUQ",
+    "buq.prepareBuq": "Prepare BUQ",
+    "buq.createAuthorizeForecasting": "Create / Authorize Forecasting",
+    "buq.facilityDemandingForecasting": "Facility Demanding Forecasting Form",
+    "buq.approveBuq": "Approve",
+    "buq.MOHPORALGApprovals": "MOH / PORALG Approvals",
+    "buq.applicationError.title": "Application Error",
+    "buq.applicationError.message.userProgram": "Insufficient permissions to proceed. You don't have BUQ program assigned.",
+    "buq.applicationError.message.homeFacilityProgram": "Insufficient permissions to proceed. Your home facility does not support BUQ program.",
+    "buq.insufficientPermissions.title": "Missing Permissions",
+    "buq.insufficientPermissions.message": "You are not authorized to perform this action."
+}

@@ -34,20 +34,21 @@
         <legend>{{'adminUserForm.enabled' | message}}</legend>
         <label class="radio">
             <input type="radio" ng-model="vm.user.enabled"
-                ng-value="true" required/>
+                   ng-value="true" required/>
             {{'adminUserForm.yes' | message}}
         </label>
         <label class="radio">
             <input type="radio" ng-model="vm.user.enabled"
-                ng-value="false" required/>
+                   ng-value="false" required/>
             {{'adminUserForm.no' | message}}
         </label>
     </fieldset>
     <label>{{'adminUserForm.homeFacility' | message}}</label>
-    <select id="homeFacility" ng-model="vm.homeFacility"
-        ng-options="facility.name for facility in vm.facilities track by facility.id"
-        ng-required="vm.user.homeFacility && vm.user.homeFacility.code"
-        no-auto-select="true">
+    <select id="homeFacility"
+            ng-model="vm.homeFacility"
+            ng-options="facility as facility.code + ' - ' + facility.name for facility in vm.facilities track by facility.id"
+            ng-required="vm.user.homeFacility && vm.user.homeFacility.code"
+            no-auto-select="true">
     </select>
 </form>
 <div class="openlmis-toolbar">

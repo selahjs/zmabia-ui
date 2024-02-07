@@ -35,6 +35,7 @@
         FacilityTypeDataBuilder.prototype.withDisplayOrder = withDisplayOrder;
         FacilityTypeDataBuilder.prototype.withoutId = withoutId;
         FacilityTypeDataBuilder.prototype.deactivated = deactivated;
+        FacilityTypeDataBuilder.prototype.isPrimaryHealthCare = isPrimaryHealthCare;
 
         return FacilityTypeDataBuilder;
 
@@ -47,6 +48,7 @@
             this.description = 'description';
             this.displayOrder = 2;
             this.active = true;
+            this.primaryHealthCare = false;
         }
 
         function buildAsDistrictHospital() {
@@ -104,6 +106,10 @@
             return this;
         }
 
+        function isPrimaryHealthCare(primaryHealthCare) {
+            this.primaryHealthCare = primaryHealthCare;
+        }
+
         function build() {
             return new FacilityType(
                 this.id,
@@ -111,7 +117,8 @@
                 this.name,
                 this.description,
                 this.displayOrder,
-                this.active
+                this.active,
+                this.primaryHealthCare
             );
         }
 
