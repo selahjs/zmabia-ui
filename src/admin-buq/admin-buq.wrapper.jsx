@@ -18,7 +18,6 @@ import ReactDOM from 'react-dom';
 import Routing from './Routing';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'tippy.js/dist/tippy.css';
 
 (function () {
     'use strict';
