@@ -1,3 +1,9 @@
+5.6.12-SNAPSHOT / WIP
+==================
+
+New functionality that are backwards-compatible:
+* [OLMIS-7838](https://openlmis.atlassian.net/browse/OLMIS-7838): Move BUQ and TM Monthly functionalities from Tanzania to Core instance
+
 5.6.11 / 2023-11-07
 ==================
 

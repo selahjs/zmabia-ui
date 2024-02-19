@@ -17,12 +17,14 @@ describe('FacilityViewController', function() {
 
     beforeEach(function() {
         module('admin-facility-view');
+        module('referencedata-period');
 
         inject(function($injector) {
             this.$q = $injector.get('$q');
             this.$rootScope = $injector.get('$rootScope');
             this.$controller = $injector.get('$controller');
             this.$state = $injector.get('$state');
+            this.tzPeriodService = $injector.get('tzPeriodService');
             this.notificationService = $injector.get('notificationService');
             this.loadingModalService = $injector.get('loadingModalService');
             this.FacilityRepository = $injector.get('FacilityRepository');
@@ -34,6 +36,7 @@ describe('FacilityViewController', function() {
         });
 
         spyOn(this.FacilityRepository.prototype, 'update').andReturn(this.$q.when());
+        spyOn(this.tzPeriodService, 'tzCreate').andReturn(this.$q.when());
 
         var loadingModalPromise = this.$q.defer();
         spyOn(this.loadingModalService, 'close').andCallFake(loadingModalPromise.resolve);
