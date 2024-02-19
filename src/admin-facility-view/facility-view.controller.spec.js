@@ -160,7 +160,6 @@ describe('FacilityViewController', function() {
         });
 
         it('should call this.FacilityRepository save method', function() {
-            console.log(this.vm);
             this.vm.saveFacilityDetails();
             this.$rootScope.$apply();
 
