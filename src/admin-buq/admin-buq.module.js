@@ -17,7 +17,10 @@
     'use strict';
 
     angular.module('admin-buq', [
-        'react-components'
+        'react-components',
+        'openlmis-admin',
+        'ui.router',
+        'openlmis-rights'
     ]);
 
 })();

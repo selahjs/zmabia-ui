@@ -14,12 +14,30 @@
  */
 
 (function() {
+
     'use strict';
 
-    angular.module('buq', [
-        'react-components',
-        'ui.router',
-        'openlmis-rights'
-    ]);
+    /**
+     * @ngdoc object
+     * @name openlmis-rights.ADMINISTRATION_RIGHTS
+     *
+     * @description
+     * This is constant for administration rights.
+     */
+    angular
+        .module('openlmis-rights')
+        .constant('BUQ_RIGHTS', rights());
+
+    function rights() {
+        return {
+            PREPARE_BUQ: 'PREPARE_BUQ',
+            MANAGE_BUQ: 'MANAGE_BUQ',
+            CREATE_FORECASTING: 'CREATE_FORECASTING',
+            AUTHORIZE_FORECASTING: 'AUTHORIZE_FORECASTING',
+            APPROVE_BUQ: 'APPROVE_BUQ',
+            MOH_APPROVAL: 'MOH_APPROVAL',
+            PORALG_APPROVAL: 'PORALG_APPROVAL'
+        };
+    }
 
 })();
