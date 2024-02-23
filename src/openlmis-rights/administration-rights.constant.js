@@ -48,7 +48,8 @@
             STOCK_DESTINATIONS_MANAGE: 'STOCK_DESTINATIONS_MANAGE',
             ORDER_CREATE: 'ORDER_CREATE',
             DATA_EXPORT: 'DATA_EXPORT',
-            DATA_IMPORT: 'DATA_IMPORT'
+            DATA_IMPORT: 'DATA_IMPORT',
+            MANAGE_BUQ: 'MANAGE_BUQ'
         };
     }
 
