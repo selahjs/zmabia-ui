@@ -14,7 +14,7 @@
  */
 
 export const findRegion = (geographicZone) => {
-    const geographicLevelName = geographicZone.level.name;
+    const geographicLevelName = geographicZone.level.code;
     return geographicLevelName === 'Region' ? geographicZone : findRegion(geographicZone.parent);
 };
 
