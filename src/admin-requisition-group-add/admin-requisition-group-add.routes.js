@@ -24,7 +24,7 @@
     function routes($stateProvider, ADMINISTRATION_RIGHTS) {
 
         $stateProvider.state('openlmis.administration.requisitionGroupAdd', {
-            showInNavigation: true,
+            showInNavigation: false,
             label: 'adminRequisitionGroupAdd.add',
             url: '/requisitionGroupsAdd',
             controller: 'RequisitionGroupAddController',
