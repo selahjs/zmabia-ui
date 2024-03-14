@@ -152,7 +152,7 @@ const CreateAuthorizeForecasting = ({ loadingModalService }) => {
           Cell: ({ value, row }) => {
             return (
               <ResponsiveButton
-                className='proceed'
+                className='primary'
                 onClick={() =>
                   checkRightsAndProceed(row.original.status, value)
                 }

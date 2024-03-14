@@ -157,7 +157,7 @@ const ApproveBuq = ({
         accessor: "id",
         Cell: ({ value }) => (
           <Link to={`/buq/approve/${value}`}>
-            <ResponsiveButton className="proceed">
+            <ResponsiveButton className="primary">
               <span>View</span>
             </ResponsiveButton>
           </Link>

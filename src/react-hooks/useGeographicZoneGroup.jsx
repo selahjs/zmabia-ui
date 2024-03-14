@@ -45,7 +45,7 @@ const useGeographicZoneGroup = () => {
       const region = allGeographicZone?.find((reg) => reg.id === item.value);
       return {
         ...item,
-        name: `${region?.name} - ${region?.level.name}` || '',
+        name: `${region?.name} - ${region?.level.code}` || '',
       };
     });
     setGeographicZoneParams(newResult);
