@@ -25,7 +25,9 @@ import MohApproveFacilityDemandingForecasting from './components/MOHApproval/Moh
 import MOHApprovalDistrictBuq from './components/MOHApproval/MOHApprovalDistrictBuq';
 import MOHApproveRegionBuq from './components/MOHApproval/MOHApproveRegionBuq';
 import MOHApprovalFacilityBuq from './components/MOHApproval/MOHApprovalFacilityBuq';
+import MohForFinalApproval from './components/MOHApproval/MohForFinalApproval';
 import useLocalStorage from "../react-hooks/useLocalStorage";
+
 
 const Routing = ({
     loadingModalService,
@@ -54,6 +56,10 @@ const Routing = ({
     },
     {
         path: '/buq/national-approve',
+        breadcrumb: 'Pending Approvals'
+    },
+    {
+        path: '/buq/national-approval',
         breadcrumb: 'Pending Approvals'
     },
     {
@@ -145,6 +151,14 @@ const Routing = ({
                             loadingModalService={loadingModalService}
                             facilityService={facilityService}
                             orderableService={orderableService}
+                            />
+                    </Route>
+                    <Route exact path='/buq/national-approval'>
+                        <MohForFinalApproval
+                            loadingModalService={loadingModalService}
+                            periodService={periodService}
+                            orderableService={orderableService}
+                            facilityService={facilityService}
                             />
                     </Route>
                 </Switch>
