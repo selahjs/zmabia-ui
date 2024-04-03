@@ -1,17 +1,67 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Table from "../../../react-components/table/table";
 import WebTooltip from "../../../react-components/modals/web-tooltip";
 import { Link } from "react-router-dom";
 import ResponsiveButton from "../../../react-components/buttons/responsive-button";
-import useLocalStorage from "../../../react-hooks/useLocalStorage";
-import {STORAGE_MOH_APPROVAL_PARAMS} from "../../utils/constants";
-import { addThousandsSeparatorsForStrings } from '../../utils/helpers';
+import Checkbox from '../../../react-components/inputs/checkbox';
 
-const MOHApprovalTable = ({ data, redirectUrl, districtLvl = false }) => {
-    const { storedItems: { mohApprovalParams }, handleSaveInLocalStorage } = useLocalStorage();
+const MOHApprovalTable = ({ data, redirectUrl, handleSetData }) => {
+    const [selectedCheckbox, setSelectedCheckbox] = useState(false);
+
+    const checkAllCheckboxes = (checkData) => {
+        if (checkData.length) {
+            const allCheckboxesAreSelected = checkData.every(
+                (item) => item.checkbox === true
+            );
+            setSelectedCheckbox(allCheckboxesAreSelected);
+        } else {
+            setSelectedCheckbox(false);
+        }
+    }
+
+    const toggleAllCheckboxes = (value) => {
+        setSelectedCheckbox(value);
+        const updatedData = data.map((obj) => ({...obj, checkbox: value}));
+
+        handleSetData(updatedData);
+        checkAllCheckboxes(updatedData);
+    };
+
+    const toggleRowCheckbox = (value, row) => {
+        const updatedData = data.map((obj) => {
+            if (obj.idCheckbox === row.idCheckbox) {
+                return { ...obj, checkbox: value };
+            }
+            return { ...obj };
+        });
+
+        handleSetData(updatedData);
+        checkAllCheckboxes(updatedData);
+    };
 
     const columns = useMemo(
         () => [
+            {
+                Header: () => (
+                    <div className="prepare-buq-table-actions">
+                        <Checkbox
+                            name="toggleAllCheckboxes"
+                            checked={selectedCheckbox}
+                            onClick={(value) => toggleAllCheckboxes(value)}
+                        />
+                    </div>
+                ),
+                accessor: 'checkbox',
+                Cell: ({ row }) => (
+                    <div className="prepare-buq-table-actions">
+                        <Checkbox
+                            name={row.original.id}
+                            checked={row.original.checkbox}
+                            onClick={(value) => toggleRowCheckbox(value, row.original)}
+                        />
+                    </div>
+                ),
+            },
             {
                 Header: () => (
                     <div className="header-moh-approve-status-icon">
@@ -32,52 +82,39 @@ const MOHApprovalTable = ({ data, redirectUrl, districtLvl = false }) => {
                 ),
             },
             {
-                Header: `${districtLvl ? "District" : "Facility Name"}`,
-                accessor: `${districtLvl ? "district" : "facilityName"}`,
+                Header: "Facility Name",
+                accessor: "calculatedGroupsCosts.facilityName",
             },
             {
                 Header: "Facility Type",
-                accessor: "facilityType",
+                accessor: "calculatedGroupsCosts.facilityType",
             },
             {
                 Header: "Pharmaceuticals",
-                accessor: "pharmaceuticals",
-                Cell: ({ value }) => addThousandsSeparatorsForStrings(value),
+                accessor: "calculatedGroupsCosts.pharmaceuticals",
             },
             {
                 Header: "Medical supplies & Equipment",
-                accessor: "medicalSupplies",
-                Cell: ({ value }) => addThousandsSeparatorsForStrings(value),
+                accessor: "calculatedGroupsCosts.medicalSupplies",
             },
             {
                 Header: "Radiology (x-rays consumables)",
-                accessor: "radiology",
-                Cell: ({ value }) => addThousandsSeparatorsForStrings(value),
+                accessor: "calculatedGroupsCosts.radiology",
             },
             {
                 Header: "Diagnostics supplies & Equipment",
-                accessor: "diagnosticsSupplies",
-                Cell: ({ value }) => addThousandsSeparatorsForStrings(value),
+                accessor: "calculatedGroupsCosts.diagnosticsSupplies",
             },
             {
                 Header: "Dental supplies & Equipment",
-                accessor: "dentalSupplies",
-                Cell: ({ value }) => addThousandsSeparatorsForStrings(value),
+                accessor: "calculatedGroupsCosts.dentalSupplies",
             },
             {
                 Header: "Actions",
-                accessor: "id",
+                accessor: "buq.id",
                 Cell: ({ row: { values } }) => {
-                    if (districtLvl) {
-                        handleSaveInLocalStorage(STORAGE_MOH_APPROVAL_PARAMS, {
-                            forecastingPeriodId: mohApprovalParams?.forecastingPeriodId,
-                            programId: mohApprovalParams?.programId,
-                            region: mohApprovalParams?.region,
-                            district: values.district
-                        })
-                    }
                     return (
-                        <Link to={`${redirectUrl}/${data.facilityId}/${values.id}`}>
+                        <Link to={`${redirectUrl}/${values["buq.id"]}`}>
                             <ResponsiveButton className="proceed">
                                 <span>View</span>
                             </ResponsiveButton>
@@ -86,7 +123,7 @@ const MOHApprovalTable = ({ data, redirectUrl, districtLvl = false }) => {
                 },
             },
         ],
-        []
+        [data]
     );
 
     return (

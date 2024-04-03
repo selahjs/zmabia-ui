@@ -180,7 +180,13 @@
                 priority: 10,
                 accessRights: [BUQ_RIGHTS.MOH_APPROVAL, BUQ_RIGHTS.PORALG_APPROVAL],
                 resolve: createResolve(false)
+            })
+            .state('openlmis.buq.MOHPORALGBuqApprove', {
+                label: 'buq.MOHPORALGApproval',
+                url: '/national-approval/:id',
+                showInNavigation: false,
+                accessRights: [BUQ_RIGHTS.MOH_APPROVAL, BUQ_RIGHTS.PORALG_APPROVAL],
+                resolve: createResolve(false)
             });
-
     }
 })();

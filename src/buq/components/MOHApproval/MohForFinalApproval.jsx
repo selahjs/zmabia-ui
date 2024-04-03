@@ -2,41 +2,39 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import InputWithSuggestionsAndValidation from '../../../react-components/inputs/input-with-suggestions-and-validation';
 import useBuqCommonFuncs from '../../../react-hooks/useBuqCommonFunctions';
-import Table from '../../../react-components/table/table';
-import ResponsiveButton from '../../../react-components/buttons/responsive-button';
-import Checkbox from '../../../react-components/inputs/checkbox';
 import ActionBar from '../../../react-components/ActionBar';
 import Modal from '../../../admin-buq/components/Modal/Modal';
 import ConfirmModalBody from '../../../react-components/ConfirmModalBody';
-import { Link } from 'react-router-dom';
-import { STORAGE_MOH_APPROVAL_PARAMS } from '../../utils/constants';
-import WebTooltip from '../../../react-components/modals/web-tooltip';
 import useGeographicZoneGroup from '../../../react-hooks/useGeographicZoneGroup';
 import useServerService from '../../../react-hooks/useServerService';
-import useLocalStorage from '../../../react-hooks/useLocalStorage';
 import useCostCalculationRegion from '../../../react-hooks/useCostCalculationRegion';
 import ModalErrorMessage from '../../../react-components/ModalErrorMessage';
-import { addThousandsSeparatorsForStrings } from '../../utils/helpers';
-import MOHApprovalTable from "./MOHApprovalTable";
-import useCostCalculationDistrictOrFacility from "../../../react-hooks/useCostCalculationDistrictOrFacility";
 import MOHFinalApprovalTable from "./MOHFinalApprovalTable";
+import useCostCalculationsForFourLevels from "../../../react-hooks/useCostCalculationsForFourLevels";
+import DetailsBlock from '../../../react-components/DetailsBlock';
 
 const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     const { forecastingPeriodsParams } = useBuqCommonFuncs();
     const { geographicZoneParams } = useGeographicZoneGroup();
 
     const [noneSelectedGroup, setNoneSelectedGroup] = useState(false);
-    const [noneSelectedForecastingPeriod, setNoneSelectedForecastingPeriod] =
-        useState(false);
+    const [noneSelectedForecastingPeriod, setNoneSelectedForecastingPeriod] = useState(false);
     const [group, setGroup] = useState();
     const [forecastingPeriodId, setForecastingPeriodId] = useState();
     const [data, setData] = useState([]);
+    const [buqsData, setBuqsData] = useState([]);
+    const [displayFinalApproveModal, setDisplayFinalApproveModal] = useState(false);
+    const [displayFinalApproveErrorModal, setDisplayFinalApproveErrorModal] = useState(false);
 
     const buqService = useServerService('buqService');
 
-    const { regionData, programId, fetchRegionData } = useCostCalculationRegion(
-        group,
+    const { programId } = useCostCalculationRegion();
+
+    const { fetchedData, fetchDataByRegion } = useCostCalculationsForFourLevels(
+        programId,
         forecastingPeriodId,
+        group,
+        facilityService,
         loadingModalService
     );
 
@@ -45,17 +43,138 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         if (group === undefined) {
             setGroup(groupValues)
         }
-    }, [geographicZoneParams])
+    }, [geographicZoneParams]);
+
+    useEffect(() => {
+        if (buqsData.length) {
+            combineData();
+        }
+    }, [fetchedData, buqsData]);
 
     const fetchBuqForFinalApproval = () => {
-        console.log(programId, forecastingPeriodId, group);
-
-        const elo = buqService.forFinalApproval(programId, forecastingPeriodId, group.value).then(function(response) {
-                console.log(response);
-
-                setData(response.content);
-            });
+        loadingModalService.open();
+        setBuqsData([]);
+        setData([]);
+        buqService.forFinalApproval(programId, forecastingPeriodId, group.value).then(function (response) {
+            if (response.content.length) {
+                setBuqsData(response.content);
+                fetchDataByRegion();
+            } else {
+                loadingModalService.close();
+            }
+        })
     };
+
+    const combineData = () => {
+        let items = [];
+        buqsData.map((buq, index) => {
+            const item = fetchedData?.filter(function (data) {
+                return data.buqIdsToBeApproved.includes(buq.id)
+            })
+
+            items.push({
+                buq,
+                calculatedGroupsCosts: item[0],
+                idCheckbox: `${buq.id}${buq.facilityId}`,
+                key: index + buq.id
+            })
+
+            setData(items);
+            loadingModalService.close();
+        })
+    };
+
+    const handleFinalApproveAction = () => {
+        const buqToBeFinalApproved = data
+            .filter((buq) => buq.checkbox === true)
+            .flatMap((buq) => buq.buq.id);
+
+        if (buqToBeFinalApproved.length) {
+            loadingModalService.open();
+            buqService
+                .finalApproveBuq(buqToBeFinalApproved)
+                .then(() => {
+                    toast.success('Forecast has been approved successfully');
+                    setDisplayFinalApproveModal(false);
+                    setData(data.filter(
+                        (item) => !buqToBeFinalApproved.includes(item.buq.id)
+                    ))
+                })
+                .finally(() => loadingModalService.close());
+        } else {
+            setDisplayFinalApproveModal(false);
+            setDisplayFinalApproveErrorModal(true);
+        }
+    };
+
+    const handleSetData = (payload) => setData(payload);
+
+    const detailsData = data[0]?.calculatedGroupsCosts !== undefined ? [
+        [
+            {
+                topic: 'Others',
+                value: data.length > 1
+                    ? data?.reduce((total, buq) => {
+                        if (buq.calculatedGroupsCosts !== undefined) {
+                            return (parseInt(total.calculatedGroupsCosts.others) + parseInt(buq.calculatedGroupsCosts.others)).toFixed(2) + " USD"
+                        }
+                    })
+                    : data[0].calculatedGroupsCosts.others
+            },
+            {
+                topic: 'Pharmaceuticals',
+                value: data.length > 1
+                    ? data?.reduce((total, buq) => {
+                        if (buq.calculatedGroupsCosts !== undefined) {
+                            return (parseInt(total.calculatedGroupsCosts.pharmaceuticals) + parseInt(buq?.calculatedGroupsCosts?.pharmaceuticals)).toFixed(2) + " USD"
+                        }
+                    })
+                    : data[0].calculatedGroupsCosts.pharmaceuticals
+            },
+            {
+                topic: 'Medical supplies & Equipment',
+                value: data.length > 1
+                    ? data?.reduce((total, buq) => {
+                        if (buq.calculatedGroupsCosts !== undefined) {
+                            return (parseInt(total.calculatedGroupsCosts.medicalSupplies) + parseInt(buq?.calculatedGroupsCosts?.medicalSupplies)).toFixed(2) + " USD"
+                        }
+                    })
+                    : data[0].calculatedGroupsCosts.medicalSupplies
+            }
+        ],
+        [
+            {
+                topic: 'Radiology (x-rays consumables)',
+                value: data.length > 1
+                    ? data?.reduce((total, buq) => {
+                        if (buq.calculatedGroupsCosts !== undefined) {
+                            return (parseInt(total.calculatedGroupsCosts.radiology) + parseInt(buq?.calculatedGroupsCosts?.radiology)).toFixed(2) + " USD"
+                        }
+                    })
+                    : data[0].calculatedGroupsCosts.radiology
+            },
+            {
+                topic: 'Diagnostics supplies & Equipment',
+                value: data.length > 1
+                    ? data?.reduce((total, buq) => {
+                        if (buq.calculatedGroupsCosts !== undefined) {
+                            return (parseInt(total.calculatedGroupsCosts.diagnosticsSupplies) + parseInt(buq?.calculatedGroupsCosts?.diagnosticsSupplies)).toFixed(2) + " USD"
+                        }
+                    })
+                    : data[0].calculatedGroupsCosts.diagnosticsSupplies
+            },
+            {
+                topic: 'Quantification Period',
+                value: data.length > 1
+                    ? data?.reduce((total, buq) => {
+                        if (buq.calculatedGroupsCosts !== undefined) {
+                            return (parseInt(total.calculatedGroupsCosts.dentalSupplies) + parseInt(buq.calculatedGroupsCosts?.dentalSupplies)).toFixed(2) + " USD"
+                        }
+                    })
+                    : data[0].calculatedGroupsCosts.dentalSupplies
+            }
+        ]
+    ] : [];
 
     const handleSearchButton = () => {
         if (!group) {
@@ -66,7 +185,6 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         }
         if (group && forecastingPeriodId) {
             fetchBuqForFinalApproval();
-            // fetchRegionData();
         }
     };
 
@@ -117,39 +235,47 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                         </button>
                     </div>
                 </div>
-                <div className="approve-buq-page-container">
+                <div className="approve-buq-page-right">
+                    {data[0]?.calculatedGroupsCosts !== undefined ?
+                        <DetailsBlock
+                            data={detailsData}
+                            className='full-width'
+                        />
+                        : []
+                    }
                     <MOHFinalApprovalTable
-                        data={data}
-                        redirectUrl={`/buq/national-approve/${group?.value}`}
+                        data={data[0]?.calculatedGroupsCosts !== undefined ? data : []}
+                        redirectUrl={`/buq/national-approval`}
+                        handleSetData={handleSetData}
                     />
                 </div>
             </div>
-            {/*<Modal*/}
-            {/*    // isOpen={displayFinalApproveModal}*/}
-            {/*    children={[*/}
-            {/*        <ConfirmModalBody*/}
-            {/*            // onConfirm={handleFinalApproveAction}*/}
-            {/*            confirmMessage={*/}
-            {/*                'Are you sure you want to approve this forecasting?'*/}
-            {/*            }*/}
-            {/*            // onCancel={() => setDisplayFinalApproveModal(false)}*/}
-            {/*            confirmButtonText={'Approve'}*/}
-            {/*        />,*/}
-            {/*    ]}*/}
-            {/*    sourceOfFundStyle={true}*/}
-            {/*/>*/}
-            {/*<ModalErrorMessage*/}
-            {/*    isOpen={displayFinalApproveErrorModal}*/}
-            {/*    customMessage="At least one pending approval needs to be selected"*/}
-            {/*    onClose={() => setDisplayFinalApproveErrorModal(false)}*/}
-            {/*/>*/}
-            {/*<ActionBar*/}
-            {/*    onFinalApproveAction={() => setDisplayFinalApproveModal(true)}*/}
-            {/*    finalApproveButton={true}*/}
-            {/*    cancelButton={false}*/}
-            {/*    totalCostInformation={false}*/}
-            {/*    sourceOfFundButton={false}*/}
-            {/*/>*/}
+            <Modal
+                isOpen={displayFinalApproveModal}
+                children={[
+                    <ConfirmModalBody
+                        onConfirm={handleFinalApproveAction}
+                        confirmMessage={
+                            'Are you sure you want to approve this forecasting?'
+                        }
+                        onCancel={() => setDisplayFinalApproveModal(false)}
+                        confirmButtonText={'Approve'}
+                    />,
+                ]}
+                sourceOfFundStyle={true}
+            />
+            <ModalErrorMessage
+                isOpen={displayFinalApproveErrorModal}
+                customMessage="At least one pending approval needs to be selected"
+                onClose={() => setDisplayFinalApproveErrorModal(false)}
+            />
+            <ActionBar
+                onFinalApproveAction={() => setDisplayFinalApproveModal(true)}
+                finalApproveButton={true}
+                cancelButton={false}
+                totalCostInformation={false}
+                sourceOfFundButton={false}
+            />
         </>
     );
 };

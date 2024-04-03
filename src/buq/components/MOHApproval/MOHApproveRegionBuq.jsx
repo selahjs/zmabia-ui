@@ -200,7 +200,6 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
         accessor: 'id',
         Cell: ({ row }) => {
           const { values } = row;
-          console.log(values);
           handleSaveInLocalStorage(STORAGE_MOH_APPROVAL_PARAMS, {
             forecastingPeriodId,
             programId,

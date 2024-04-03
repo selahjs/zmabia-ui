@@ -63,6 +63,10 @@ const Routing = ({
         breadcrumb: 'Pending Approvals'
     },
     {
+        path: '/buq/national-approval/:id',
+        breadcrumb: 'Facility Demanding Forecasting Form'
+    },
+    {
         path: '/buq/national-approve/:districtId',
         breadcrumb: 'District Summary'
     },
@@ -160,6 +164,13 @@ const Routing = ({
                             orderableService={orderableService}
                             facilityService={facilityService}
                             />
+                    </Route>
+                    <Route exact path='/buq/national-approval/:id'>
+                        <MohApproveFacilityDemandingForecasting
+                            loadingModalService={loadingModalService}
+                            facilityService={facilityService}
+                            orderableService={orderableService}
+                        />
                     </Route>
                 </Switch>
             </Router>
