@@ -45,8 +45,8 @@ const MOHApprovalTable = ({ data, redirectUrl, handleSetData }) => {
                 Header: () => (
                     <div className="prepare-buq-table-actions">
                         <Checkbox
-                            name="toggleAllCheckboxes"
                             checked={selectedCheckbox}
+                            name="toggleAllCheckboxes"
                             onClick={(value) => toggleAllCheckboxes(value)}
                         />
                     </div>
@@ -55,8 +55,8 @@ const MOHApprovalTable = ({ data, redirectUrl, handleSetData }) => {
                 Cell: ({ row }) => (
                     <div className="prepare-buq-table-actions">
                         <Checkbox
-                            name={row.original.id}
                             checked={row.original.checkbox}
+                            name={row.original.id}
                             onClick={(value) => toggleRowCheckbox(value, row.original)}
                         />
                     </div>
@@ -67,8 +67,8 @@ const MOHApprovalTable = ({ data, redirectUrl, handleSetData }) => {
                     <div className="header-moh-approve-status-icon">
                         <div>Status</div>
                         <WebTooltip
-                            shouldDisplayTooltip={true}
                             tooltipContent={"All facilities have reported in this period"}
+                            shouldDisplayTooltip={true}
                         >
                             <i className="fa fa-info-circle"></i>
                         </WebTooltip>

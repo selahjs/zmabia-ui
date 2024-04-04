@@ -12,13 +12,12 @@ import ModalErrorMessage from '../../../react-components/ModalErrorMessage';
 import MOHFinalApprovalTable from "./MOHFinalApprovalTable";
 import useCostCalculationsForFourLevels from "../../../react-hooks/useCostCalculationsForFourLevels";
 import DetailsBlock from '../../../react-components/DetailsBlock';
+import MOHSearchBuq from "./MOHSearchBuq";
 
 const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     const { forecastingPeriodsParams } = useBuqCommonFuncs();
     const { geographicZoneParams } = useGeographicZoneGroup();
 
-    const [noneSelectedGroup, setNoneSelectedGroup] = useState(false);
-    const [noneSelectedForecastingPeriod, setNoneSelectedForecastingPeriod] = useState(false);
     const [group, setGroup] = useState();
     const [forecastingPeriodId, setForecastingPeriodId] = useState();
     const [data, setData] = useState([]);
@@ -107,8 +106,6 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         }
     };
 
-    const handleSetData = (payload) => setData(payload);
-
     const detailsData = data[0]?.calculatedGroupsCosts !== undefined ? [
         [
             {
@@ -176,65 +173,23 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         ]
     ] : [];
 
-    const handleSearchButton = () => {
-        if (!group) {
-            setNoneSelectedGroup(true);
-        }
-        if (!forecastingPeriodId) {
-            setNoneSelectedForecastingPeriod(true);
-        }
-        if (group && forecastingPeriodId) {
-            fetchBuqForFinalApproval();
-        }
-    };
+    const handleSetData = (payload) => setData(payload);
+    const handleSetGroup = (payload) => setGroup(payload);
+    const handleSetForecastingPeriodId = (payload) => setForecastingPeriodId(payload);
 
     return (
         <>
             <h2 className="bottom-line">Consolidated Summary</h2>
             <div className="approve-buq-page-container">
-                <div className="approve-buq-page-left">
-                    <div className="approve-buq-select-section">
-                        <div className="approve-buq-select">
-                            <p className="is-required">Group</p>
-                            <InputWithSuggestionsAndValidation
-                                data={geographicZoneParams}
-                                defaultValue={geographicZoneParams[0]}
-                                displayValue="name"
-                                placeholder="Select group"
-                                onClick={(value) => {
-                                    setGroup(value);
-                                    setNoneSelectedGroup(false);
-                                }}
-                                isInvalid={noneSelectedGroup}
-                                displayInformation={true}
-                            />
-                        </div>
-                        <div className="approve-buq-select">
-                            <p className="is-required">Forecasting period</p>
-                            <InputWithSuggestionsAndValidation
-                                data={forecastingPeriodsParams}
-                                defaultValue={forecastingPeriodsParams.at(-1)}
-                                displayValue="name"
-                                placeholder="Select period"
-                                onClick={(value) => {
-                                    setForecastingPeriodId(value);
-                                    setNoneSelectedForecastingPeriod(false);
-                                }}
-                                isInvalid={noneSelectedForecastingPeriod}
-                                displayInformation={true}
-                            />
-                        </div>
-                    </div>
-                    <div className="approve-buq-button">
-                        <button
-                            className="primary"
-                            type="button"
-                            onClick={() => handleSearchButton()}
-                        >
-                            Search
-                        </button>
-                    </div>
-                </div>
+                <MOHSearchBuq
+                    geographicZoneParams={geographicZoneParams}
+                    forecastingPeriodsParams={forecastingPeriodsParams}
+                    group={group}
+                    handleSetGroup={handleSetData}
+                    forecastingPeriodId={forecastingPeriodId}
+                    handleSetForecastingPeriodId={handleSetForecastingPeriodId}
+                    fetchBuqs={fetchBuqForFinalApproval}
+                />
                 <div className="approve-buq-page-right">
                     {data[0]?.calculatedGroupsCosts !== undefined ?
                         <DetailsBlock
