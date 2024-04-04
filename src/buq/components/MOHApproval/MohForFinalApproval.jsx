@@ -26,11 +26,11 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     const { programId } = useCostCalculationRegion();
 
     const { fetchedData, fetchDataByRegion } = useCostCalculationsForFourLevels(
-        programId,
-        forecastingPeriodId,
         group,
         facilityService,
-        loadingModalService
+        loadingModalService,
+        programId,
+        forecastingPeriodId
     );
 
     useEffect(() => {

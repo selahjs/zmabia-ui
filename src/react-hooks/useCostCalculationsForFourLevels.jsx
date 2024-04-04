@@ -3,11 +3,11 @@ import useServerService from './useServerService';
 import useGeographicZoneGroup from "./useGeographicZoneGroup";
 
 const useCostCalculationsForFourLevels = (
-    programId = undefined,
-    forecastingPeriodId = undefined,
     geoZone,
     facilityService,
-    loadingModalService
+    loadingModalService,
+    programId = undefined,
+    forecastingPeriodId = undefined
 ) => {
     const [fetchedData, setFetchedData] = useState([]);
 
