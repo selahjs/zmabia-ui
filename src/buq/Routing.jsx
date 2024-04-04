@@ -25,7 +25,9 @@ import MohApproveFacilityDemandingForecasting from './components/MOHApproval/Moh
 import MOHApprovalDistrictBuq from './components/MOHApproval/MOHApprovalDistrictBuq';
 import MOHApproveRegionBuq from './components/MOHApproval/MOHApproveRegionBuq';
 import MOHApprovalFacilityBuq from './components/MOHApproval/MOHApprovalFacilityBuq';
+import MohForFinalApproval from './components/MOHApproval/MohForFinalApproval';
 import useLocalStorage from "../react-hooks/useLocalStorage";
+
 
 const Routing = ({
     loadingModalService,
@@ -38,43 +40,63 @@ const Routing = ({
 
     const breadcrumbsRoutes = [{
         path: '/buq',
-        breadcrumb: 'BUQ'
+        breadcrumb: 'BUQ',
+        isDisabled: true
     },
     {
         path: '/buq/prepare',
-        breadcrumb: 'Prepare BUQ'
+        breadcrumb: 'Prepare BUQ',
+        isDisabled: false
     },
     {
         path: '/buq/create',
-        breadcrumb: 'Create / Authorize Forecasting'
+        breadcrumb: 'Create / Authorize Forecasting',
+        isDisabled: false
     },
     {
         path: '/buq/create/:id',
-        breadcrumb: 'Facility Demanding Forecasting Form'
+        breadcrumb: 'Facility Demanding Forecasting Form',
+        isDisabled: false
     },
     {
         path: '/buq/national-approve',
-        breadcrumb: 'Pending Approvals'
+        breadcrumb: 'Pending Approvals',
+        isDisabled: false
+    },
+    {
+        path: '/buq/national-approval',
+        breadcrumb: 'Pending Approvals',
+        isDisabled: false
+    },
+    {
+        path: '/buq/national-approval/:id',
+        breadcrumb: 'Facility Demanding Forecasting Form',
+        isDisabled: false
     },
     {
         path: '/buq/national-approve/:districtId',
-        breadcrumb: 'District Summary'
+        breadcrumb: 'District Summary',
+        isDisabled: false
     },
     {
         path: '/buq/national-approve/:districtId/:facilityId',
-        breadcrumb: `Facilities Consolidated Summary for ${mohApprovalParams?.region} region`
+        breadcrumb: `Facilities Consolidated Summary for ${mohApprovalParams?.region} region`,
+        isDisabled: false
     },
     {
         path: '/buq/national-approve/:districtId/:facilityId/:id',
-        breadcrumb:  'Facility Demanding Forecasting Form'
+        breadcrumb:  'Facility Demanding Forecasting Form',
+        isDisabled: false
     },
     {
         path: '/buq/approve',
-        breadcrumb: 'Approve BUQ'
+        breadcrumb: 'Approve BUQ',
+        isDisabled: false
     },
     {
         path: '/buq/approve/:id',
-        breadcrumb: 'Facility Demanding Forecasting Form'
+        breadcrumb: 'Facility Demanding Forecasting Form',
+        isDisabled: false
     }
     ];
 
@@ -146,6 +168,21 @@ const Routing = ({
                             facilityService={facilityService}
                             orderableService={orderableService}
                             />
+                    </Route>
+                    <Route exact path='/buq/national-approval'>
+                        <MohForFinalApproval
+                            loadingModalService={loadingModalService}
+                            periodService={periodService}
+                            orderableService={orderableService}
+                            facilityService={facilityService}
+                            />
+                    </Route>
+                    <Route exact path='/buq/national-approval/:id'>
+                        <MohApproveFacilityDemandingForecasting
+                            loadingModalService={loadingModalService}
+                            facilityService={facilityService}
+                            orderableService={orderableService}
+                        />
                     </Route>
                 </Switch>
             </Router>

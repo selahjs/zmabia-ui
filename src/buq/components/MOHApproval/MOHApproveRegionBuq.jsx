@@ -1,13 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import InputWithSuggestionsAndValidation from '../../../react-components/inputs/input-with-suggestions-and-validation';
 import useBuqCommonFuncs from '../../../react-hooks/useBuqCommonFunctions';
 import Table from '../../../react-components/table/table';
 import ResponsiveButton from '../../../react-components/buttons/responsive-button';
 import Checkbox from '../../../react-components/inputs/checkbox';
-import ActionBar from '../../../react-components/ActionBar';
-import Modal from '../../../admin-buq/components/Modal/Modal';
-import ConfirmModalBody from '../../../react-components/ConfirmModalBody';
 import { Link } from 'react-router-dom';
 import { STORAGE_MOH_APPROVAL_PARAMS } from '../../utils/constants';
 import WebTooltip from '../../../react-components/modals/web-tooltip';
@@ -15,24 +11,20 @@ import useGeographicZoneGroup from '../../../react-hooks/useGeographicZoneGroup'
 import useServerService from '../../../react-hooks/useServerService';
 import useLocalStorage from '../../../react-hooks/useLocalStorage';
 import useCostCalculationRegion from '../../../react-hooks/useCostCalculationRegion';
-import ModalErrorMessage from '../../../react-components/ModalErrorMessage';
 import { addThousandsSeparatorsForStrings } from '../../utils/helpers';
+import MOHSearchBuq from "./MOHSearchBuq";
+import MOHActionBarFinalApprove from "./MOHActionBarFinalApprove";
 
 const MOHApproveRegionBuq = ({ loadingModalService }) => {
   const { forecastingPeriodsParams } = useBuqCommonFuncs();
   const { geographicZoneParams } = useGeographicZoneGroup();
 
   const [group, setGroup] = useState();
-  const [noneSelectedGroup, setNoneSelectedGroup] = useState(false);
   const [forecastingPeriodId, setForecastingPeriodId] = useState();
-  const [noneSelectedForecastingPeriod, setNoneSelectedForecastingPeriod] =
-    useState(false);
-  const [displayFinalApproveModal, setDisplayFinalApproveModal] =
-    useState(false);
   const [data, setData] = useState([]);
   const [selectedCheckbox, setSelectedCheckbox] = useState(false);
-  const [displayFinalApproveErrorModal, setDisplayFinalApproveErrorModal] =
-    useState(false);
+  const [displayFinalApproveModal, setDisplayFinalApproveModal] = useState(false);
+  const [displayFinalApproveErrorModal, setDisplayFinalApproveErrorModal] = useState(false);
 
   const buqService = useServerService('buqService');
 
@@ -49,41 +41,30 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
     loadingModalService
   );
 
-  const { handleSaveInLocalStorage } = useLocalStorage();
+    const { handleSaveInLocalStorage } = useLocalStorage();
 
-  useEffect(() => {
-    if (regionData) {
-      setData(regionData);
-    }
-  }, [regionData]);
+    useEffect(() => {
+        if (regionData) {
+            setData(regionData);
+        }
+    }, [regionData]);
 
-  useEffect(() => {
-    if (data.length) {
-      const allCheckboxesAreSelected = data.every(
-        (item) => item.checkbox === true
-      );      
-      setSelectedCheckbox(allCheckboxesAreSelected);
-    } else {
-      setSelectedCheckbox(false);
+    const checkAllCheckboxes = (checkData) => {
+        if (checkData.length) {
+            const allCheckboxesAreSelected = checkData.every(
+                (item) => item.checkbox === true
+            );
+            setSelectedCheckbox(allCheckboxesAreSelected);
+        } else {
+            setSelectedCheckbox(false);
+        }
     }
-  }, [data]);
-
-  const handleSearchButton = () => {
-    if (!group) {
-      setNoneSelectedGroup(true);
-    }
-    if (!forecastingPeriodId) {
-      setNoneSelectedForecastingPeriod(true);
-    }
-    if (group && forecastingPeriodId) {
-      fetchRegionData();
-    }
-  };
 
   const toggleAllCheckboxes = (value) => {
     setSelectedCheckbox(value);
     const updatedData = data.map((obj) => ({ ...obj, checkbox: value }));
     setData(updatedData);
+    checkAllCheckboxes(updatedData);
   };
 
   const toggleRowCheckbox = (value, row) => {
@@ -95,6 +76,7 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
     });
 
     setData(updatedData);
+    checkAllCheckboxes(updatedData);
   };
 
   const handleFinalApproveAction = () => {
@@ -218,87 +200,38 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
     ],
     [data, selectedCheckbox]
   );
+    const handleSetGroup = (payload) => setGroup(payload);
+    const handleSetForecastingPeriodId = (payload) => setForecastingPeriodId(payload);
+    const handleSetDisplayFinalApproveErrorModal = (payload) => setDisplayFinalApproveErrorModal(payload);
+    const handleSetDisplayFinalApproveModal = (payload) => setDisplayFinalApproveModal(payload);
 
   return (
     <>
       <h2 className="bottom-line">Consolidated Summary</h2>
       <div className="approve-buq-page-container">
-        <div className="approve-buq-page-left">
-          <div className="approve-buq-select-section">
-            <div className="approve-buq-select">
-              <p className="is-required">Group</p>
-              <InputWithSuggestionsAndValidation
-                data={geographicZoneParams}
-                defaultValue={geographicZoneParams[0]}
-                displayValue="name"
-                placeholder="Select group"
-                onClick={(value) => {
-                  setGroup(value);
-                  setNoneSelectedGroup(false);
-                }}
-                isInvalid={noneSelectedGroup}
-                displayInformation={true}
-              />
-            </div>
-            <div className="approve-buq-select">
-              <p className="is-required">Forecasting period</p>
-              <InputWithSuggestionsAndValidation
-                data={forecastingPeriodsParams}
-                defaultValue={forecastingPeriodsParams.at(-1)}
-                displayValue="name"
-                placeholder="Select period"
-                onClick={(value) => {
-                  setForecastingPeriodId(value);
-                  setNoneSelectedForecastingPeriod(false);
-                }}
-                isInvalid={noneSelectedForecastingPeriod}
-                displayInformation={true}
-              />
-            </div>
-          </div>
-          <div className="approve-buq-button">
-            <button
-              className="primary"
-              type="button"
-              onClick={() => handleSearchButton()}
-            >
-              Search
-            </button>
-          </div>
-        </div>
+        <MOHSearchBuq
+          geographicZoneParams={geographicZoneParams}
+          forecastingPeriodsParams={forecastingPeriodsParams}
+          group={group}
+          handleSetGroup={handleSetGroup}
+          forecastingPeriodId={forecastingPeriodId}
+          handleSetForecastingPeriodId={handleSetForecastingPeriodId}
+          fetchBuqs={fetchRegionData}
+        />
         <Table
           columns={columns}
-          data={data}
+          data={data[0]?.buqIdsToBeApproved !== undefined ? data : []}
           noItemsMessage="No pending consolidated summary"
           customReactTableStyle="moh-approve-buq-region"
         />
       </div>
-      <Modal
-        isOpen={displayFinalApproveModal}
-        children={[
-          <ConfirmModalBody
-            onConfirm={handleFinalApproveAction}
-            confirmMessage={
-              'Are you sure you want to approve this forecasting?'
-            }
-            onCancel={() => setDisplayFinalApproveModal(false)}
-            confirmButtonText={'Approve'}
-          />,
-        ]}
-        sourceOfFundStyle={true}
-      />
-      <ModalErrorMessage
-        isOpen={displayFinalApproveErrorModal}
-        customMessage="At least one pending approval needs to be selected"
-        onClose={() => setDisplayFinalApproveErrorModal(false)}
-      />
-      <ActionBar
-        onFinalApproveAction={() => setDisplayFinalApproveModal(true)}
-        finalApproveButton={true}
-        cancelButton={false}
-        totalCostInformation={false}
-        sourceOfFundButton={false}
-      />
+        <MOHActionBarFinalApprove
+            handleFinalApproveAction={handleFinalApproveAction}
+            displayFinalApproveModal={displayFinalApproveModal}
+            handleSetDisplayFinalApproveModal={handleSetDisplayFinalApproveModal}
+            displayFinalApproveErrorModal={displayFinalApproveErrorModal}
+            handleSetDisplayFinalApproveErrorModal={handleSetDisplayFinalApproveErrorModal}
+        />
     </>
   );
 };

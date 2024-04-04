@@ -118,6 +118,11 @@
                     '?processingPeriodId=:ppId&programId=:pId&geographicZoneId=:gzId'),
                 method: 'POST',
                 isArray: true
+            },
+            forFinalApproval: {
+                url: openlmisUrlFactory('/api/bottomUpQuantifications/forFinalApproval' +
+                    '?processingPeriodId=:ppId&programId=:pId&geographicZoneId=:gzId'),
+                method: 'GET'
             }
         });
 
@@ -141,6 +146,7 @@
         this.getMostRecentRejection = getMostRecentRejection;
         this.userHasBUQProgram = userHasBUQProgram;
         this.doesSupportBUQProgram = doesSupportBUQProgram;
+        this.forFinalApproval = forFinalApproval;
 
         function getBuqs(facilityId) {
             var queryParams = {};
@@ -256,6 +262,14 @@
                 ppId: processingPeriodId,
                 gzId: geoZoneId
             }, payload).$promise;
+        }
+
+        function forFinalApproval(programId, processingPeriodId, geoZoneId) {
+            return resource.forFinalApproval({
+                pId: programId,
+                ppId: processingPeriodId,
+                gzId: geoZoneId
+            }).$promise;
         }
 
         function getMostRecentRejection(buqId) {

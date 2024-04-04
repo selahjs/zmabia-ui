@@ -145,7 +145,7 @@
             .state('openlmis.buq.MOHPORALGApprovals', {
                 label: 'buq.MOHPORALGApprovals',
                 url: '/national-approve',
-                showInNavigation: true,
+                showInNavigation: false,
                 priority: 10,
                 accessRights: [BUQ_RIGHTS.MOH_APPROVAL, BUQ_RIGHTS.PORALG_APPROVAL],
                 resolve: createResolve(false)
@@ -172,7 +172,21 @@
                 showInNavigation: false,
                 accessRights: [BUQ_RIGHTS.MOH_APPROVAL, BUQ_RIGHTS.PORALG_APPROVAL],
                 resolve: createResolve(false)
+            })
+            .state('openlmis.buq.MOHPORALGForFinalApproval', {
+                label: 'buq.MOHPORALGApprovals',
+                url: '/national-approval',
+                showInNavigation: true,
+                priority: 10,
+                accessRights: [BUQ_RIGHTS.MOH_APPROVAL, BUQ_RIGHTS.PORALG_APPROVAL],
+                resolve: createResolve(false)
+            })
+            .state('openlmis.buq.MOHPORALGBuqApprove', {
+                label: 'buq.MOHPORALGApproval',
+                url: '/national-approval/:id',
+                showInNavigation: false,
+                accessRights: [BUQ_RIGHTS.MOH_APPROVAL, BUQ_RIGHTS.PORALG_APPROVAL],
+                resolve: createResolve(false)
             });
-
     }
 })();
