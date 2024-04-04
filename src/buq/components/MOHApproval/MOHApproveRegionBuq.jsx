@@ -1,13 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import InputWithSuggestionsAndValidation from '../../../react-components/inputs/input-with-suggestions-and-validation';
 import useBuqCommonFuncs from '../../../react-hooks/useBuqCommonFunctions';
 import Table from '../../../react-components/table/table';
 import ResponsiveButton from '../../../react-components/buttons/responsive-button';
 import Checkbox from '../../../react-components/inputs/checkbox';
-import ActionBar from '../../../react-components/ActionBar';
-import Modal from '../../../admin-buq/components/Modal/Modal';
-import ConfirmModalBody from '../../../react-components/ConfirmModalBody';
 import { Link } from 'react-router-dom';
 import { STORAGE_MOH_APPROVAL_PARAMS } from '../../utils/constants';
 import WebTooltip from '../../../react-components/modals/web-tooltip';
@@ -15,9 +11,9 @@ import useGeographicZoneGroup from '../../../react-hooks/useGeographicZoneGroup'
 import useServerService from '../../../react-hooks/useServerService';
 import useLocalStorage from '../../../react-hooks/useLocalStorage';
 import useCostCalculationRegion from '../../../react-hooks/useCostCalculationRegion';
-import ModalErrorMessage from '../../../react-components/ModalErrorMessage';
 import { addThousandsSeparatorsForStrings } from '../../utils/helpers';
 import MOHSearchBuq from "./MOHSearchBuq";
+import MOHActionBarFinalApprove from "./MOHActionBarFinalApprove";
 
 const MOHApproveRegionBuq = ({ loadingModalService }) => {
   const { forecastingPeriodsParams } = useBuqCommonFuncs();
@@ -25,12 +21,10 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
 
   const [group, setGroup] = useState();
   const [forecastingPeriodId, setForecastingPeriodId] = useState();
-  const [displayFinalApproveModal, setDisplayFinalApproveModal] =
-    useState(false);
   const [data, setData] = useState([]);
   const [selectedCheckbox, setSelectedCheckbox] = useState(false);
-  const [displayFinalApproveErrorModal, setDisplayFinalApproveErrorModal] =
-    useState(false);
+  const [displayFinalApproveModal, setDisplayFinalApproveModal] = useState(false);
+  const [displayFinalApproveErrorModal, setDisplayFinalApproveErrorModal] = useState(false);
 
   const buqService = useServerService('buqService');
 
@@ -206,10 +200,10 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
     ],
     [data, selectedCheckbox]
   );
-
-    const handleSetData = (payload) => setData(payload);
     const handleSetGroup = (payload) => setGroup(payload);
     const handleSetForecastingPeriodId = (payload) => setForecastingPeriodId(payload);
+    const handleSetDisplayFinalApproveErrorModal = (payload) => setDisplayFinalApproveErrorModal(payload);
+    const handleSetDisplayFinalApproveModal = (payload) => setDisplayFinalApproveModal(payload);
 
   return (
     <>
@@ -219,7 +213,7 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
           geographicZoneParams={geographicZoneParams}
           forecastingPeriodsParams={forecastingPeriodsParams}
           group={group}
-          handleSetGroup={handleSetData}
+          handleSetGroup={handleSetGroup}
           forecastingPeriodId={forecastingPeriodId}
           handleSetForecastingPeriodId={handleSetForecastingPeriodId}
           fetchBuqs={fetchRegionData}
@@ -231,32 +225,13 @@ const MOHApproveRegionBuq = ({ loadingModalService }) => {
           customReactTableStyle="moh-approve-buq-region"
         />
       </div>
-      <Modal
-        isOpen={displayFinalApproveModal}
-        children={[
-          <ConfirmModalBody
-            onConfirm={handleFinalApproveAction}
-            confirmMessage={
-              'Are you sure you want to approve this forecasting?'
-            }
-            onCancel={() => setDisplayFinalApproveModal(false)}
-            confirmButtonText={'Approve'}
-          />,
-        ]}
-        sourceOfFundStyle={true}
-      />
-      <ModalErrorMessage
-        isOpen={displayFinalApproveErrorModal}
-        customMessage="At least one pending approval needs to be selected"
-        onClose={() => setDisplayFinalApproveErrorModal(false)}
-      />
-      <ActionBar
-        onFinalApproveAction={() => setDisplayFinalApproveModal(true)}
-        finalApproveButton={true}
-        cancelButton={false}
-        totalCostInformation={false}
-        sourceOfFundButton={false}
-      />
+        <MOHActionBarFinalApprove
+            handleFinalApproveAction={handleFinalApproveAction}
+            displayFinalApproveModal={displayFinalApproveModal}
+            handleSetDisplayFinalApproveModal={handleSetDisplayFinalApproveModal}
+            displayFinalApproveErrorModal={displayFinalApproveErrorModal}
+            handleSetDisplayFinalApproveErrorModal={handleSetDisplayFinalApproveErrorModal}
+        />
     </>
   );
 };

@@ -1,18 +1,14 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import InputWithSuggestionsAndValidation from '../../../react-components/inputs/input-with-suggestions-and-validation';
 import useBuqCommonFuncs from '../../../react-hooks/useBuqCommonFunctions';
-import ActionBar from '../../../react-components/ActionBar';
-import Modal from '../../../admin-buq/components/Modal/Modal';
-import ConfirmModalBody from '../../../react-components/ConfirmModalBody';
 import useGeographicZoneGroup from '../../../react-hooks/useGeographicZoneGroup';
 import useServerService from '../../../react-hooks/useServerService';
 import useCostCalculationRegion from '../../../react-hooks/useCostCalculationRegion';
-import ModalErrorMessage from '../../../react-components/ModalErrorMessage';
 import MOHFinalApprovalTable from "./MOHFinalApprovalTable";
 import useCostCalculationsForFourLevels from "../../../react-hooks/useCostCalculationsForFourLevels";
 import DetailsBlock from '../../../react-components/DetailsBlock';
 import MOHSearchBuq from "./MOHSearchBuq";
+import MOHActionBarFinalApprove from "./MOHActionBarFinalApprove";
 
 const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     const { forecastingPeriodsParams } = useBuqCommonFuncs();
@@ -177,6 +173,10 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     const handleSetGroup = (payload) => setGroup(payload);
     const handleSetForecastingPeriodId = (payload) => setForecastingPeriodId(payload);
 
+    const handleSetDisplayFinalApproveModal = (payload) => setDisplayFinalApproveModal(payload);
+
+    const handleSetDisplayFinalApproveErrorModal = (payload) => setDisplayFinalApproveErrorModal(payload);
+
     return (
         <>
             <h2 className="bottom-line">Consolidated Summary</h2>
@@ -185,7 +185,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                     geographicZoneParams={geographicZoneParams}
                     forecastingPeriodsParams={forecastingPeriodsParams}
                     group={group}
-                    handleSetGroup={handleSetData}
+                    handleSetGroup={handleSetGroup}
                     forecastingPeriodId={forecastingPeriodId}
                     handleSetForecastingPeriodId={handleSetForecastingPeriodId}
                     fetchBuqs={fetchBuqForFinalApproval}
@@ -205,31 +205,12 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                     />
                 </div>
             </div>
-            <Modal
-                isOpen={displayFinalApproveModal}
-                children={[
-                    <ConfirmModalBody
-                        onConfirm={handleFinalApproveAction}
-                        confirmMessage={
-                            'Are you sure you want to approve this forecasting?'
-                        }
-                        onCancel={() => setDisplayFinalApproveModal(false)}
-                        confirmButtonText={'Approve'}
-                    />,
-                ]}
-                sourceOfFundStyle={true}
-            />
-            <ModalErrorMessage
-                isOpen={displayFinalApproveErrorModal}
-                customMessage="At least one pending approval needs to be selected"
-                onClose={() => setDisplayFinalApproveErrorModal(false)}
-            />
-            <ActionBar
-                onFinalApproveAction={() => setDisplayFinalApproveModal(true)}
-                finalApproveButton={true}
-                cancelButton={false}
-                totalCostInformation={false}
-                sourceOfFundButton={false}
+            <MOHActionBarFinalApprove
+                handleFinalApproveAction={handleFinalApproveAction}
+                displayFinalApproveModal={displayFinalApproveModal}
+                handleSetDisplayFinalApproveModal={handleSetDisplayFinalApproveModal}
+                displayFinalApproveErrorModal={displayFinalApproveErrorModal}
+                handleSetDisplayFinalApproveErrorModal={handleSetDisplayFinalApproveErrorModal}
             />
         </>
     );
