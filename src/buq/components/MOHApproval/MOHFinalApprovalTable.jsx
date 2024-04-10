@@ -83,11 +83,11 @@ const MOHApprovalTable = ({ data, redirectUrl, handleSetData }) => {
             },
             {
                 Header: "Facility Name",
-                accessor: "calculatedGroupsCosts.facilityName",
+                accessor: "facilityName",
             },
             {
                 Header: "Facility Type",
-                accessor: "calculatedGroupsCosts.facilityType",
+                accessor: "facilityType",
             },
             {
                 Header: "Pharmaceuticals",

@@ -5,7 +5,6 @@ import useGeographicZoneGroup from '../../../react-hooks/useGeographicZoneGroup'
 import useServerService from '../../../react-hooks/useServerService';
 import useCostCalculationRegion from '../../../react-hooks/useCostCalculationRegion';
 import MOHFinalApprovalTable from "./MOHFinalApprovalTable";
-import useCostCalculationsForFourLevels from "../../../react-hooks/useCostCalculationsForFourLevels";
 import DetailsBlock from '../../../react-components/DetailsBlock';
 import MOHSearchBuq from "./MOHSearchBuq";
 import MOHActionBarFinalApprove from "./MOHActionBarFinalApprove";
@@ -25,14 +24,6 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
 
     const { programId } = useCostCalculationRegion();
 
-    const { fetchedData, fetchDataByRegion } = useCostCalculationsForFourLevels(
-        group,
-        facilityService,
-        loadingModalService,
-        programId,
-        forecastingPeriodId
-    );
-
     useEffect(() => {
         const groupValues = geographicZoneParams[0];
         if (group === undefined) {
@@ -44,7 +35,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         if (buqsData.length) {
             combineData();
         }
-    }, [fetchedData, buqsData]);
+    }, [buqsData]);
 
     const fetchBuqForFinalApproval = () => {
         loadingModalService.open();
@@ -53,7 +44,6 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         buqService.forFinalApproval(programId, forecastingPeriodId, group.value).then(function (response) {
             if (response.content.length) {
                 setBuqsData(response.content);
-                fetchDataByRegion();
             } else {
                 loadingModalService.close();
             }
@@ -62,16 +52,27 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
 
     const combineData = () => {
         let items = [];
-        buqsData.map((buq, index) => {
-            const item = fetchedData?.filter(function (data) {
-                return data.buqIdsToBeApproved.includes(buq.id)
-            })
+        buqsData.map(async (buq, index) => {
+            const facilityData = await facilityService.get(buq.bottomUpQuantification.facilityId);
+
+            const calc = buq.calculatedGroupsCosts;
+
+            const calculatedGroups = {
+                pharmaceuticals: calc.Pharmaceuticals,
+                medicalSupplies: calc['Medical supplies'],
+                radiology: calc['Radiology (X-rays consumables)'],
+                dentalSupplies: calc['Dental supplies'],
+                diagnosticsSupplies: calc['Diagnostics supplies'],
+                others: calc.Others,
+            };
 
             items.push({
                 buq,
-                calculatedGroupsCosts: item[0],
-                idCheckbox: `${buq.id}${buq.facilityId}`,
-                key: index + buq.id
+                calculatedGroupsCosts: calculatedGroups,
+                idCheckbox: `${buq.bottomUpQuantification.id}${buq.bottomUpQuantification.facilityId}`,
+                facilityName: facilityData.name,
+                facilityType: facilityData.type.name,
+                key: index + buq.bottomUpQuantification.id,
             })
 
             setData(items);
@@ -108,7 +109,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 topic: 'Others',
                 value: data.length > 1
                     ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined) {
+                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
                             return (parseInt(total.calculatedGroupsCosts.others) + parseInt(buq.calculatedGroupsCosts.others)).toFixed(2) + " USD"
                         }
                     })
@@ -118,7 +119,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 topic: 'Pharmaceuticals',
                 value: data.length > 1
                     ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined) {
+                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
                             return (parseInt(total.calculatedGroupsCosts.pharmaceuticals) + parseInt(buq?.calculatedGroupsCosts?.pharmaceuticals)).toFixed(2) + " USD"
                         }
                     })
@@ -128,7 +129,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 topic: 'Medical supplies & Equipment',
                 value: data.length > 1
                     ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined) {
+                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
                             return (parseInt(total.calculatedGroupsCosts.medicalSupplies) + parseInt(buq?.calculatedGroupsCosts?.medicalSupplies)).toFixed(2) + " USD"
                         }
                     })
@@ -140,7 +141,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 topic: 'Radiology (x-rays consumables)',
                 value: data.length > 1
                     ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined) {
+                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
                             return (parseInt(total.calculatedGroupsCosts.radiology) + parseInt(buq?.calculatedGroupsCosts?.radiology)).toFixed(2) + " USD"
                         }
                     })
@@ -150,7 +151,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 topic: 'Diagnostics supplies & Equipment',
                 value: data.length > 1
                     ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined) {
+                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
                             return (parseInt(total.calculatedGroupsCosts.diagnosticsSupplies) + parseInt(buq?.calculatedGroupsCosts?.diagnosticsSupplies)).toFixed(2) + " USD"
                         }
                     })
@@ -160,7 +161,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 topic: 'Quantification Period',
                 value: data.length > 1
                     ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined) {
+                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
                             return (parseInt(total.calculatedGroupsCosts.dentalSupplies) + parseInt(buq.calculatedGroupsCosts?.dentalSupplies)).toFixed(2) + " USD"
                         }
                     })
