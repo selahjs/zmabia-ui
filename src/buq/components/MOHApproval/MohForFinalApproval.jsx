@@ -50,10 +50,10 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         })
     };
 
-    const combineData = () => {
+    const combineData = async () => {
         let items = [];
-        buqsData.map(async (buq, index) => {
-            const facilityData = await facilityService.get(buq.bottomUpQuantification.facilityId);
+        buqsData.map((buq, index) => {
+            const facilityData = facilityService.get(buq.bottomUpQuantification.facilityId);
 
             const calc = buq.calculatedGroupsCosts;
 
@@ -70,8 +70,8 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 buq,
                 calculatedGroupsCosts: calculatedGroups,
                 idCheckbox: `${buq.bottomUpQuantification.id}${buq.bottomUpQuantification.facilityId}`,
-                facilityName: facilityData.name,
-                facilityType: facilityData.type.name,
+                facilityName: facilityData.$$state.value.name,
+                facilityType: facilityData.$$state.value.type.name,
                 key: index + buq.bottomUpQuantification.id,
             })
 
@@ -83,7 +83,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     const handleFinalApproveAction = () => {
         const buqToBeFinalApproved = data
             .filter((buq) => buq.checkbox === true)
-            .flatMap((buq) => buq.buq.id);
+            .flatMap((buq) => buq.buq.bottomUpQuantification.id);
 
         if (buqToBeFinalApproved.length) {
             loadingModalService.open();
@@ -93,7 +93,7 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                     toast.success('Forecast has been approved successfully');
                     setDisplayFinalApproveModal(false);
                     setData(data.filter(
-                        (item) => !buqToBeFinalApproved.includes(item.buq.id)
+                        (item) => !buqToBeFinalApproved.includes(item.buq.bottomUpQuantification.id)
                     ))
                 })
                 .finally(() => loadingModalService.close());

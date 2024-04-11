@@ -111,10 +111,10 @@ const MOHApprovalTable = ({ data, redirectUrl, handleSetData }) => {
             },
             {
                 Header: "Actions",
-                accessor: "buq.id",
+                accessor: "buq.bottomUpQuantification.id",
                 Cell: ({ row: { values } }) => {
                     return (
-                        <Link to={`${redirectUrl}/${values["buq.id"]}`}>
+                        <Link to={`${redirectUrl}/${values["buq.bottomUpQuantification.id"]}`}>
                             <ResponsiveButton className="proceed">
                                 <span>View</span>
                             </ResponsiveButton>
