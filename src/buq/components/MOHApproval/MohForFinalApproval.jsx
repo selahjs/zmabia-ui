@@ -51,9 +51,8 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
     };
 
     const combineData = async () => {
-        let items = [];
-        buqsData.map((buq, index) => {
-            const facilityData = facilityService.get(buq.bottomUpQuantification.facilityId);
+        const promises = buqsData.map(async (buq, index) => {
+            const facilityData = await facilityService.get(buq.bottomUpQuantification.facilityId);
 
             const calc = buq.calculatedGroupsCosts;
 
@@ -66,18 +65,24 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
                 others: calc.Others,
             };
 
-            items.push({
+            return {
                 buq,
                 calculatedGroupsCosts: calculatedGroups,
                 idCheckbox: `${buq.bottomUpQuantification.id}${buq.bottomUpQuantification.facilityId}`,
-                facilityName: facilityData.$$state.value.name,
-                facilityType: facilityData.$$state.value.type.name,
+                facilityName: facilityData.name,
+                facilityType: facilityData.type.name,
                 key: index + buq.bottomUpQuantification.id,
-            })
+            };
+        });
 
-            setData(items);
-            loadingModalService.close();
-        })
+        Promise.all(promises)
+            .then((data) => {
+                setData(data);
+                loadingModalService.close();
+            })
+            .catch(() => {
+                loadingModalService.close();
+            });
     };
 
     const handleFinalApproveAction = () => {
