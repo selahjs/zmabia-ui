@@ -112,65 +112,35 @@ const MohForFinalApproval = ({ loadingModalService, facilityService }) => {
         [
             {
                 topic: 'Others',
-                value: data.length > 1
-                    ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
-                            return (parseInt(total.calculatedGroupsCosts.others) + parseInt(buq.calculatedGroupsCosts.others)).toFixed(2) + " USD"
-                        }
-                    })
-                    : data[0].calculatedGroupsCosts.others
+                value: data?.reduce((total, buq) =>
+                    (parseInt(total) + parseInt(buq.calculatedGroupsCosts.others)).toFixed(2) + " USD", 0)
             },
             {
                 topic: 'Pharmaceuticals',
-                value: data.length > 1
-                    ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
-                            return (parseInt(total.calculatedGroupsCosts.pharmaceuticals) + parseInt(buq?.calculatedGroupsCosts?.pharmaceuticals)).toFixed(2) + " USD"
-                        }
-                    })
-                    : data[0].calculatedGroupsCosts.pharmaceuticals
+                value: data?.reduce((total, buq) =>
+                    (parseInt(total) + parseInt(buq.calculatedGroupsCosts.pharmaceuticals)).toFixed(2) + " USD", 0)
             },
             {
                 topic: 'Medical supplies & Equipment',
-                value: data.length > 1
-                    ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
-                            return (parseInt(total.calculatedGroupsCosts.medicalSupplies) + parseInt(buq?.calculatedGroupsCosts?.medicalSupplies)).toFixed(2) + " USD"
-                        }
-                    })
-                    : data[0].calculatedGroupsCosts.medicalSupplies
+                value: data?.reduce((total, buq) =>
+                    (parseInt(total) + parseInt(buq.calculatedGroupsCosts.medicalSupplies)).toFixed(2) + " USD", 0)
             }
         ],
         [
             {
                 topic: 'Radiology (x-rays consumables)',
-                value: data.length > 1
-                    ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
-                            return (parseInt(total.calculatedGroupsCosts.radiology) + parseInt(buq?.calculatedGroupsCosts?.radiology)).toFixed(2) + " USD"
-                        }
-                    })
-                    : data[0].calculatedGroupsCosts.radiology
+                value: data?.reduce((total, buq) =>
+                    (parseInt(total) + parseInt(buq.calculatedGroupsCosts.radiology)).toFixed(2) + " USD", 0)
             },
             {
                 topic: 'Diagnostics supplies & Equipment',
-                value: data.length > 1
-                    ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
-                            return (parseInt(total.calculatedGroupsCosts.diagnosticsSupplies) + parseInt(buq?.calculatedGroupsCosts?.diagnosticsSupplies)).toFixed(2) + " USD"
-                        }
-                    })
-                    : data[0].calculatedGroupsCosts.diagnosticsSupplies
+                value: data?.reduce((total, buq) =>
+                    (parseInt(total) + parseInt(buq.calculatedGroupsCosts.diagnosticsSupplies)).toFixed(2) + " USD", 0)
             },
             {
                 topic: 'Quantification Period',
-                value: data.length > 1
-                    ? data?.reduce((total, buq) => {
-                        if (buq.calculatedGroupsCosts !== undefined && total?.calculatedGroupsCosts !== undefined) {
-                            return (parseInt(total.calculatedGroupsCosts.dentalSupplies) + parseInt(buq.calculatedGroupsCosts?.dentalSupplies)).toFixed(2) + " USD"
-                        }
-                    })
-                    : data[0].calculatedGroupsCosts.dentalSupplies
+                value: data?.reduce((total, buq) =>
+                    (parseInt(total) + parseInt(buq.calculatedGroupsCosts.dentalSupplies)).toFixed(2) + " USD", 0)
             }
         ]
     ] : [];
