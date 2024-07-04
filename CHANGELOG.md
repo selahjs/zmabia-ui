@@ -1,3 +1,8 @@
+5.6.13-SNAPSHOT / WIP
+==================
+Improvements:
+* [OLMIS-7954](https://openlmis.atlassian.net/browse/OLMIS-7954): Improved the scalability of local storage and login performance for /api/requisitionGroups request
+
 5.6.12 / 2024-04-19
 ==================
 New functionality that are backwards-compatible:

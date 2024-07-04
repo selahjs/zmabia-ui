@@ -16,7 +16,7 @@
 describe('ProgramService getUserPrograms decorator', function() {
 
     beforeEach(function() {
-        this.cache = jasmine.createSpyObj('cache', ['getBy', 'put', 'clearAll', 'getAll', 'search']);
+        this.cache = jasmine.createSpyObj('cache', ['getBy', 'put', 'putAll', 'clearAll', 'getAll', 'search']);
         var cache = this.cache;
         module('referencedata-user');
         module('referencedata-user-programs-cache', function($provide) {
@@ -80,7 +80,7 @@ describe('ProgramService getUserPrograms decorator', function() {
         this.$httpBackend.flush();
         this.$rootScope.$apply();
 
-        expect(this.cache.put.callCount).toEqual(2);
+        expect(this.cache.putAll.callCount).toEqual(1);
         expect(angular.toJson(result)).toEqual(angular.toJson([
             _.extend({}, this.programs[0], this.userIdOffline),
             _.extend({}, this.programs[1], this.userIdOffline)

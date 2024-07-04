@@ -58,9 +58,7 @@
 
             return lotResource.query(queryParams)
                 .then(function(lots) {
-                    lots.content.forEach(function(lot) {
-                        lotsOffline.put(lot);
-                    });
+                    lotsOffline.putAll(lots.content);
                     return lots;
                 });
         }
