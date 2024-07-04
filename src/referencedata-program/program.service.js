@@ -176,10 +176,13 @@
             })
                 .$promise
                 .then(function(programs) {
-                    programs.forEach(function(program) {
+                    var programsToStore = programs.map(function(program) {
                         program.userIdOffline = userId;
-                        userProgramsCache.put(program);
+                        return program;
                     });
+
+                    userProgramsCache.putAll(programsToStore);
+
                     return programs;
                 })
                 .catch(function() {

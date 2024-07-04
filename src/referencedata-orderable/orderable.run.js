@@ -28,15 +28,17 @@
         loginService.registerPostLoginAction(function(user) {
             return programService.getUserPrograms(user.userId)
                 .then(function(programs) {
-                    programs.forEach(function(program) {
-                        var params = {
-                            program: program.code
-                        };
-                        return new OrderableResource().getAll(params)
-                            .then(function(orderables) {
-                                return orderables;
-                            });
+                    var supportedProgramsCodes = programs.map(function(program) {
+                        return program.code;
                     });
+
+                    return new OrderableResource()
+                        .getAll({
+                            program: supportedProgramsCodes
+                        })
+                        .then(function(orderables) {
+                            return orderables;
+                        });
                 });
         });
     }

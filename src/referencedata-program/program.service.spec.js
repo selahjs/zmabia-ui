@@ -16,7 +16,7 @@
 describe('programService', function() {
 
     beforeEach(function() {
-        this.programsStorage = jasmine.createSpyObj('programsStorage', ['getBy', 'getAll', 'put', 'search']);
+        this.programsStorage = jasmine.createSpyObj('programsStorage', ['getBy', 'putAll', 'getAll', 'put', 'search']);
         this.offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
 
         var programsStorage = this.programsStorage,
@@ -145,9 +145,6 @@ describe('programService', function() {
             expectedProgram1,
             expectedProgram2
         ]));
-
-        expect(angular.toJson(this.programsStorage.put.calls[0].args[0])).toEqual(angular.toJson(expectedProgram1));
-        expect(angular.toJson(this.programsStorage.put.calls[1].args[0])).toEqual(angular.toJson(expectedProgram2));
     });
 
     it('should update program and save it to storage', function() {
@@ -199,8 +196,11 @@ describe('programService', function() {
             this.$httpBackend.flush();
             this.$rootScope.$apply();
 
-            expect(angular.toJson(this.programsStorage.put.calls[0].args[0]))
-                .toEqual(angular.toJson(_.extend({}, this.program1, this.userIdOffline)));
+            expect(angular.toJson(this.programsStorage.putAll.calls[0].args[0]))
+                .toEqual(angular.toJson([
+                    _.extend({}, this.program1, this.userIdOffline),
+                    _.extend({}, this.program2, this.userIdOffline)
+                ]));
         });
 
         it('will not cache an unsuccessful request', function() {

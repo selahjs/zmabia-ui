@@ -18,7 +18,7 @@ describe('orderableFulfillsService', function() {
     beforeEach(function() {
 
         this.offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
-        this.orderableFulfillsStorage = jasmine.createSpyObj('orderableFulfillsStorage', ['put', 'getBy']);
+        this.orderableFulfillsStorage = jasmine.createSpyObj('orderableFulfillsStorage', ['put', 'putAll', 'getBy']);
 
         var offlineService = this.offlineService,
             orderableFulfillsStorage = this.orderableFulfillsStorage;
@@ -73,7 +73,7 @@ describe('orderableFulfillsService', function() {
 
             expect(result['idOne']).toEqual(this.orderableFulfills['idOne']);
             expect(result['idTwo']).toEqual(this.orderableFulfills['idTwo']);
-            expect(this.orderableFulfillsStorage.put.callCount).toEqual(2);
+            expect(this.orderableFulfillsStorage.putAll.callCount).toEqual(1);
         });
 
         it('should reject if orderable fulfills not found in the local storage', function() {

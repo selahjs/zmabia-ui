@@ -18,7 +18,7 @@ describe('lotService', function() {
     beforeEach(function() {
 
         this.offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
-        this.lotsStorage = jasmine.createSpyObj('lotsStorage', ['put', 'getBy', 'search']);
+        this.lotsStorage = jasmine.createSpyObj('lotsStorage', ['put', 'putAll', 'getBy', 'search']);
 
         var offlineService = this.offlineService,
             lotsStorage = this.lotsStorage;
@@ -92,7 +92,7 @@ describe('lotService', function() {
             this.$rootScope.$apply();
 
             expect(result.content).toEqual(this.lots);
-            expect(this.lotsStorage.put.callCount).toEqual(4);
+            expect(this.lotsStorage.putAll.callCount).toEqual(1);
         });
 
         it('should get a proper lot from local storage', function() {

@@ -27,20 +27,23 @@
 
         loginService.registerPostLoginAction(function() {
             orderableFulfillsService.clearOrderableFulfillsOffline();
-            var homeFacility,
-                orderableFulfills = [];
+            var homeFacility;
 
             return facilityFactory.getUserHomeFacility()
                 .then(function(facility) {
                     homeFacility = facility;
                     var programs = homeFacility.supportedPrograms;
-                    programs.forEach(function(program) {
-                        orderableFulfills.push(orderableFulfillsService.query({
-                            programId: program.id ? program.id : program,
-                            facilityId: homeFacility.id ? homeFacility.id : homeFacility
-                        }));
-                        return orderableFulfills;
+
+                    var supportedProgramsIds = programs.map(function(program) {
+                        return program.id ? program.id : program;
                     });
+
+                    var orderableFulfills = orderableFulfillsService.query({
+                        facilityId: homeFacility.id ? homeFacility.id : homeFacility,
+                        programId: supportedProgramsIds
+                    });
+
+                    return orderableFulfills;
                 })
                 .catch(function() {
                     return $q.resolve();

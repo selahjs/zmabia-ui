@@ -58,17 +58,25 @@
 
             return orderableFulfillsResource.query(queryParams)
                 .then(function(orderableFulfills) {
-                    Object.keys(orderableFulfills).forEach(function(item) {
+                    var orderableFulfillsToStore = Object.keys(
+                        orderableFulfills
+                    ).map(function(item) {
                         if (!isPromiseAttribute(item)) {
                             var orderableFulfillJson = {
                                 id: item
                             };
-                            Object.entries(orderableFulfills[item]).forEach(function(entry) {
-                                orderableFulfillJson[entry[0]] = entry[1];
-                            });
-                            orderableFulfillsOffline.put(orderableFulfillJson);
+                            Object.entries(orderableFulfills[item]).forEach(
+                                function(entry) {
+                                    orderableFulfillJson[entry[0]] = entry[1];
+                                }
+                            );
+
+                            return orderableFulfillJson;
                         }
                     });
+
+                    orderableFulfillsOffline.putAll(orderableFulfillsToStore);
+
                     return orderableFulfills;
                 });
         }
