@@ -4,6 +4,8 @@ $image-height: 136px;
   @extend .page-hero;
   padding-bottom: 4em;
   display: flex;
+  flex-wrap: wrap;
+  flex: 1 0 auto;
   align-items: flex-start;
   &::after{
     content:"";
@@ -30,6 +32,10 @@ $image-height: 136px;
   @media screen and (max-width: $res-sm) {
     font-size:16px;
   }
+}
+
+.home-page > openlmis-home-alerts-panel {
+  width: 100%;
 }
 
 .scroll {
