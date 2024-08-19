@@ -1,6 +1,6 @@
 version: "2"
 services:
-  referencedata-ui:
+  svg-ui:
     image: openlmis/dev-ui:9.0.7-SNAPSHOT
     ports:
       - "9000:9000"
@@ -31,4 +31,4 @@ services:
       - '/openlmis-ui-layout'
   image:
     build: .
-    image: openlmis/referencedata-ui
+    image: openlmis/svg-ui

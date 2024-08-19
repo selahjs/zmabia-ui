@@ -1,6 +1,0 @@
-<div ng-if="!vm.systemNotifications || vm.systemNotifications.length === 0">
-    {{'openlmisSystemNotificationsIndicator.noSystemNotifications' | message}}
-</div>
-<div ng-if="vm.systemNotifications.length > 0">
-    {{'openlmisSystemNotificationsIndicator.systemNotifications' | message:({count: vm.systemNotifications.length})}}
-</div>

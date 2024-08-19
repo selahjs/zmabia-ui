@@ -1,9 +1,0 @@
-{
-    "adminFacilityTypeList.facilityTypes": "Facility Types",
-    "adminFacilityTypeList.addFacilityType": "Add Facility Type",
-    "adminFacilityTypeList.noFacilityTypes": "No Facility Types found.",
-    "adminFacilityTypeList.facilityTypeCode": "Facility Type Code",
-    "adminFacilityTypeList.facilityTypeName": "Facility Type Name",
-    "adminFacilityTypeList.actions": "Actions",
-    "adminFacilityTypeList.edit": "Edit"
-}

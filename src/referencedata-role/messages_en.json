@@ -1,9 +1,0 @@
-{
-    "referencedataRoles.fulfillment": "Fulfillment",
-    "referencedataRoles.supervision": "Supervision",
-    "referencedataRoles.administration": "Administration",
-    "referencedataRoles.reports": "Reports",
-    "referencedataRoles.roleAssignmentInvalid": "Role assignment invalid.",
-    "referencedataRoles.homeFacilityRoleInvalid": "User has no home facility assigned so home facility role will be ignored!",
-    "referencedataRoles.roleAlreadyAssigned": "Role already assigned."
-}

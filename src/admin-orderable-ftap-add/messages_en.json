@@ -1,6 +1,0 @@
-{
-    "adminOrderableFtapAdd.addFtap": "Add Facility Type Approved Product",
-    "adminOrderableFtapAdd.cancel": "Cancel",
-    "adminOrderableFtapAdd.ftapHasBeenCreatedSuccessfully": "Facility type approved product has been created successfully",
-    "adminOrderableFtapAdd.failedToCreateFtap": "Failed to create facility type approved product"
-}

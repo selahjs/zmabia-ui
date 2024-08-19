@@ -1,4 +1,0 @@
-{
-  "openlmisOfflineEvents.pendingEventsCount": "Pending offline events (${count})",
-  "openlmisOfflineEvents.offlineSyncErrorsCount": "Offline synchronization errors (${count})"
-}

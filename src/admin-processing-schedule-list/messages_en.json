@@ -1,9 +1,0 @@
-{
-    "adminProcessingScheduleList.processingSchedules": "Processing Schedules",
-    "adminProcessingScheduleList.addProcessingSchedule": "Add Processing Schedule",
-    "adminProcessingScheduleList.noProcessingSchedules": "No Processing Schedules found.",
-    "adminProcessingScheduleList.processingScheduleCode": "Processing Schedule Code",
-    "adminProcessingScheduleList.processingScheduleName": "Processing Schedule Name",
-    "adminProcessingScheduleList.actions": "Actions",
-    "adminProcessingScheduleList.edit": "Edit"
-}

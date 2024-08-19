@@ -1,6 +1,0 @@
-{
-    "adminSystemNotificationAdd.addSystemNotification": "Add System Notification",
-    "adminSystemNotificationAdd.cancel": "Cancel",
-    "adminSystemNotificationAdd.systemNotificationHasBeenCreatedSuccessfully": "System Notification has been created successfully",
-    "adminSystemNotificationAdd.failedToCreateSystemNotification": "Failed to create System Notification"
-}
