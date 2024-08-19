@@ -31,4 +31,4 @@ services:
       - '/openlmis-ui-layout'
   image:
     build: .
-    image: openlmis/svg-ui
+    image: elogistics/svg-ui
