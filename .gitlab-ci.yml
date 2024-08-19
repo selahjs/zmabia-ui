@@ -5,6 +5,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375/
+  DOCKER_STARTUP_TIMEOUT: 120
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HUB_USERNAME: "elogistics"
   DOCKER_HUB_PASSWORD: "wte6bp256nc4v7hwpv"
