@@ -10,7 +10,7 @@ variables:
   DOCKER_HUB_USERNAME: "elogistics"
   DOCKER_HUB_PASSWORD: "wte6bp256nc4v7hwpv"
 services:
-  - name: docker:dind
+  - name: docker:20.10.14-dind
     command: ["--tls=false"]
 
 before_script:
