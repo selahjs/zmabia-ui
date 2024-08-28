@@ -1,5 +1,4 @@
 *~
-*.DS_Store
 *.iml
 *.ipr
 *.iws
@@ -12,3 +11,5 @@ node_modules/
 .env
 bower_components
 .tmp
+.sonar
+.vscode/

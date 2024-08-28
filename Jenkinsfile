@@ -50,27 +50,27 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: '364a77e6-df3b-4012-8fa6-1c79ffe2171b', variable: 'ENV_FILE')]) {
                     script {
-                        try {
-                            sh '''
-                                sudo rm -f .env
-                                cp $ENV_FILE .env
-                                if [ "$GIT_BRANCH" != "master" ]; then
-                                    sed -i '' -e "s#^TRANSIFEX_PUSH=.*#TRANSIFEX_PUSH=false#" .env  2>/dev/null || true
-                                fi
-                                docker-compose pull
-                                docker-compose down --volumes
-                                docker-compose run --entrypoint /dev-ui/build.sh referencedata-ui
-                                docker-compose build image
-                                docker-compose down --volumes
-                            '''
-                            currentBuild.result = processTestResults('SUCCESS')
-                        }
-                        catch (exc) {
-                            currentBuild.result = processTestResults('FAILURE')
-                            if (currentBuild.result == 'FAILURE') {
-                                error(exc.toString())
-                            }
-                        }
+                         try {
+                             sh '''
+                                 sudo rm -f .env
+                                 cp $ENV_FILE .env
+                                 if [ "$GIT_BRANCH" != "master" ]; then
+                                     sed -i '' -e "s#^TRANSIFEX_PUSH=.*#TRANSIFEX_PUSH=false#" .env  2>/dev/null || true
+                                 fi
+                                 docker-compose pull
+                                 docker-compose down --volumes
+                                 docker-compose run --entrypoint /dev-ui/build.sh reference-ui
+                                 docker-compose build image
+                                 docker-compose down --volumes
+                             '''
+                             currentBuild.result = processTestResults('SUCCESS')
+                         }
+                         catch (exc) {
+                             currentBuild.result = processTestResults('FAILURE')
+                             if (currentBuild.result == 'FAILURE') {
+                                 error(exc.toString())
+                             }
+                         }
                     }
                 }
             }
@@ -88,23 +88,9 @@ pipeline {
                         notifyAfterFailure()
                     }
                 }
-            }
-        }
-        stage('Build reference-ui') {
-            when {
-                expression {
-                    return "${env.GIT_BRANCH}" == 'master' && VERSION.endsWith("SNAPSHOT")
-                }
-            }
-            steps {
-                sh "docker tag openlmis/referencedata-ui:latest openlmis/referencedata-ui:${VERSION}"
-                sh "docker push openlmis/referencedata-ui:${VERSION}"
-                build job: 'OpenLMIS-reference-ui-pipeline/master', wait: false
-            }
-            post {
-                failure {
+                cleanup {
                     script {
-                        notifyAfterFailure()
+                        sh "sudo rm -rf ${WORKSPACE}/{*,.*} || true"
                     }
                 }
             }
@@ -116,8 +102,8 @@ pipeline {
                 }
             }
             steps {
-                sh "docker tag openlmis/referencedata-ui:latest openlmis/referencedata-ui:${VERSION}"
-                sh "docker push openlmis/referencedata-ui:${VERSION}"
+                sh "docker tag openlmis/reference-ui:latest openlmis/reference-ui:${VERSION}"
+                sh "docker push openlmis/reference-ui:${VERSION}"
             }
             post {
                 success {
@@ -143,6 +129,9 @@ pipeline {
                     slackSend color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Back to normal"
                 }
             }
+        }
+        success {
+            build job: 'OpenLMIS-reference-ui-deploy-to-test', wait: false
         }
     }
 }

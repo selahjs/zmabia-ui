@@ -6,3 +6,4 @@ npm install --no-optional
 
 # Built and test
 grunt --production --pullTransifex --pushTransifex --noTest
+

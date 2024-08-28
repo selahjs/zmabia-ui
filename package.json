@@ -1,8 +1,14 @@
 {
+  "name": "openlmis-requisition-ui",
+  "version": "5.0.3-SNAPSHOT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenLMIS/openlmis-reference-ui"
+  },
+  "license": "AGPL-3.0",
   "devDependencies": {
-    "dev-ui": "file:///dev-ui",
-    "node-sass": "^9.0.0",
-    "webpack": "^5.93.0"
+    "karma-spec-reporter": "0.0.32",
+    "dev-ui": "file:///dev-ui"
   },
   "scripts": {
     "postinstall": "cp -nr node_modules/dev-ui/node_modules ."
