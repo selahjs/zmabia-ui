@@ -1,20 +1,29 @@
 FROM nginx:1.24.0
 
-ADD  nginx.conf /etc/nginx/conf.d/default.conf
+# Add nginx configuration
+ADD nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy web app files
 COPY /build/webapp /usr/share/nginx/html
+
+# Copy consul files and run script
 COPY /consul /consul
 COPY run.sh /run.sh
-#RUN sed -i s/deb.debian.org/archive.debian.org/g /etc/apt/sources.list
-#RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
 
-RUN chmod +x run.sh \
-    && apt-get update \
-    && apt-get install -y build-essential curl gnupg gettext \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-    && apt-get install -y nodejs \
-    && mv consul/package.json package.json \
-    && npm install
+# Ensure the script is executable
+RUN chmod +x /run.sh
+
+# Update package lists and install dependencies
+RUN apt-get update && \
+    apt-get install -y curl gnupg gettext build-essential
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs
+
+# Move package.json and install npm dependencies
+RUN mv /consul/package.json /package.json && \
+    npm install
 
 # Specify the default command
 CMD ["/run.sh"]
