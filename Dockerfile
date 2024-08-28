@@ -8,7 +8,7 @@ COPY run.sh /run.sh
 
 RUN chmod +x run.sh \
   && apt-get update \
-  && apt-get install -y curl gnupg build-essential \
+  && apt-get install -y curl gnupg \
   && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
   && apt-get install -y nodejs \
   && apt-get install -y gettext \
