@@ -8,6 +8,9 @@
   padding-left: 60px;
 }
 
+.navbar {
+  min-height: 55px !important;
+}
 .openlmis-header > .title, .status-message > header.openlmis-header > .status {
   height: 45px !important;
 }
