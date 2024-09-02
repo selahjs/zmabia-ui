@@ -4,13 +4,18 @@
   background-size: 53px;
   text-indent: 0px;
   overflow: visible;
-  padding: 0px;
+  padding: 5px;
   padding-left: 60px;
 }
 
 .navbar {
   min-height: 55px !important;
 }
+
+header>.navbar .navbar-right {
+  margin-bottom: 0.65em;
+}
+
 .openlmis-header > .title, .status-message > header.openlmis-header > .status {
   height: 45px !important;
 }
