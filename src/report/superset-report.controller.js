@@ -90,15 +90,9 @@
 
         function adjustSupersetLanguage() {
             loadingModalService.open();
+            vm.isReady = true;
+            loadingModalService.close();
 
-            var locale = messageService.getCurrentLocale();
-            supersetLocaleService.changeLocale(locale)
-                .then(function() {
-                    vm.isReady = true;
-                })
-                .finally(function() {
-                    loadingModalService.close();
-                });
         }
     }
 
