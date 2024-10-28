@@ -112,7 +112,7 @@
         function createReport(code, url, right) {
             return {
                 code: code,
-                url: url + '?standalone=true',
+                url: url + '?standalone=2',
                 right: right
             };
         }

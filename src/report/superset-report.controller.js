@@ -29,10 +29,10 @@
         .controller('SupersetReportController', SupersetReportController);
 
     SupersetReportController.inject = ['reportCode', 'reportUrl', 'loadingModalService', 'messageService',
-        'supersetLocaleService', 'SUPERSET_URL'];
+        'supersetLocaleService', 'SUPERSET_URL', '$scope'];
 
     function SupersetReportController(reportCode, reportUrl, loadingModalService, messageService,
-                                      supersetLocaleService, SUPERSET_URL) {
+                                      supersetLocaleService, SUPERSET_URL, $scope) {
         var vm = this;
         vm.$onInit = onInit;
 
@@ -82,8 +82,18 @@
 
         function onInit() {
             vm.reportCode = reportCode;
-            vm.reportUrl = reportUrl;
+            if (typeof reportUrl === 'string') {
+                vm.reportUrl = reportUrl.replace('standalone=true', 'standalone=3');
+            } else {
+                vm.reportUrl = reportUrl;
+            }
             vm.authUrl = SUPERSET_URL + '/login/openlmis';
+
+            $scope.$watch('vm.reportUrl', function(newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    adjustSupersetUrl(newValue);
+                }
+            });
 
             adjustSupersetLanguage();
         }
@@ -93,6 +103,14 @@
             vm.isReady = true;
             loadingModalService.close();
 
+        }
+
+        function adjustSupersetUrl(reportUrl) {
+            if (typeof reportUrl === 'string') {
+                vm.reportUrl = reportUrl.replace('standalone=true', 'standalone=3');
+            } else {
+                vm.reportUrl = reportUrl;
+            }
         }
     }
 
