@@ -1,47 +1,17 @@
 <h2>{{'report.chooseReportOptions' | message}}</h2>
 <form ng-submit="vm.downloadReport()">
-    <h2>{{vm.report.name}}</h2>
     <label for="{{parameter.name}}" ng-repeat-start="parameter in vm.report.templateParameters">{{parameter.displayName}}</label>
 
-    <input id="{{parameter.name}}"
-           ng-if="parameter.description == 'datepickers' && parameter.description != 'booleanSelect' && parameter.description != 'multipleselect'"
-           type="date" ng-model="vm.selectedParamsOptions[parameter.name]"
-           ng-required="{{parameter.required}}"/>
-
-    <div class="input-control" input-control>
-        <tags-input
-                replace-spaces-with-dashes="false"
-                ng-if="parameter.description == 'multipleselect' &&  parameter.description != 'booleanSelect' && parameter.description != 'datepickers' && (vm.paramsOptions[parameter.name].length > 0 || parameter.dependencies.length > 0)"
-                ng-model="vm.selectedParamsOptions[parameter.name] "
-                use-strings="true"
-                debounceDelay="50"
-                add-from-autocomplete-only="true"
-                placeholder="Add {{parameter.displayName}}">
-            <auto-complete source="vm.filterAvailableParameters(parameter, $query)" min-length="1"></auto-complete>
-        </tags-input>
-    </div>
-
     <select id="{{parameter.name}}"
-            ng-if="parameter.description == 'booleanSelect' && parameter.description != 'datepickers' && parameter.description != 'multipleselect' && vm.paramsOptions[parameter.name].length == 0"
+            ng-if="vm.paramsOptions[parameter.name].length > 0 || parameter.dependencies.length > 0"
             ng-model="vm.selectedParamsOptions[parameter.name]"
-            ng-options="option.value as option.name for option in vm.booleanOptions"
+            ng-disabled="vm.paramsOptions[parameter.name].length == 0"
+            ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]"
             ng-required="{{parameter.required}}"
             aria-labelledby="infolabelForSelect">
     </select>
 
-    <select id="{{parameter.name}}"
-            ng-if="parameter.description != 'booleanSelect' 
-            && parameter.description != 'datepickers' 
-            && parameter.description != 'multipleselect' 
-            && (vm.paramsOptions[parameter.name].length > 0 || parameter.dependencies.length > 0)"
-            ng-model="vm.selectedParamsOptions[parameter.name]"
-            ng-disabled="vm.paramsOptions[parameter.name].length == 0"
-            ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]"
-            ng-required="parameter.required"
-            aria-labelledby="infolabelForSelect">
-    </select>
-
-    <span ng-if="vm.paramsOptions[parameter.name].length == 0 && parameter.dependencies.length == 0 && parameter.description != 'datepickers' && parameter.description != 'booleanSelect' && parameter.description != 'multipleselect'"
+    <span ng-if="vm.paramsOptions[parameter.name].length == 0 && parameter.dependencies.length == 0"
           ng-switch="parameter.dataType"
           ng-repeat-end>
         <input ng-switch-when="java.lang.Integer"
@@ -62,23 +32,19 @@
 
     <fieldset class="form-group">
         <legend>{{'report.format' | message}}</legend>
-        <label class="radio" ng-if="vm.supportsFormat('pdf')">
+        <label class="radio">
             <input type="radio" ng-model="vm.format" value="pdf" required/>
             {{'report.pdf' | message}}
         </label>
-        <label class="radio" ng-if="vm.supportsFormat('csv')">
+        <label class="radio">
             <input type="radio" ng-model="vm.format" value="csv" required/>
             {{'report.csv' | message}}
         </label>
-        <label class="radio" ng-if="vm.supportsFormat('xls')">
+        <label class="radio">
             <input type="radio" ng-model="vm.format" value="xls" required/>
             {{'report.xls' | message}}
         </label>
-        <label class="radio" ng-if="vm.supportsFormat('xlsx')">
-            <input type="radio" ng-model="vm.format" value="xlsx" required/>
-            {{'report.xlsx' | message}}
-        </label>
-        <label class="radio" ng-if="vm.supportsFormat('html')">
+        <label class="radio">
             <input type="radio" ng-model="vm.format" value="html" required/>
             {{'report.html' | message}}
         </label>
