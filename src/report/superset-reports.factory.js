@@ -44,7 +44,7 @@
                 STOCKOUTS: createReport('stockouts',
                     SUPERSET_URL + '/superset/dashboard/stockouts/',
                     'STOCKOUTS_REPORT_VIEW'),
-                AGGREGATE_CONSUMPTION: createReport('consumption',
+                AGGREGATE_CONSUMPTION: createReport('aggregateConsumption',
                     SUPERSET_URL + '/superset/dashboard/aggregate-consumption/',
                     'CONSUMPTION_REPORT_VIEW'),
                 CONSUMPTION: createReport('consumption',
