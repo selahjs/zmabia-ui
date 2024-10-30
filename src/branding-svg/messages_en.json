@@ -2,5 +2,8 @@
   "openlmisHeader.appHeader": "Logixs",
   "openlmisLogin.appHeader": "Logixs",
   "report.superset.oAuthLogin.header": "Allow Superset to get access to Logixs",
-  "report.superset.aggregateConsumption": "Aggregate Consumption"
+  "report.superset.aggregateConsumption": "Aggregate Consumption",
+  "report.superset.requisitionTimeliness": "Requisition Timeliness",
+  "report.superset.requisitionStatusSummary": "Requisition Status Summary",
+  "report.superset.facilitiesSummaryReport": "Facility Report"
 }

@@ -56,7 +56,13 @@
                 ADJUSTMENTS: createReport('adjustments',
                     SUPERSET_URL + '/superset/dashboard/adjustments/',
                     'ADJUSTMENTS_REPORT_VIEW'),
-                ADMINISTRATIVE: createReport('administrative',
+                REQUISITION_TIMELINESS: createReport('requisitionTimeliness',
+                SUPERSET_URL + '/superset/dashboard/requisition-timeliness/',
+                'CONSUMPTION_REPORT_VIEW'),
+                REQUISITION_STATUS_SUMMARY: createReport('requisitionStatusSummary',
+                SUPERSET_URL + '/superset/dashboard/requisition-status-summary/',
+                'CONSUMPTION_REPORT_VIEW'),
+                ADMINISTRATIVE: createReport('facilitiesSummaryReport',
                     SUPERSET_URL + '/superset/dashboard/administrative/',
                     'ADMINISTRATIVE_REPORT_VIEW')
             };
