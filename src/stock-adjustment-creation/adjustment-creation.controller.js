@@ -284,8 +284,8 @@
          */
         vm.validateReason = function(lineItem) {
             if (adjustmentType.state === 'adjustment') {
-                lineItem.$errors.reasonInvalid = isEmpty(lineItem.reason) || lineItem.lot.expirationDate > validateDate();
-            validateDate(lineItem)
+                lineItem.$errors.reasonInvalid = isEmpty(lineItem.reason);
+                validateDate(lineItem);
             }
 
             return lineItem;
@@ -293,8 +293,9 @@
 
         function validateDate(lineItem) {
             var currentDate = moment(new Date()).format('YYYY-MM-DD');
-            if (lineItem.reason.name === "Expired (-)" && vm.newLot.expirationDate && vm.newLot.expirationDate > currentDate) {
-                vm.newLot.expirationDateInvalid = messageService.get('stockEditLotModal.expirationDateInvalid');
+            if (lineItem.reason.name === "Expired (-)" && vm.newLot.expirationDate &&
+                vm.newLot.expirationDate > currentDate) {
+                vm.newLot.reasonInvalid = messageService.get('stockEditLotModal.expirationDateInvalid');
             }
         }
 
