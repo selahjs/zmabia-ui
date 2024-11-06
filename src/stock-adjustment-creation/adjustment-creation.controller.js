@@ -284,18 +284,21 @@
          */
         vm.validateReason = function(lineItem) {
             if (adjustmentType.state === 'adjustment') {
-                lineItem.$errors.reasonInvalid = isEmpty(lineItem.reason);
-                validateDate(lineItem);
+                lineItem.$errors.reasonInvalid = isEmpty(lineItem.reason) ?
+                    messageService.get('openlmisForm.required') : false;
+                validateExpiryDate(lineItem);
             }
 
             return lineItem;
         };
 
-        function validateDate(lineItem) {
+        function validateExpiryDate(lineItem) {
             var currentDate = moment(new Date()).format('YYYY-MM-DD');
-            if (lineItem.reason.name === "Expired (-)" && vm.newLot.expirationDate &&
-                vm.newLot.expirationDate > currentDate) {
-                vm.newLot.reasonInvalid = messageService.get('stockEditLotModal.expirationDateInvalid');
+
+            if (lineItem.reason.name === 'Expired (-)' && lineItem.lot &&
+            moment(lineItem.lot.expirationDate).format('YYYY-MM-DD') > currentDate) {
+                var message = messageService.get('stockEditLotModal.reasonWithExpiryInvalid');
+                lineItem.$errors.reasonInvalid = message;
             }
         }
 

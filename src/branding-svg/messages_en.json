@@ -5,5 +5,7 @@
   "report.superset.aggregateConsumption": "Aggregate Consumption",
   "report.superset.requisitionTimeliness": "Requisition Timeliness",
   "report.superset.requisitionStatusSummary": "Requisition Status Summary",
-  "report.superset.facilitiesSummaryReport": "Facility Report"
+  "report.superset.facilitiesSummaryReport": "Facility Report",
+  "report.superset.stockImbalance": "Stock Imbalance",
+  "stockEditLotModal.reasonWithExpiryInvalid": "The item still have more shelf-life, it will expire on the lot expiry date(Please Check Expiry Date column) . Please expire the item after that date."
 }

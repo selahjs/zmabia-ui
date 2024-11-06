@@ -62,6 +62,9 @@
                 REQUISITION_STATUS_SUMMARY: createReport('requisitionStatusSummary',
                     SUPERSET_URL + '/superset/dashboard/requisition-status-summary/',
                     'CONSUMPTION_REPORT_VIEW'),
+                STOCK_IMBALANCE: createReport('stockImbalance',
+                    SUPERSET_URL + '/superset/dashboard/stock-imbalance/',
+                    'CONSUMPTION_REPORT_VIEW'),
                 ADMINISTRATIVE: createReport('facilitiesSummaryReport',
                     SUPERSET_URL + '/superset/dashboard/administrative/',
                     'ADMINISTRATIVE_REPORT_VIEW')
