@@ -34,8 +34,6 @@
                         REPORT_RIGHTS) {
         var vm = this;
         vm.hasRight = hasRight;
-
-
         /**
          * @ngdoc property
          * @propertyOf report.controller:ReportListController

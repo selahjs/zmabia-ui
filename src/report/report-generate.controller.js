@@ -215,9 +215,8 @@
                 return text;
             }
 
-            var reducedText = text.reduce((acc, curr) => {
-                return acc + curr.replace(',', ';;') + ";"
-            }, "");
+            var reducedText = text.reduce((acc, curr) => acc + curr.replace(',', ';;') + ";"
+            , "");
             return reducedText.slice(0, reducedText.length - 1);
         }
 
