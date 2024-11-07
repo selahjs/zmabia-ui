@@ -35,14 +35,7 @@
         var vm = this;
         vm.hasRight = hasRight;
 
-        var lmisReports = reports.filter((report) => {
-            return report.category === 'LMIS Reports';
-        });
-
-        var epiReports = reports.filter((report) => {
-            return report.category === 'Additional Reports';
-        });
-
+        var lmisReports = reports.filter((report) => report.category === 'LMIS Reports');
         /**
          * @ngdoc property
          * @propertyOf report.controller:ReportListController
@@ -53,17 +46,7 @@
          * The list of all available LMIS reports.
          */
         vm.lmisReports = lmisReports;
-        
-        /**
-         * @ngdoc property
-         * @propertyOf report.controller:ReportListController
-         * @name epiReports
-         * @type {Array}
-         *
-         * @description
-         * The list of all available epi reports.
-         */
-        vm.epiReports = epiReports;
+
 
         /**
          * @ngdoc property

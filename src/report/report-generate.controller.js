@@ -168,28 +168,6 @@
             });
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf report.controller:ReportGenerateController
-         * @name $watchForAllDistricts
-         *
-         * @description
-         * Checks whether report has restricted 'All districts' option for generating in PDF format.
-         */
-        function watchForAllDistricts() {
-            var restrictedReports = ["Distribution List", "LMIS Summary by facility"]
-            $scope.$watch('vm.format', function (newVal) {
-                if (newVal && restrictedReports.includes(vm.report.name)) {
-                    vm.report.templateParameters = vm.report.templateParameters.map((templateParameter) => {
-                        if (templateParameter.name === 'district') {
-                            templateParameter.required = newVal === 'pdf';
-                        }
-                        return templateParameter;
-                    });
-                }
-            })
-        }
-
 
         /**
          * @ngdoc method
@@ -205,8 +183,6 @@
                     watchDependency(param, dependency);
                 });
             });
-
-            watchForAllDistricts();
 
             var supportedFormats = ['pdf', 'csv', 'xls', 'xlsx', 'html'];
             var defaultFormats = ['pdf', 'csv', 'xls', 'html'];
