@@ -8,11 +8,11 @@
             </caption>
             <thead>
             <tr>
-                <th>{{'report.lmisReports' | message}}</th>
+                <th>{{'report.reports' | message}}</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="report in vm.lmisReports">
+            <tr ng-repeat="report in vm.reports">
                 <td>
                     <a ui-sref=".generate({module: report.$module, report: report.id})">{{report.name}}</a>
                 </td>

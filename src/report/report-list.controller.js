@@ -35,18 +35,6 @@
         var vm = this;
         vm.hasRight = hasRight;
 
-        var lmisReports = reports.filter((report) => report.category === 'LMIS Reports');
-        /**
-         * @ngdoc property
-         * @propertyOf report.controller:ReportListController
-         * @name lmisReports
-         * @type {Array}
-         *
-         * @description
-         * The list of all available LMIS reports.
-         */
-        vm.lmisReports = lmisReports;
-
 
         /**
          * @ngdoc property
