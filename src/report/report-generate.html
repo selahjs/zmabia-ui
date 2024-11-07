@@ -1,0 +1,103 @@
+<h2>{{'report.chooseReportOptions' | message}}</h2>
+<form ng-submit="vm.downloadReport()">
+    <!-- Malawi: add report header name -->
+    <h2>{{vm.report.name}}</h2>
+    <!-- ends here -->
+    <label for="{{parameter.name}}" ng-repeat-start="parameter in vm.report.templateParameters">{{parameter.displayName}}</label>
+
+    <!-- MW-1178: Add datepicker & multiple select to report parameters -->
+    <input id="{{parameter.name}}"
+    ng-if="parameter.description == 'datepickers' && parameter.description != 'booleanSelect' && parameter.description != 'multipleselect'"
+    type="date" ng-model="vm.selectedParamsOptions[parameter.name]"
+    ng-required="{{parameter.required}}"/>
+
+    <div class="input-control" input-control>
+    <tags-input
+    replace-spaces-with-dashes="false"
+    ng-if="parameter.description == 'multipleselect' &&  parameter.description != 'booleanSelect' && parameter.description != 'datepickers' && (vm.paramsOptions[parameter.name].length > 0 || parameter.dependencies.length > 0)"
+    ng-model="vm.selectedParamsOptions[parameter.name] "
+    use-strings="true"
+    debounceDelay="50"
+    add-from-autocomplete-only="true"
+    placeholder="Add {{parameter.displayName}}">
+    <auto-complete source="vm.filterAvailableParameters(parameter, $query)" min-length="1"></auto-complete>
+    </tags-input>
+    </div>
+
+    <select id="{{parameter.name}}"
+    ng-if="parameter.description == 'booleanSelect' && parameter.description != 'datepickers' && parameter.description != 'multipleselect' && vm.paramsOptions[parameter.name].length == 0"
+    ng-model="vm.selectedParamsOptions[parameter.name]"
+    ng-options="option.value as option.name for option in vm.booleanOptions"
+    ng-required="{{parameter.required}}"
+    aria-labelledby="infolabelForSelect">
+    </select>
+
+    <!-- MALAWISUP-5452: Limit 'All districts' option in certain reports -->
+    <select id="{{parameter.name}}"
+            ng-if="parameter.description != 'booleanSelect' 
+            && parameter.description != 'datepickers' 
+            && parameter.description != 'multipleselect' 
+            && (vm.paramsOptions[parameter.name].length > 0 || parameter.dependencies.length > 0)"
+            ng-model="vm.selectedParamsOptions[parameter.name]"
+            ng-disabled="vm.paramsOptions[parameter.name].length == 0"
+            ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]"
+            ng-required="parameter.required"
+            aria-labelledby="infolabelForSelect">
+    </select>
+    <!-- MALAWISUP-5452: Ends here -->
+
+    <span ng-if="vm.paramsOptions[parameter.name].length == 0 && parameter.dependencies.length == 0 && parameter.description != 'datepickers' && parameter.description != 'booleanSelect' && parameter.description != 'multipleselect'"
+          ng-switch="parameter.dataType"
+          ng-repeat-end>
+    <!-- MW-1178: Ends here-->
+        <input ng-switch-when="java.lang.Integer"
+               ng-model="vm.selectedParamsOptions[parameter.name]"
+               ng-required="{{parameter.required}}"
+               positive-integer />
+        <input ng-switch-default ng-model="vm.selectedParamsOptions[parameter.name]"
+               ng-required="{{parameter.required}}"
+               type="text"
+               aria-labelledby="infolabelForInteger"/>
+        <p class="param-info" ng-if="vm.paramsInfo[parameter.name]" id="infoLabelForInteger">
+            {{vm.paramsInfo[parameter.name] | message}}</p>
+    </span>
+
+    <p class="param-info" ng-if="vm.paramsInfo[parameter.name] && parameter.selectExpression != null" id="infolabelForSelect">
+        {{vm.paramsInfo[parameter.name] | message}}
+    </p>
+
+    <fieldset class="form-group">
+        <legend>{{'report.format' | message}}</legend>
+        <!-- Malawi: hide pdf option for reports not supporting pdf -->
+        <label class="radio" ng-if="vm.supportsFormat('pdf')">
+        <!-- ends here -->
+            <input type="radio" ng-model="vm.format" value="pdf" required/>
+            {{'report.pdf' | message}}
+        </label>
+        <!-- Malawi: hide csv option for reports not supporting csv -->
+        <label class="radio" ng-if="vm.supportsFormat('csv')">
+        <!-- ends here -->
+            <input type="radio" ng-model="vm.format" value="csv" required/>
+            {{'report.csv' | message}}
+        </label>
+        <!-- Malawi: hide xls option for reports not supporting xls -->
+        <label class="radio" ng-if="vm.supportsFormat('xls')">
+        <!-- ends here -->
+            <input type="radio" ng-model="vm.format" value="xls" required/>
+            {{'report.xls' | message}}
+        </label>
+        <!-- Malawi: add xlsx option -->
+        <label class="radio" ng-if="vm.supportsFormat('xlsx')">
+            <input type="radio" ng-model="vm.format" value="xlsx" required/>
+            {{'report.xlsx' | message}}
+        </label>
+        <!-- ends here -->
+        <!-- Malawi: hide html option for reports not supporting html -->
+        <label class="radio" ng-if="vm.supportsFormat('html')">
+        <!-- ends here -->
+            <input type="radio" ng-model="vm.format" value="html" required/>
+            {{'report.html' | message}}
+        </label>
+    </fieldset>
+    <input type="submit" value="{{'report.generate' | message}}"/>
+</form>
