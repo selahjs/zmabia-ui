@@ -9,5 +9,5 @@
   "report.superset.stockImbalance": "Stock Imbalance",
   "report.lmisReports": "LMIS Reports",
   "report.dashboardReports": "Dashboard Reports",
-  "stockEditLotModal.reasonWithExpiryInvalid": "The item still have more shelf-life, it will expire on the lot expiry date(Please Check Expiry Date column) . Please expire the item after that date."
+  "stockEditLotModal.reasonWithExpiryInvalid": "The item is not yet expired (please check Expiry Date Column)"
 }
