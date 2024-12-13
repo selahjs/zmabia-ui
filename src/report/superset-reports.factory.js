@@ -38,7 +38,7 @@
                 REPORTING_RATE_AND_TIMELINESS: createReport('reportingRateAndTimeliness',
                     SUPERSET_URL + '/superset/dashboard/reporting_rate_and_timeliness/',
                     'REPORTING_RATE_AND_TIMELINESS_REPORT_VIEW'),
-                STOCK_AVAILABILITY: createReport('stockouts',
+                STOCK_AVAILABILITY: createReport('stockAvailability',
                     SUPERSET_URL + '/superset/dashboard/stock-availability/',
                     'STOCK_AVAILABILITY_REPORT_VIEW'),
                 AGGREGATE_CONSUMPTION: createReport('aggregateConsumption',
