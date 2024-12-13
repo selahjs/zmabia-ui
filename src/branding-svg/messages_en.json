@@ -7,6 +7,7 @@
   "report.superset.requisitionStatusSummary": "Requisition Status Summary",
   "report.superset.facilitiesSummaryReport": "Facility Report",
   "report.superset.stockImbalance": "Stock Imbalance",
+  "report.superset.stockAvailability": "Stock Availability",
   "report.lmisReports": "LMIS Reports",
   "report.dashboardReports": "Dashboard Reports",
   "stockEditLotModal.reasonWithExpiryInvalid": "The item is not yet expired (please check Expiry Date Column)"
