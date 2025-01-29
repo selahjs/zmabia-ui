@@ -1,0 +1,19 @@
+<div class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>{{'adminOrderableAdd.addProduct' | message}}</h1>
+            </div>
+            <div class="modal-body">
+                <ng-include src="'admin-orderable-edit/orderable-form.html'"></ng-include>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="vm.goToOrderableList()">{{'adminOrderableAdd.cancel' | message}}</button>
+                <div class="button-group primary">
+                    <button class="primary" type="submit"
+                        form="orderableForm">{{'adminOrderableAdd.addProduct' | message}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

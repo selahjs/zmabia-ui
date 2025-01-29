@@ -1,0 +1,6 @@
+{
+    "adminOrderableAdd.addProduct": "Add Product",
+    "adminOrderableAdd.cancel": "Cancel",
+    "adminOrderableAdd.productHasBeenCreatedSuccessfully": "Product has been created successfully",
+    "adminOrderableAdd.failedToCreateProduct": "Failed to create product"
+}

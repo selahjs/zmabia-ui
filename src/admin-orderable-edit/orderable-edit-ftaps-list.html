@@ -1,0 +1,44 @@
+<h3>{{'adminOrderableEdit.associatedFtaps' | message}}</h3>
+<section class="openlmis-table-container">
+    <button ng-if="vm.canEdit" id="add-facility-type-approved-product" class="add" ui-sref=".add">
+        {{'adminOrderableEdit.addFtap' | message}}
+    </button>
+    <table>
+        <caption ng-if="!vm.facilityTypeApprovedProducts || vm.facilityTypeApprovedProducts.length === 0">
+            {{'adminOrderableEdit.noAssociatedFtaps' | message}}
+        </caption>
+        <thead>
+            <tr>
+                <th>{{'adminOrderableEdit.facilityType' | message}}</th>
+                <th>{{'adminOrderableEdit.programs' | message}}</th>
+                <th>{{'adminOrderableEdit.actions' | message}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="is-secondary" ng-repeat-start="(id, ftaps) in vm.ftapsMap">
+                <td>{{vm.facilityTypesMap[id]}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr ng-repeat-end ng-repeat="ftap in ftaps">
+                <td></td>
+                <td>{{ftap.program.name}}</td>
+                <td>
+                    <button ng-if="vm.canEdit"
+                        ui-sref=".edit({ftapId: ftap.id})">{{'adminOrderableEdit.edit' | message}}
+                    </button>
+                    <button ng-if="vm.canEdit"
+                        class="danger" ng-click="vm.deactivateFacilityTypeApproveProduct(ftap)">{{'adminOrderableEdit.remove' | message}}
+                    </button>
+                    <button ng-if="!vm.canEdit"
+                        ui-sref=".edit({ftapId: ftap.id})">{{'adminOrderableEdit.view' | message}}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<div class="openlmis-toolbar">
+    <button ui-sref="^.^">{{'adminOrderableEdit.cancel' | message}}</button>
+</div>
