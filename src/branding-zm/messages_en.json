@@ -1,7 +1,7 @@
 {
-  "openlmisHeader.appHeader": "Logixs",
-  "openlmisLogin.appHeader": "Logixs",
-  "report.superset.oAuthLogin.header": "Allow Superset to get access to Logixs",
+  "openlmisHeader.appHeader": "Zambia Immunization Program",
+  "openlmisLogin.appHeader": "Zambia Immunization Program",
+  "report.superset.oAuthLogin.header": "Allow Superset to get access to Zambia Immunization Program",
   "report.superset.aggregateConsumption": "Aggregate Consumption",
   "report.superset.requisitionTimeliness": "Requisition Timeliness",
   "report.superset.requisitionStatusSummary": "Requisition Status Summary",

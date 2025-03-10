@@ -1,6 +1,6 @@
 version: "2"
 services:
-  svg-ui:
+  zambia-imm-ui:
     image: openlmis/dev-ui:9.0.6
     working_dir: /app
     volumes:
@@ -79,4 +79,4 @@ services:
       - '/one-network-integration-ui'
   image:
     build: .
-    image: elogistics/svg-ui
+    image: elogistics/zambia-imm-ui

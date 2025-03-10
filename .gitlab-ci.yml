@@ -28,11 +28,11 @@ build-latest:
     - export VERSION="latest"
     - wget -O .env https://raw.githubusercontent.com/OpenLMIS/openlmis-ref-distro/master/settings-sample.env
     - docker-compose pull
-    - docker-compose run --entrypoint ./build.sh svg-ui
+    - docker-compose run --entrypoint ./build.sh zambia-imm-ui
     - docker-compose build image
     - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
-    - docker tag elogistics/svg-ui:latest "$DOCKER_HUB_USERNAME/svg-ui:latest"
-    - docker push "$DOCKER_HUB_USERNAME/svg-ui:latest"
+    - docker tag elogistics/zambia-imm-ui:latest "$DOCKER_HUB_USERNAME/zambia-imm-ui:latest"
+    - docker push "$DOCKER_HUB_USERNAME/zambia-imm-ui:latest"
 
 build-version:
   stage: build-version
@@ -42,8 +42,8 @@ build-version:
     - export VERSION="1.0.0-SNAPSHOT"
     - wget -O .env https://raw.githubusercontent.com/OpenLMIS/openlmis-ref-distro/master/settings-sample.env
     - docker-compose pull
-    - docker-compose run --entrypoint ./build.sh svg-ui
+    - docker-compose run --entrypoint ./build.sh zambia-imm-ui
     - docker-compose build image
     - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
-    - docker tag elogistics/svg-ui:latest "$DOCKER_HUB_USERNAME/svg-ui:$VERSION"
-    - docker push "$DOCKER_HUB_USERNAME/svg-ui:$VERSION"
+    - docker tag elogistics/zambia-imm-ui:latest "$DOCKER_HUB_USERNAME/zambia-imm-ui:$VERSION"
+    - docker push "$DOCKER_HUB_USERNAME/zambia-imm-ui:$VERSION"
