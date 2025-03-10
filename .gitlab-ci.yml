@@ -27,7 +27,7 @@ build-latest:
     - set -e  # Exit immediately if a command exits with a non-zero status
     - export VERSION="latest"
     - wget -O .env https://raw.githubusercontent.com/OpenLMIS/openlmis-ref-distro/master/settings-sample.env
-    - docker-compose pull
+    # - docker-compose pull
     - docker-compose run --entrypoint ./build.sh zambia-imm-ui
     - docker-compose build image
     - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
