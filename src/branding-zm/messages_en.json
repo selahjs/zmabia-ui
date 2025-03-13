@@ -1,6 +1,6 @@
 {
-  "openlmisHeader.appHeader": "Zambia Immunization Program",
-  "openlmisLogin.appHeader": "Zambia Immunization Program",
+  "openlmisHeader.appHeader": "Zambian Ministry of Health",
+  "openlmisLogin.appHeader": "Zambian Ministry of Health",
   "report.superset.oAuthLogin.header": "Allow Superset to get access to Zambia Immunization Program",
   "report.superset.aggregateConsumption": "Aggregate Consumption",
   "report.superset.requisitionTimeliness": "Requisition Timeliness",
