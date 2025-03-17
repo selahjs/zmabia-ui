@@ -13,7 +13,6 @@ RUN chmod +x run.sh \
   && apt-get install -y nodejs \
   && apt-get install -y gettext \
   && mv consul/package.json package.json \
-  && rm -rf node_modules .tmp \
   && npm install
 
 CMD ./run.sh
