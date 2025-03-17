@@ -1,12 +1,12 @@
 .header > .openlmis-header > .title,
 .header > .openlmis-header.is-offline > .title {
-  background-image: url('../assets/branding-zm/moh_logo.jpeg');
+  background-image: url('../assets/branding-zm/moh_logo.JPEG');
   background-size: 53px;
   text-indent: 0px;
   overflow: visible;
   padding: 5px;
   padding-left: 60px;
-  
+
 }
 
 .navbar {
@@ -25,7 +25,7 @@ header>.navbar .navbar-right {
   color: $white;
 }
 .auth-modal .modal-body {
-  background-image: url('../assets/branding-zm/logo.jpeg') !important;
+  background-image: url('../assets/branding-zm/logo.JPEG') !important;
   background-size: auto !important;
   background-position: $space-size*2 -20px !important;
   min-height: 258px + $space-size !important;
