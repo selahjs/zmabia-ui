@@ -30,7 +30,7 @@
 
     controller.$inject = [
         '$scope', '$state', '$stateParams', '$filter', 'confirmDiscardService', 'program', 'facility',
-        'orderableGroups', 'reasons', 'confirmService', 'messageService', 'user', 'adjustmentType',
+        'orderableGroups', 'reasons', 'confirmService', 'extendedConfirmService', 'messageService', 'user', 'adjustmentType',
         'srcDstAssignments', 'stockAdjustmentCreationService', 'notificationService', 'offlineService',
         'orderableGroupService', 'MAX_INTEGER_VALUE', 'VVM_STATUS', 'loadingModalService', 'alertService',
         'dateUtils', 'displayItems', 'ADJUSTMENT_TYPE', 'UNPACK_REASONS', 'REASON_TYPES', 'STOCKCARD_STATUS',
@@ -38,7 +38,7 @@
     ];
 
     function controller($scope, $state, $stateParams, $filter, confirmDiscardService, program,
-                        facility, orderableGroups, reasons, confirmService, messageService, user,
+                        facility, orderableGroups, reasons, confirmService, extendedConfirmService, messageService, user,
                         adjustmentType, srcDstAssignments, stockAdjustmentCreationService, notificationService,
                         offlineService, orderableGroupService, MAX_INTEGER_VALUE, VVM_STATUS, loadingModalService,
                         alertService, dateUtils, displayItems, ADJUSTMENT_TYPE, UNPACK_REASONS, REASON_TYPES,
@@ -354,20 +354,217 @@
          * @description
          * Submit all added items.
          */
-        vm.submit = function() {
-            $scope.$broadcast('openlmis-form-submit');
-            if (validateAllAddedItems()) {
-                var confirmMessage = messageService.get(vm.key('confirmInfo'), {
-                    username: user.username,
-                    number: vm.addedLineItems.length
-                });
-                confirmService.confirm(confirmMessage, vm.key('confirm')).then(confirmSubmit);
-            } else {
-                vm.keyword = null;
-                reorderItems();
-                alertService.error('stockAdjustmentCreation.submitInvalid');
+        // vm.submit = function() {
+        //     $scope.$broadcast('openlmis-form-submit');
+        //     if (validateAllAddedItems()) {
+        //         var confirmMessage = messageService.get(vm.key('confirmInfo'), {
+        //             username: user.username,
+        //             number: vm.addedLineItems.length
+        //         });
+        //         // confirmService.confirm(confirmMessage, vm.key('confirm')).then(confirmSubmit);
+        //         // // Use the extended confirm service instead of the standard one
+        //         extendedConfirmService.showExtendedConfirm({
+        //             message: confirmMessage,
+        //             buttonMessage: messageService.get(vm.key('confirm')),
+        //             titleMessage: messageService.get('vaccineReporting.extendedConfirmTitle'),
+        //             additionalData: {
+        //                 // Pre-populate with any existing data
+        //                 arrivalDate: new Date(),
+        //                 shipmentDetails: '',
+        //                 receivedBy: user.username,
+        //                 notes: ''
+        //             }
+        //         }).then(function(additionalData) {
+        //             // Combine the added line items with the additional data
+        //             var fullData = {
+        //                 lineItems: vm.addedLineItems,
+        //                 // Add the collected data from the modal
+        //                 additionalInfo: additionalData
+        //             };
+                    
+        //             // Now submit with the additional data
+        //             submitStockEvent(fullData);
+        //         }).catch(function() {
+        //             // User canceled
+        //             vm.keyword = null;
+        //             reorderItems();
+        //         });
+        //     } else {
+        //         vm.keyword = null;
+        //         reorderItems();
+        //         alertService.error('stockAdjustmentCreation.submitInvalid');
+        //     }
+        // };
+        // The submit function that triggers the VAR form
+vm.submit = function() {
+    $scope.$broadcast('openlmis-form-submit');
+    if (validateAllAddedItems()) {
+        var confirmMessage = messageService.get(vm.key('confirmInfo'), {
+            username: user.username,
+            number: vm.addedLineItems.length
+        });
+        
+        // Use the extended confirm service with VAR form
+        extendedConfirmService.showExtendedConfirm({
+            message: confirmMessage,
+            buttonMessage: messageService.get(vm.key('confirm')),
+            titleMessage: messageService.get('vaccineReporting.extendedConfirmTitle'),
+            additionalData: {
+                // Pre-populate with test data
+                country: 'ZAMBIA',
+                reportNo: 'VAR-' + new Date().getTime().toString().substring(5),
+                reportDate: new Date(),
+                inspectionPlaceDateTime: 'ZAMBIA ' + moment(new Date()).format('DD-MM-YY, HH:mm'),
+                coldStoreEntryDateTime: 'ZAMBIA, ' + moment(new Date()).format('DD-MM-YY, HH:mm') + ' HRS',
+                awbNumber: '157-' + Math.floor(10000000 + Math.random() * 90000000),
+                vaccineDescription: 'BOPV-VACCINE',
+                manufacturer: 'SERUM INSTITUTE OF INDIA',
+                lotNumber1: '1802P' + Math.floor(100 + Math.random() * 900),
+                lotBoxes1: 97,
+                lotVials1: 29100
             }
-        };
+        }).then(function(varData) {
+            // Store the VAR data and call confirmSubmit
+            vm.varFormData = varData;
+            confirmSubmit();
+        }).catch(function() {
+            // User canceled
+            vm.keyword = null;
+            reorderItems();
+        });
+    } else {
+        vm.keyword = null;
+        reorderItems();
+        alertService.error('stockAdjustmentCreation.submitInvalid');
+    }
+};
+
+// The modified confirmSubmit function that adds VAR data to the payload
+function confirmSubmit() {
+    loadingModalService.open();
+
+    var addedLineItems = angular.copy(vm.addedLineItems);
+
+    // Add the VAR data to each line item's extraData field
+    if (vm.varFormData) {
+        addedLineItems.forEach(function(lineItem) {
+            // Initialize extraData if it doesn't exist
+            if (!lineItem.extraData) {
+                lineItem.extraData = {};
+            }
+            
+            // Add VAR form data to the extraData field
+            Object.keys(vm.varFormData).forEach(function(key) {
+                lineItem.extraData['var_' + key] = vm.varFormData[key];
+            });
+            
+            // Add some calculated fields
+            lineItem.extraData.var_totalBoxes = (vm.varFormData.lotBoxes1 || 0) + (vm.varFormData.lotBoxes2 || 0);
+            lineItem.extraData.var_totalVials = (vm.varFormData.lotVials1 || 0) + (vm.varFormData.lotVials2 || 0);
+            lineItem.extraData.var_shipmentType = 'AIR';
+        });
+    }
+
+    generateKitConstituentLineItem(addedLineItems);
+
+    var lotPromises = [],
+        errorLots = [];
+    var distinctLots = [];
+    var lotResource = new LotResource();
+    
+    addedLineItems.forEach(function(lineItem) {
+        if (lineItem.lot && lineItem.$isNewItem && _.isUndefined(lineItem.lot.id) &&
+        !listContainsTheSameLot(distinctLots, lineItem.lot)) {
+            distinctLots.push(lineItem.lot);
+        }
+    });
+    
+    distinctLots.forEach(function(lot) {
+        lotPromises.push(lotResource.create(lot)
+            .then(function(createResponse) {
+                vm.addedLineItems.forEach(function(item) {
+                    if (item.lot.lotCode === lot.lotCode) {
+                        item.$isNewItem = false;
+                        addItemToOrderableGroups(item);
+                    }
+                });
+                return createResponse;
+            })
+            .catch(function(response) {
+                if (response.data.messageKey ===
+                    'referenceData.error.lot.lotCode.mustBeUnique' ||
+                    response.data.messageKey ===
+                    'referenceData.error.lot.tradeItem.required') {
+                    errorLots.push({
+                        lotCode: lot.lotCode,
+                        error: response.data.messageKey ===
+                        'referenceData.error.lot.lotCode.mustBeUnique' ?
+                            'stockPhysicalInventoryDraft.lotCodeMustBeUnique' :
+                            'stockPhysicalInventoryDraft.tradeItemRequuiredToAddLotCode'
+                    });
+                }
+            }));
+    });
+
+    return $q.all(lotPromises)
+        .then(function(responses) {
+            if (errorLots !== undefined && errorLots.length > 0) {
+                return $q.reject();
+            }
+            responses.forEach(function(lot) {
+                addedLineItems.forEach(function(lineItem) {
+                    if (lineItem.lot && lineItem.lot.lotCode === lot.lotCode
+                        && lineItem.lot.tradeItemId === lot.tradeItemId) {
+                        lineItem.lot = lot;
+                    }
+                });
+                return addedLineItems;
+            });
+
+            // Add debug logging to verify the payload
+            console.log('Submitting with VAR data:', addedLineItems);
+
+            stockAdjustmentCreationService.submitAdjustments(
+                program.id, facility.id, addedLineItems, adjustmentType
+            )
+                .then(function() {
+                    if (offlineService.isOffline()) {
+                        notificationService.offline(vm.key('submittedOffline'));
+                    } else {
+                        notificationService.success(vm.key('submitted'));
+                    }
+                    $state.go('openlmis.stockmanagement.stockCardSummaries', {
+                        facility: facility.id,
+                        program: program.id,
+                        active: STOCKCARD_STATUS.ACTIVE
+                    });
+                }, function(errorResponse) {
+                    loadingModalService.close();
+                    alertService.error(errorResponse.data.message);
+                });
+        })
+        .catch(function(errorResponse) {
+            loadingModalService.close();
+            if (errorLots) {
+                var errorLotsReduced = errorLots.reduce(function(result, currentValue) {
+                    if (currentValue.error in result) {
+                        result[currentValue.error].push(currentValue.lotCode);
+                    } else {
+                        result[currentValue.error] = [currentValue.lotCode];
+                    }
+                    return result;
+                }, {});
+                for (var error in errorLotsReduced) {
+                    alertService.error(error, errorLotsReduced[error].join(', '));
+                }
+                vm.selectedOrderableGroup = undefined;
+                vm.selectedLot = undefined;
+                vm.lotChanged();
+                return $q.reject(errorResponse.data.message);
+            }
+            alertService.error(errorResponse.data.message);
+        });
+}
 
         /**
          * @ngdoc method
@@ -453,106 +650,106 @@
                 .value();
         }
 
-        function confirmSubmit() {
-            loadingModalService.open();
+        // function confirmSubmit() {
+        //     loadingModalService.open();
 
-            var addedLineItems = angular.copy(vm.addedLineItems);
+        //     var addedLineItems = angular.copy(vm.addedLineItems);
 
-            generateKitConstituentLineItem(addedLineItems);
+        //     generateKitConstituentLineItem(addedLineItems);
 
-            var lotPromises = [],
-                errorLots = [];
-            var distinctLots = [];
-            var lotResource = new LotResource();
-            addedLineItems.forEach(function(lineItem) {
-                if (lineItem.lot && lineItem.$isNewItem && _.isUndefined(lineItem.lot.id) &&
-                !listContainsTheSameLot(distinctLots, lineItem.lot)) {
-                    distinctLots.push(lineItem.lot);
-                }
-            });
-            distinctLots.forEach(function(lot) {
-                lotPromises.push(lotResource.create(lot)
-                    .then(function(createResponse) {
-                        vm.addedLineItems.forEach(function(item) {
-                            if (item.lot.lotCode === lot.lotCode) {
-                                item.$isNewItem = false;
-                                addItemToOrderableGroups(item);
-                            }
-                        });
-                        return createResponse;
-                    })
-                    .catch(function(response) {
-                        if (response.data.messageKey ===
-                            'referenceData.error.lot.lotCode.mustBeUnique' ||
-                            response.data.messageKey ===
-                            'referenceData.error.lot.tradeItem.required') {
-                            errorLots.push({
-                                lotCode: lot.lotCode,
-                                error: response.data.messageKey ===
-                                'referenceData.error.lot.lotCode.mustBeUnique' ?
-                                    'stockPhysicalInventoryDraft.lotCodeMustBeUnique' :
-                                    'stockPhysicalInventoryDraft.tradeItemRequuiredToAddLotCode'
-                            });
-                        }
-                    }));
-            });
+        //     var lotPromises = [],
+        //         errorLots = [];
+        //     var distinctLots = [];
+        //     var lotResource = new LotResource();
+        //     addedLineItems.forEach(function(lineItem) {
+        //         if (lineItem.lot && lineItem.$isNewItem && _.isUndefined(lineItem.lot.id) &&
+        //         !listContainsTheSameLot(distinctLots, lineItem.lot)) {
+        //             distinctLots.push(lineItem.lot);
+        //         }
+        //     });
+        //     distinctLots.forEach(function(lot) {
+        //         lotPromises.push(lotResource.create(lot)
+        //             .then(function(createResponse) {
+        //                 vm.addedLineItems.forEach(function(item) {
+        //                     if (item.lot.lotCode === lot.lotCode) {
+        //                         item.$isNewItem = false;
+        //                         addItemToOrderableGroups(item);
+        //                     }
+        //                 });
+        //                 return createResponse;
+        //             })
+        //             .catch(function(response) {
+        //                 if (response.data.messageKey ===
+        //                     'referenceData.error.lot.lotCode.mustBeUnique' ||
+        //                     response.data.messageKey ===
+        //                     'referenceData.error.lot.tradeItem.required') {
+        //                     errorLots.push({
+        //                         lotCode: lot.lotCode,
+        //                         error: response.data.messageKey ===
+        //                         'referenceData.error.lot.lotCode.mustBeUnique' ?
+        //                             'stockPhysicalInventoryDraft.lotCodeMustBeUnique' :
+        //                             'stockPhysicalInventoryDraft.tradeItemRequuiredToAddLotCode'
+        //                     });
+        //                 }
+        //             }));
+        //     });
 
-            return $q.all(lotPromises)
-                .then(function(responses) {
-                    if (errorLots !== undefined && errorLots.length > 0) {
-                        return $q.reject();
-                    }
-                    responses.forEach(function(lot) {
-                        addedLineItems.forEach(function(lineItem) {
-                            if (lineItem.lot && lineItem.lot.lotCode === lot.lotCode
-                                && lineItem.lot.tradeItemId === lot.tradeItemId) {
-                                lineItem.lot = lot;
-                            }
-                        });
-                        return addedLineItems;
-                    });
+        //     return $q.all(lotPromises)
+        //         .then(function(responses) {
+        //             if (errorLots !== undefined && errorLots.length > 0) {
+        //                 return $q.reject();
+        //             }
+        //             responses.forEach(function(lot) {
+        //                 addedLineItems.forEach(function(lineItem) {
+        //                     if (lineItem.lot && lineItem.lot.lotCode === lot.lotCode
+        //                         && lineItem.lot.tradeItemId === lot.tradeItemId) {
+        //                         lineItem.lot = lot;
+        //                     }
+        //                 });
+        //                 return addedLineItems;
+        //             });
 
-                    stockAdjustmentCreationService.submitAdjustments(
-                        program.id, facility.id, addedLineItems, adjustmentType
-                    )
-                        .then(function() {
-                            if (offlineService.isOffline()) {
-                                notificationService.offline(vm.key('submittedOffline'));
-                            } else {
-                                notificationService.success(vm.key('submitted'));
-                            }
-                            $state.go('openlmis.stockmanagement.stockCardSummaries', {
-                                facility: facility.id,
-                                program: program.id,
-                                active: STOCKCARD_STATUS.ACTIVE
-                            });
-                        }, function(errorResponse) {
-                            loadingModalService.close();
-                            alertService.error(errorResponse.data.message);
-                        });
-                })
-                .catch(function(errorResponse) {
-                    loadingModalService.close();
-                    if (errorLots) {
-                        var errorLotsReduced = errorLots.reduce(function(result, currentValue) {
-                            if (currentValue.error in result) {
-                                result[currentValue.error].push(currentValue.lotCode);
-                            } else {
-                                result[currentValue.error] = [currentValue.lotCode];
-                            }
-                            return result;
-                        }, {});
-                        for (var error in errorLotsReduced) {
-                            alertService.error(error, errorLotsReduced[error].join(', '));
-                        }
-                        vm.selectedOrderableGroup = undefined;
-                        vm.selectedLot = undefined;
-                        vm.lotChanged();
-                        return $q.reject(errorResponse.data.message);
-                    }
-                    alertService.error(errorResponse.data.message);
-                });
-        }
+        //             stockAdjustmentCreationService.submitAdjustments(
+        //                 program.id, facility.id, addedLineItems, adjustmentType
+        //             )
+        //                 .then(function() {
+        //                     if (offlineService.isOffline()) {
+        //                         notificationService.offline(vm.key('submittedOffline'));
+        //                     } else {
+        //                         notificationService.success(vm.key('submitted'));
+        //                     }
+        //                     $state.go('openlmis.stockmanagement.stockCardSummaries', {
+        //                         facility: facility.id,
+        //                         program: program.id,
+        //                         active: STOCKCARD_STATUS.ACTIVE
+        //                     });
+        //                 }, function(errorResponse) {
+        //                     loadingModalService.close();
+        //                     alertService.error(errorResponse.data.message);
+        //                 });
+        //         })
+        //         .catch(function(errorResponse) {
+        //             loadingModalService.close();
+        //             if (errorLots) {
+        //                 var errorLotsReduced = errorLots.reduce(function(result, currentValue) {
+        //                     if (currentValue.error in result) {
+        //                         result[currentValue.error].push(currentValue.lotCode);
+        //                     } else {
+        //                         result[currentValue.error] = [currentValue.lotCode];
+        //                     }
+        //                     return result;
+        //                 }, {});
+        //                 for (var error in errorLotsReduced) {
+        //                     alertService.error(error, errorLotsReduced[error].join(', '));
+        //                 }
+        //                 vm.selectedOrderableGroup = undefined;
+        //                 vm.selectedLot = undefined;
+        //                 vm.lotChanged();
+        //                 return $q.reject(errorResponse.data.message);
+        //             }
+        //             alertService.error(errorResponse.data.message);
+        //         });
+        // }
 
         function addItemToOrderableGroups(item) {
             vm.orderableGroups.forEach(function(array) {

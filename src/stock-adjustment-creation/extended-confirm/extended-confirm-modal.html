@@ -1,0 +1,335 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title vaccine-title">
+                    VACCINE ARRIVAL REPORT (VAR)
+                </h1>
+                <h4>Step {{vm.currentStep}} of {{vm.totalSteps}}</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Step progress indicator -->
+                <div class="step-indicator">
+                    <ol>
+                        <li ng-class="{'active': vm.currentStep === 1, 'completed': vm.currentStep > 1}">
+                            <span>1</span> Advance Notice
+                        </li>
+                        <li ng-class="{'active': vm.currentStep === 2, 'completed': vm.currentStep > 2}">
+                            <span>2</span> Flight Arrival Details
+                        </li>
+                        <li ng-class="{'active': vm.currentStep === 3, 'completed': vm.currentStep > 3}">
+                            <span>3</span> Vaccine Shipment Details
+                        </li>
+                        <li ng-class="{'active': vm.currentStep === 4}">
+                            <span>4</span> Review & Submit
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="var-form-notice">
+                    <p>This report is to be filled in by authorized staff, ratified by the Store Manager or the EPI Manager, and forwarded to the UNICEF Country Office <strong>within three working days</strong> of vaccine arrival. Use one report for each vaccine in the shipment.</p>
+                </div>
+                
+                <!-- Original confirmation message -->
+                <p ng-bind-html="vm.message" ng-if="vm.currentStep === 1" class="alert alert-info"></p>
+                
+                <div class="var-form-container">
+                    <!-- Common header for all steps -->
+                    <div class="var-form-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="country">COUNTRY</label>
+                                    <input id="country" type="text" ng-model="vm.data.country" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="reportNo">REPORT No.</label>
+                                    <input id="reportNo" type="text" ng-model="vm.data.reportNo" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="reportDate">Date of report</label>
+                                    <input id="reportDate" type="date" ng-model="vm.data.reportDate" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inspectionPlaceDateTime">Place, date and time of inspection</label>
+                                    <input id="inspectionPlaceDateTime" type="text" ng-model="vm.data.inspectionPlaceDateTime" class="form-control" placeholder="e.g. ZAMBIA 10-07-23, 13:45" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="coldStoreEntryDateTime">Name of cold store, date and time vaccines entered into cold store</label>
+                                    <input id="coldStoreEntryDateTime" type="text" ng-model="vm.data.coldStoreEntryDateTime" class="form-control" placeholder="e.g. ZAMBIA, 10-07-23, 15:20 HRS" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 1 - Advance Notice -->
+                    <div ng-if="vm.currentStep === 1">
+                        <h3 class="section-title">PART I — ADVANCE NOTICE</h3>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>MAIN DOCUMENTS</th>
+                                    <th>Date received by consignee</th>
+                                    <th>Copy airway bill (AWB)</th>
+                                    <th>Copy of packing list</th>
+                                    <th>Copy of invoice</th>
+                                    <th>Copy of release certificate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pre-advice</td>
+                                    <td><input type="text" ng-model="vm.data.preAdviceDate" class="form-control" placeholder="DD.MM.YY" /></td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.preAdviceAwb" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.preAdvicePackingList" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.preAdviceInvoice" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.preAdviceReleaseCert" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping notification</td>
+                                    <td><input type="text" ng-model="vm.data.shippingNotificationDate" class="form-control" placeholder="DD.MM.YY" /></td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.shippingAwb" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.shippingPackingList" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.shippingInvoice" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-model="vm.data.shippingReleaseCert" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="form-group">
+                            <label for="otherDocuments">List other documents (if requested)</label>
+                            <input type="text" id="otherDocuments" ng-model="vm.data.otherDocuments" class="form-control" />
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 - Flight Arrival Details -->
+                    <div ng-if="vm.currentStep === 2">
+                        <h3 class="section-title">PART II — FLIGHT ARRIVAL DETAILS</h3>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>AWB Number</th>
+                                    <th>Airport of destination</th>
+                                    <th>Flight No</th>
+                                    <th colspan="2">ETA as per notification</th>
+                                    <th colspan="2">Actual time of arrival</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" ng-model="vm.data.awbNumber" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.airportDestination" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.flightNo" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.etaDate" class="form-control" placeholder="DD.MM.YY" /></td>
+                                    <td><input type="text" ng-model="vm.data.etaTime" class="form-control" placeholder="HH:MM" /></td>
+                                    <td><input type="text" ng-model="vm.data.actualArrivalDate" class="form-control" placeholder="DD.MM.YY" /></td>
+                                    <td><input type="text" ng-model="vm.data.actualArrivalTime" class="form-control" placeholder="HH:MM" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="clearingAgent">NAME OF CLEARING AGENT:</label>
+                                    <input type="text" id="clearingAgent" ng-model="vm.data.clearingAgent" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="onBehalfOf">ON BEHALF OF:</label>
+                                    <input type="text" id="onBehalfOf" ng-model="vm.data.onBehalfOf" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 - Vaccine Shipment Details -->
+                    <div ng-if="vm.currentStep === 3">
+                        <h3 class="section-title">PART III — DETAILS OF VACCINE SHIPMENT</h3>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Purchase Order No.</th>
+                                    <th>Consignee</th>
+                                    <th>Vaccine description (Type and doses/vial)</th>
+                                    <th>Manufacturer</th>
+                                    <th>Country</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" ng-model="vm.data.purchaseOrderNo" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.shipmentConsignee" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.vaccineDescription" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.manufacturer" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.manufacturerCountry" class="form-control" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h4>Vaccine</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Lot Number</th>
+                                    <th>Number of boxes</th>
+                                    <th>Number of vials</th>
+                                    <th rowspan="2">Expiry date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" ng-model="vm.data.lotNumber1" class="form-control" /></td>
+                                    <td><input type="number" ng-model="vm.data.lotBoxes1" class="form-control" /></td>
+                                    <td><input type="number" ng-model="vm.data.lotVials1" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.lotExpiry1" class="form-control" placeholder="MM/YY" /></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" ng-model="vm.data.lotNumber2" class="form-control" /></td>
+                                    <td><input type="number" ng-model="vm.data.lotBoxes2" class="form-control" /></td>
+                                    <td><input type="number" ng-model="vm.data.lotVials2" class="form-control" /></td>
+                                    <td><input type="text" ng-model="vm.data.lotExpiry2" class="form-control" placeholder="MM/YY" /></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>TOTALS</td>
+                                    <td>{{(vm.data.lotBoxes1 || 0) + (vm.data.lotBoxes2 || 0)}}</td>
+                                    <td>{{(vm.data.lotVials1 || 0) + (vm.data.lotVials2 || 0)}}</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        
+                        <div class="form-group">
+                            <label>Was quantity received as per shipping notification?</label>
+                            <div class="radio">
+                                <label><input type="radio" ng-model="vm.data.quantityAsPerShipping" value="true" /> Yes</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" ng-model="vm.data.quantityAsPerShipping" value="false" /> No</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>If not, were details of short-shipment provided prior to vaccine arrival?</label>
+                            <div class="radio">
+                                <label><input type="radio" ng-model="vm.data.shortShipmentDetails" value="true" /> Yes</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" ng-model="vm.data.shortShipmentDetails" value="false" /> No</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 - Review & Submit -->
+                    <div ng-if="vm.currentStep === 4">
+                        <h3 class="section-title">SUMMARY - VACCINE ARRIVAL REPORT</h3>
+                        
+                        <div class="summary-section">
+                            <h4>Report Information</h4>
+                            <div class="row">
+                                <div class="col-md-4"><strong>Country:</strong> {{vm.data.country}}</div>
+                                <div class="col-md-4"><strong>Report No:</strong> {{vm.data.reportNo}}</div>
+                                <div class="col-md-4"><strong>Date of Report:</strong> {{vm.data.reportDate | date}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><strong>Inspection:</strong> {{vm.data.inspectionPlaceDateTime}}</div>
+                                <div class="col-md-6"><strong>Cold Store Entry:</strong> {{vm.data.coldStoreEntryDateTime}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h4>Flight Details</h4>
+                            <div class="row">
+                                <div class="col-md-4"><strong>AWB Number:</strong> {{vm.data.awbNumber}}</div>
+                                <div class="col-md-4"><strong>Flight:</strong> {{vm.data.flightNo}}</div>
+                                <div class="col-md-4"><strong>Airport:</strong> {{vm.data.airportDestination}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><strong>Expected Arrival:</strong> {{vm.data.etaDate}} {{vm.data.etaTime}}</div>
+                                <div class="col-md-6"><strong>Actual Arrival:</strong> {{vm.data.actualArrivalDate}} {{vm.data.actualArrivalTime}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h4>Shipment Details</h4>
+                            <div class="row">
+                                <div class="col-md-6"><strong>Purchase Order:</strong> {{vm.data.purchaseOrderNo}}</div>
+                                <div class="col-md-6"><strong>Consignee:</strong> {{vm.data.shipmentConsignee}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><strong>Vaccine:</strong> {{vm.data.vaccineDescription}}</div>
+                                <div class="col-md-4"><strong>Manufacturer:</strong> {{vm.data.manufacturer}}</div>
+                                <div class="col-md-4"><strong>Country:</strong> {{vm.data.manufacturerCountry}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong>Total Quantity:</strong> {{(vm.data.lotBoxes1 || 0) + (vm.data.lotBoxes2 || 0)}} boxes, 
+                                    {{(vm.data.lotVials1 || 0) + (vm.data.lotVials2 || 0)}} vials
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="alert alert-warning">
+                            <strong>Note:</strong> This information will be submitted as additional data along with your stock receipt in OpenLMIS.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" ng-click="vm.cancel()">
+                    {{vm.cancelMessage | message}}
+                </button>
+                <button class="btn btn-default" ng-click="vm.prevStep()" ng-if="!vm.isFirstStep()">
+                    Previous
+                </button>
+                <button class="primary" ng-click="vm.nextStep()" ng-if="!vm.isLastStep()">
+                    Next
+                </button>
+                <button class="primary" ng-click="vm.confirm()" ng-if="vm.isLastStep()">
+                    {{vm.confirmMessage | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

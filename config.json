@@ -10,7 +10,13 @@
     "/openlmis-cce-ui",
     "/openlmis-stockmanagement-ui",
     "/openlmis-offline-ui",
-    "/one-network-integration-ui"
+    "/one-network-integration-ui",
+    "/app"
   ],
-  "showRequisitionLessOrder": "true"
+  "showRequisitionLessOrder": "true",
+  "customModules": {
+    "custom-stockmanagement": [
+      "stockmanagement"
+    ]
+  }
 }

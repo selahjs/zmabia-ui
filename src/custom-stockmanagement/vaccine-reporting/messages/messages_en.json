@@ -1,0 +1,11 @@
+{
+    "vaccineReporting.title": "Vaccine Reporting",
+    "vaccineReporting.program": "Program",
+    "vaccineReporting.action": "Action",
+    "vaccineReporting.proceed": "Proceed",
+    "vaccineReporting.noProgramAvailable": "No program is available for this facility",
+    "vaccineReporting.offline1": "You are offline. Any action you take while offline will need to be synchronized with the server when you are online again.",
+    "vaccineReporting.offline2": "You have ",
+    "vaccineReporting.pendingOfflineEvents": "pending offline events",
+    "vaccineReporting.offline3": "waiting to be synchronized."
+}

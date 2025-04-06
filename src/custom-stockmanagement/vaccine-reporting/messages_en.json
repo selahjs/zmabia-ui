@@ -1,0 +1,11 @@
+{
+    "vaccineArrival.title": "Vaccine Arrival",
+    "vaccineArrival.program": "Program",
+    "vaccineArrival.action": "Action",
+    "vaccineArrival.proceed": "Proceed",
+    "vaccineArrival.noProgramAvailable": "No program is available for this facility",
+    "vaccineArrival.offline1": "You are offline. Any action you take while offline will need to be synchronized with the server when you are online again.",
+    "vaccineArrival.offline2": "You have ",
+    "vaccineArrival.pendingOfflineEvents": "pending offline events",
+    "vaccineArrival.offline3": "waiting to be synchronized."
+}

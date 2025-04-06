@@ -1,0 +1,185 @@
+.step-indicator {
+    margin-bottom: 30px;
+}
+
+.step-indicator ol {
+    display: flex;
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+}
+
+.step-indicator li {
+    list-style-type: none;
+    flex: 1;
+    position: relative;
+    text-align: center;
+    font-size: 14px;
+}
+
+.step-indicator li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    height: 30px;
+    line-height: 28px;
+    border: 1px solid #ddd;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.step-indicator li:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ddd;
+    top: 15px;
+    left: -50%;
+    z-index: -1;
+}
+
+.step-indicator li:first-child:after {
+    content: none;
+}
+
+.step-indicator li.active:before {
+    border-color: #0066dd;
+    background-color: #0066dd;
+    color: white;
+}
+
+.step-indicator li.completed:before {
+    border-color: #4CAF50;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.step-indicator li.active ~ li:after,
+.step-indicator li.completed:after {
+    background-color: #4CAF50;
+}
+
+.modal-dialog.modal-lg {
+    width: 90%;
+    max-width: 1200px;
+}
+
+.vaccine-title {
+    color: #0066dd;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.var-form-notice {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 4px solid #0066dd;
+    margin-bottom: 20px;
+}
+
+.var-form-container {
+    margin-top: 20px;
+}
+
+.var-form-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.section-title {
+    background-color: #0066dd;
+    color: white;
+    padding: 8px 15px;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.table th, 
+.table td {
+    padding: 8px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    text-align: center;
+    font-weight: bold;
+}
+
+.text-center {
+    text-align: center;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.3);
+}
+
+.summary-section {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.summary-section h4 {
+    color: #0066dd;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.summary-section .row {
+    margin-bottom: 8px;
+}
+
+.alert {
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.alert-warning {
+    background-color: #fcf8e3;
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+}
+
+.alert-info {
+    background-color: #d9edf7;
+    border: 1px solid #bce8f1;
+    color: #31708f;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.radio {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
